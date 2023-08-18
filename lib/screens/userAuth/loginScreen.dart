@@ -68,74 +68,6 @@ class LoginScreenState extends State<LoginScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 15),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  TextConstant.student,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(color: Colors.black),
-                                ),
-                                Icon(
-                                  Icons.check_circle_outline,
-                                  size: 20,
-                                  color: Colors.black,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              height: 0.5,
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              height: 25,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  TextConstant.parents,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(color: Colors.grey.shade800),
-                                ),
-                                Icon(Icons.check_circle_outline,
-                                    size: 20, color: Colors.grey.shade800)
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                                thickness: 1,
-                                height: 0.5,
-                                color: Colors.grey.shade800)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  // const SizedBox(height: 10),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 15),
-                    child: Card(
-                      elevation: 5,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 15),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           child: Column(
@@ -267,7 +199,7 @@ class LoginScreenState extends State<LoginScreen> {
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleSmall!
-                                              .copyWith(color: Colors.black),
+                                              .copyWith(color: Colors.blueAccent),
                                         ),
                                       ),SizedBox(
                                         height: 15,

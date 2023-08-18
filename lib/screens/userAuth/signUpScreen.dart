@@ -20,9 +20,8 @@ class SignUpScreenState extends State<SignUpScreen> {
   bool hidePassword = true;
   bool _isLoading = false;
   final _nameController = TextEditingController();
-  final _fatherMotherNameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _mobileController = TextEditingController();
-  final _addressController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   List<FocusNode> _focusNodes = [
@@ -216,7 +215,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                   TextFormField(
                                     focusNode: _focusNodes[1],
-                                    controller: _fatherMotherNameController,
+                                    controller: _emailController,
                                     decoration: InputDecoration(
                                       // suffixIcon: Icon(
                                       //   Icons.lock,
@@ -248,7 +247,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                               Radius.circular(20))),
                                       contentPadding: EdgeInsets.only(
                                           top: 12, bottom: 12, left: 15),
-                                      labelText: TextConstant.father_mother_name,
+                                      labelText: TextConstant.email,
                                       labelStyle: Theme.of(context)
                                           .textTheme
                                           .titleMedium!
@@ -261,7 +260,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                     validator: (String? value) {
                                       return (value != null &&
                                               value=="")
-                                          ? 'Enter father or Mother Name'
+                                          ? 'Enter mobile'
                                           : null;
                                     },
                                   ),
@@ -324,60 +323,6 @@ class SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                   TextFormField(
                                     focusNode: _focusNodes[3],
-                                    controller: _addressController,
-                                    decoration: InputDecoration(
-                                      // suffixIcon: Icon(
-                                      //   Icons.lock,
-                                      //   size: 20,
-                                      //   color:
-                                      //       FocusScope.of(context).isFirstFocus
-                                      //           ? kYellowColor
-                                      //           : kRedColor,
-                                      // ),
-                                      // hintText: 'What do people call you?',
-                                      // isDense: true,
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        borderSide: BorderSide(
-                                          color: kYellowColor,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        borderSide: BorderSide(
-                                          color: kRedColor,
-                                          // width: 1.0,
-                                        ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20))),
-                                      contentPadding: EdgeInsets.only(
-                                          top: 12, bottom: 12, left: 15),
-                                      labelText: TextConstant.address,
-                                      labelStyle: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(color: Colors.black),
-                                    ),
-                                    onSaved: (String? value) {
-                                      // This optional block of code can be used to run
-                                      // code when the user saves the form.
-                                    },
-                                    validator: (String? value) {
-                                      return (value != null &&
-                                              value=="")
-                                          ? 'Enter address'
-                                          : null;
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  TextFormField(
-                                    focusNode: _focusNodes[4],
                                     controller: _passwordController,
                                     decoration: InputDecoration(
                                       // suffixIcon: Icon(
@@ -431,7 +376,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                     height: 20,
                                   ),
                                   TextFormField(
-                                    focusNode: _focusNodes[5],
+                                    focusNode: _focusNodes[4],
                                     controller: _confirmPasswordController,
                                     decoration: InputDecoration(
                                       // suffixIcon: Icon(

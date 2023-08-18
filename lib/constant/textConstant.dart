@@ -6,6 +6,7 @@ class TextConstant {
   static String sign_in = "Sign In";
   static String forget_password = "Forget Password?";
   static String sign_up = "Sign Up";
+  static String confirmForPayment = "Confirm For Payment";
   static String registration = "REGISTRATION";
   static String register = "Register";
   static String name = "Name";
@@ -49,7 +50,7 @@ class TextConstant {
   static String session_begin_otp_msg =
       "Sessions Begin Once You Submits The Otp.";
   static String submit = "Submit";
-  static String request_for_otp = "Request for OTP?";
+  static String kycDetails = "KYC Details";
   static String session_end_msg = "YOUR TODAY'S SESSION HAS BEEN ENDED";
   static String review_change_tutor = "Reviews OR Request For Change The Tutor";
   static String change_tutor = "CHANGE TUTOR";

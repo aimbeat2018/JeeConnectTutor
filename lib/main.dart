@@ -101,8 +101,6 @@ class MyApp extends StatelessWidget {
         return const OtpScreen();
       case ProfileScreen.name:
         return const ProfileScreen();
-      // case SubjectListingScreen.name:
-      //   return const SubjectListingScreen();
       // case CategoryListingScreen.name:
       //   return const CategoryListingScreen();
       // case SessionScreen.name:

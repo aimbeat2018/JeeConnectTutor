@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
-import 'package:jeeconnecttutor/screens/schedule/scheduleListingScreen.dart';
+import 'package:jeeconnecttutor/screens/history/tutorListingHistoryScreen.dart';
+import 'package:jeeconnecttutor/screens/payment/paymentScreen.dart';
+import 'package:jeeconnecttutor/screens/sessions/todaysSessionsScreen.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../userAuth/profileScreen.dart';
@@ -254,7 +256,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         title: Text(
           'Hello, ' + username + '',
           style: const TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+              color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
         ),
         actions: <Widget>[
           IconButton(
@@ -273,23 +275,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Text(
                     'Schedule Content',
                     style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
+                        fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 ),
                 PopupMenuItem(
-                  value: 'uploadYourTestPaper',
+                  value: 'testPapers',
                   child: Text(
-                    'Upload Your Test Paper',
+                    'Test Papers',
                     style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'extraSessions',
-                  child: Text(
-                    'Extra Sessions',
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
+                        fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 ),
                 PopupMenuItem(
@@ -297,15 +291,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Text(
                     'History',
                     style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'newUpdate',
-                  child: Text(
-                    'New Update',
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
+                        fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 ),
                 PopupMenuItem(
@@ -313,7 +299,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Text(
                     'Terms & Conditions',
                     style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
+                        fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 )
               ];
@@ -443,7 +429,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             color: Colors.black,
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal),
                                       ),
                                     ],
@@ -478,7 +464,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             color: Colors.black,
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal),
                                       ),
                                     ],
@@ -513,7 +499,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             color: Colors.black,
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal),
                                       ),
                                     ],
@@ -552,13 +538,13 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         height: 5,
                                       ),
                                       Text(
-                                        'Hunting\nHidden\nTalent',
+                                        'Hunting Hidden\nTalent',
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
                                         overflow: TextOverflow.clip,
                                         style: const TextStyle(
                                             color: Colors.black,
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal),
                                       ),
                                     ],
@@ -595,7 +581,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         overflow: TextOverflow.clip,
                                         style: const TextStyle(
                                             color: Colors.black,
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal),
                                       ),
                                     ],
@@ -632,12 +618,176 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         overflow: TextOverflow.clip,
                                         style: const TextStyle(
                                             color: Colors.black,
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.normal),
                                       ),
                                     ],
                                   ),
                                 ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const TodaysSessionScreen(),
+                                    ));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 5,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            'assets/images/meeting.png',
+                                            height: 50,
+                                            width: 50,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'Sessions\n',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.clip,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    // Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) =>
+                                    //       const CategoryListingScreen(),
+                                    // ));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 5,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            'assets/images/schedule.png',
+                                            height: 50,
+                                            width: 50,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'Schedule\n',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.clip,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const TutorListingScreen(),
+                                    ));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 5,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            'assets/images/history.png',
+                                            height: 50,
+                                            width: 50,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'History',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.clip,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PaymentScreen(),
+                                    ));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 5,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            'assets/images/creditCard.png',
+                                            height: 50,
+                                            width: 50,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'Payment',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.clip,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                             const SizedBox(

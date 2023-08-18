@@ -4,9 +4,7 @@ import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/screens/home/homeScreen.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-import '../../constant/colorsConstant.dart';
 import '../../constant/textConstant.dart';
-import '../home/homeScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String name = 'profile';
@@ -36,8 +34,11 @@ class ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMi
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _addressController = TextEditingController();
+  final _kycController = TextEditingController();
 
   List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
     FocusNode(),
     FocusNode(),
     FocusNode(),
@@ -62,7 +63,6 @@ class ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMi
       backgroundColor: kBackgroundColor,
       drawer: SidebarX(
         controller: _controller,
-
         showToggleButton: false,
         theme: SidebarXTheme(
           margin: const EdgeInsets.all(10),
@@ -229,14 +229,14 @@ class ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMi
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    radius: 60,
-                    backgroundImage:
-                    // dataSnapshot.data!.userProfileData ==
-                    //     null
-                    //     ?
-                    AssetImage(
-                      'assets/images/sliderSampleStudent.png',
-                    )
+                      radius: 60,
+                      backgroundImage:
+                      // dataSnapshot.data!.userProfileData ==
+                      //     null
+                      //     ?
+                      AssetImage(
+                        'assets/images/sliderSampleStudent.png',
+                      )
                     // as ImageProvider
                     //     : NetworkImage(dataSnapshot.data!
                     //     .userProfileData!.imageUrl!),
@@ -556,6 +556,59 @@ class ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMi
                                       contentPadding: EdgeInsets.only(
                                           top: 12, bottom: 12, left: 15),
                                       labelText: TextConstant.address,
+                                      labelStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(color: Colors.black),
+                                    ),
+                                    onSaved: (String? value) {
+                                      // This optional block of code can be used to run
+                                      // code when the user saves the form.
+                                    },
+                                    validator: (String? value) {
+                                      return (value != null &&
+                                          value.contains('@'))
+                                          ? 'Do not use the @ char.'
+                                          : null;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  TextFormField(
+                                     controller: _kycController,
+                                    decoration: InputDecoration(
+                                      // suffixIcon: Icon(
+                                      //   Icons.lock,
+                                      //   size: 20,
+                                      //   color:
+                                      //       FocusScope.of(context).isFirstFocus
+                                      //           ? kYellowColor
+                                      //           : kRedColor,
+                                      // ),
+                                      // hintText: 'What do people call you?',
+                                      // isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(15.0),
+                                        borderSide: BorderSide(
+                                          color: kYellowColor,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(15.0),
+                                        borderSide: BorderSide(
+                                          color: kRedColor,
+                                          // width: 1.0,
+                                        ),
+                                      ),
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      contentPadding: EdgeInsets.only(
+                                          top: 12, bottom: 12, left: 15),
+                                      labelText: TextConstant.kycDetails,
                                       labelStyle: Theme.of(context)
                                           .textTheme
                                           .titleMedium!

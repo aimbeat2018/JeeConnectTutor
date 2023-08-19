@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/screens/history/tutorListingHistoryScreen.dart';
 import 'package:jeeconnecttutor/screens/payment/paymentScreen.dart';
+import 'package:jeeconnecttutor/screens/schedule/scheduleListingScreen.dart';
 import 'package:jeeconnecttutor/screens/sessions/todaysSessionsScreen.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -671,11 +672,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //   builder: (context) =>
-                                    //       const CategoryListingScreen(),
-                                    // ));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                           ScheduleListingScreen(),
+                                    ));
                                   },
                                   child: Column(
                                     children: [
@@ -705,6 +706,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ],
                                   ),
+                                  
                                 ),
                                 GestureDetector(
                                   onTap: () {

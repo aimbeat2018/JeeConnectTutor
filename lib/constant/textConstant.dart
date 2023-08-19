@@ -10,6 +10,16 @@ class TextConstant {
   static String registration = "REGISTRATION";
   static String register = "Register";
   static String name = "Name";
+  static String experience = "Experience";
+  static String tutorsLocation = "Tutors Location";
+  static String selectNearbyAreaKm = "Select Nearby Area Km 2-5";
+  static String noc = "NOC";
+  static String aadhaarCard = "Aadhaar Card";
+  static String panNO = "Pan No";
+  static String bankName = "Bank Name";
+  static String accountHolderName = "Account Holder Name";
+  static String accountNo = "Account No";
+  static String ifsc = "IFSC Code";
   static String userId = "User Id";
   static String father_mother_name = "Father/Mother Name";
   static String mobile_number = "Mobile Number";

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/textConstant.dart';
+import 'package:jeeconnecttutor/screens/userAuth/updateProfileScreen.dart';
 
 import '../home/mainScreen.dart';
 
@@ -173,7 +174,7 @@ class OtpScreenState extends State<OtpScreen> {
 
   void _submit() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => MainScreen(),
+      builder: (context) => UpdateProfileScreen(),
     ));
   }
 }

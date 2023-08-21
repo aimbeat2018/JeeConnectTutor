@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
+import 'package:jeeconnecttutor/screens/courses/categoriesListingScreen.dart';
 import 'package:jeeconnecttutor/screens/history/tutorListingHistoryScreen.dart';
 import 'package:jeeconnecttutor/screens/payment/paymentScreen.dart';
 import 'package:jeeconnecttutor/screens/schedule/scheduleListingScreen.dart';
@@ -307,35 +308,27 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
             color: Colors.white,
             onSelected: (String value) async {
-             /* if (value == "extraSessions") {
+              if (value == "scheduleContent") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ExtraSessionsScreen(),
+                      builder: (context) => ScheduleListingScreen(),
                     ));
+              } else if (value == "testPapers") {
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => TutorListingScreen(),
+                //     ));
               } else if (value == "history") {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TutorListingScreen(),
-                    ));
-              } else if (value == "scheduleContent") {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TodaysSessionScreen(),
+                  builder: (context) => TutorListingScreen(),
                 ));
-              } else if (value == "uploadYourTestPaper") {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => ScheduleListingScreen(),
-                // ));
-              } else if (value == "newUpdate") {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => ScheduleListingScreen(),
-                // ));
               } else if (value == "Terms&Conditions") {
                 // Navigator.of(context).push(MaterialPageRoute(
                 //   builder: (context) => ScheduleListingScreen(),
                 // ));
-              }*/
+              }
             },
           ),
         ],
@@ -403,11 +396,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //   builder: (context) =>
-                                    //       const CategoryListingScreen(),
-                                    // ));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CategoryListingScreen(),
+                                    ));
                                   },
                                   child: Column(
                                     children: [
@@ -438,11 +431,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //   builder: (context) =>
-                                    //       const CategoryListingScreen(),
-                                    // ));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CategoryListingScreen(),
+                                    ));
                                   },
                                   child: Column(
                                     children: [
@@ -473,11 +466,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //   builder: (context) =>
-                                    //       const CategoryListingScreen(),
-                                    // ));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CategoryListingScreen(),
+                                    ));
                                   },
                                   child: Column(
                                     children: [
@@ -516,11 +509,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //   builder: (context) =>
-                                    //       const CategoryListingScreen(),
-                                    // ));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CategoryListingScreen(),
+                                    ));
                                   },
                                   child: Column(
                                     children: [
@@ -553,11 +546,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //   builder: (context) =>
-                                    //       const CategoryListingScreen(),
-                                    // ));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CategoryListingScreen(),
+                                    ));
                                   },
                                   child: Column(
                                     children: [
@@ -590,11 +583,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //   builder: (context) =>
-                                    //       const CategoryListingScreen(),
-                                    // ));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CategoryListingScreen(),
+                                    ));
                                   },
                                   child: Column(
                                     children: [

@@ -106,19 +106,19 @@ class GlobalFunctions {/*
       contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
     );
   }
-/*
-  static InputDecoration getInputDecorationColor(String hintext) {
+
+  static InputDecoration getInputDecorationWhiteBGBlackBroderColor(String hintext) {
     return InputDecoration(
       enabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
-        borderSide: BorderSide(color: kPrimaryColor1, width: 2),
+        borderSide: BorderSide(color: Colors.black45, width: 2),
       ),
       focusedBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
-        borderSide: BorderSide(color: kPrimaryColor1, width: 2),
+        borderSide: BorderSide(color: Colors.black45, width: 2),
       ),
       border: const OutlineInputBorder(
-        borderSide: BorderSide(color: kPrimaryColor1),
+        borderSide: BorderSide(color: Colors.black45),
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
@@ -136,12 +136,14 @@ class GlobalFunctions {/*
       //   iconData,
       //   color: Colors.white,
       // ),
-      hintStyle: const TextStyle(color: Colors.white, fontSize: 14),
+      hintStyle: const TextStyle(color: Colors.black, fontSize: 14),
       hintText: hintext,
-      fillColor: kPrimaryColor1,
-      contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
+      fillColor: Colors.white,
+      isDense: true,
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
     );
   }
+/*
 
   static String getCurrentDate() {
     var now = DateTime.now();

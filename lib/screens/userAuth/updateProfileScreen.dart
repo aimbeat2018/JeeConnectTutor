@@ -70,8 +70,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
             padding: const EdgeInsets.symmetric(vertical: 30.0),
             child: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -438,13 +438,16 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Text(
-                                    'KYC Details',
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'KYC Details',
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal),
+                                    ),
                                   ),
                                   TextFormField(
                                     focusNode: _focusNodes[4],
@@ -490,13 +493,16 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Text(
-                                    'Bank Details',
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Bank Details',
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal),
+                                    ),
                                   ),
                                   TextFormField(
                                     controller: _bankNameController,
@@ -582,19 +588,19 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                         child: CircularProgressIndicator())
                                         : Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 80.0,
+                                          left: 100.0,
                                           top: 35.0,
-                                          right: 80.0,
+                                          right: 100.0,
                                           bottom: 15.0),
                                       child: MaterialButton(
                                         elevation: 0,
-                                        color: Colors.white,
+                                        color: Colors.blue.shade900,
                                         onPressed: _submit,
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 16),
+                                            horizontal: 5, vertical: 15),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadiusDirectional.circular(20),
+                                          BorderRadiusDirectional.circular(10),
                                           // side: const BorderSide(color: kRedColor),
                                         ),
                                         child: Row(
@@ -605,8 +611,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                               'Update Profile',
                                               style: TextStyle(
                                                 fontSize: 14,
-                                                color: Colors.blueAccent,
-                                                fontWeight: FontWeight.w900,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ],

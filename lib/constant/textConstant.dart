@@ -16,6 +16,7 @@ class TextConstant {
   static String noc = "NOC";
   static String aadhaarCard = "Aadhaar Card";
   static String panNO = "Pan No";
+  static String enterChargePerHour = "Enter charges per hour";
   static String bankName = "Bank Name";
   static String accountHolderName = "Account Holder Name";
   static String accountNo = "Account No";

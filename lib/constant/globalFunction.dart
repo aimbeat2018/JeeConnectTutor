@@ -2,6 +2,38 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class GlobalFunctions {
+  static InputDecoration getInputDecoration(String hintext) {
+    return InputDecoration(
+      enabledBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderSide: BorderSide(color: Colors.grey, width: 1),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderSide: BorderSide(color: Colors.grey, width: 1),
+      ),
+      border: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey),
+        borderRadius: BorderRadius.all(
+          Radius.circular(12.0),
+        ),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        borderSide: BorderSide(color: Color(0xFFF65054)),
+      ),
+      errorBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        borderSide: BorderSide(color: Color(0xFFF65054)),
+      ),
+      filled: true,
+      hintStyle: const TextStyle(color: Colors.black, fontSize: 14),
+      hintText: hintext,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+    );
+  }
+
   /*
   static InputDecoration getInputDecoration(String hintext, IconData iconData) {
     return InputDecoration(

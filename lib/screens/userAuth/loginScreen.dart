@@ -310,7 +310,8 @@ class LoginScreenState extends State<LoginScreen> {
         .then((model) async {
       if (model!.validity == 1) {
         if (model.profileUpdated == "1") {
-          Get.offNamed(RouteHelper.getUpdateProfileScreenRoute());
+          Get.offNamed(RouteHelper.getUpdateProfileScreenRoute(
+              model.token!, model.userId!));
         } else if (model.profileUpdated == "2") {
           GlobalFunctions.showErrorDialog(
               "Your profile is in process please wait or login after some time",

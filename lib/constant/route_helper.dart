@@ -25,7 +25,8 @@ class RouteHelper {
 
   static String getRegisterScreenRoute() => registerScreen;
 
-  static String getUpdateProfileScreenRoute() => updateProfileScreen;
+  static String getUpdateProfileScreenRoute(String token, String userId) =>
+      '$updateProfileScreen?token=$token&userId=$userId';
 
   static String getOtpScreenRoute(
     String name,
@@ -56,7 +57,10 @@ class RouteHelper {
     GetPage(name: registerScreen, page: () => getRoute(const SignUpScreen())),
     GetPage(
         name: updateProfileScreen,
-        page: () => getRoute(const UpdateProfileScreen())),
+        page: () => getRoute(UpdateProfileScreen(
+              token: Get.parameters['token']!,
+              userId: Get.parameters['userId']!,
+            ))),
     GetPage(
         name: otpScreen,
         page: () => OtpScreen(

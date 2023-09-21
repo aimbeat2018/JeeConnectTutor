@@ -4,6 +4,9 @@ class AppConstants {
   static const String login = 'login';
   static const String registerInstructor = 'register_instructor';
   static const String sendOtp = 'verify_mobile_number';
+  static const String categoryList = 'all_categories';
+  static const String categoryWiseCourse = 'category_wise_course';
+  static const String subCategoryWiseCourse = 'sub_category_wise_course';
 
   static const String resetPassword = 'forget/password';
   static const String userProfile = 'get/employee/profile';

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:jeeconnecttutor/controllers/courseController.dart';
+import 'package:jeeconnecttutor/repository/courseRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
@@ -16,6 +18,9 @@ Future<void> init() async {
   // Repository
   Get.lazyPut(
       () => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
+
+  Get.lazyPut(
+      () => CourseRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   // Get.lazyPut(() =>
   //     AttendanceRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   // Get.lazyPut(
@@ -31,6 +36,7 @@ Future<void> init() async {
   //
   // // Controller
   Get.lazyPut(() => AuthController(authRepo: Get.find()));
+  Get.lazyPut(() => CourseController(courseRepo: Get.find()));
   // Get.lazyPut(() => AttendanceController(attendanceRepo: Get.find()));
   // Get.lazyPut(() => SalonController(salonRepo: Get.find()));
   // Get.lazyPut(() => CartController(cartRepo: Get.find()));

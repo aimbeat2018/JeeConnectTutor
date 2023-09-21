@@ -1,21 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:jeeconnecttutor/screens/home/homeScreen.dart';
-import 'package:jeeconnecttutor/screens/userAuth/loginScreen.dart';
-import 'package:jeeconnecttutor/screens/userAuth/otpScreen.dart';
-import 'package:jeeconnecttutor/screens/userAuth/profileScreen.dart';
-import 'package:jeeconnecttutor/screens/userAuth/signUpScreen.dart';
+import 'package:get/get.dart';
+import 'package:jeeconnecttutor/constant/get_di.dart' as di;
+import 'package:jeeconnecttutor/constant/route_helper.dart';
 import 'package:responsive_framework/breakpoint.dart';
-import 'package:responsive_framework/max_width_box.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
-import 'package:responsive_framework/responsive_scaled_box.dart';
-import 'package:responsive_framework/responsive_value.dart';
-import 'package:responsive_framework/utils/scroll_behavior.dart';
 
-import 'constant/conditional_route_widget.dart';
-import 'constant/routes.dart';
+import 'constant/globalFunction.dart';
+import 'controllers/authController.dart';
 
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  if (GlobalFunctions.isMobilePhone()) {
+    HttpOverrides.global = MyHttpOverrides();
+  }
+  await di.init();
 
-void main() {
   runApp(const MyApp());
 }
 
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       builder: (context, child) => ResponsiveBreakpoints.builder(
         child: child!,
@@ -36,87 +38,21 @@ class MyApp extends StatelessWidget {
           const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
         ],
       ),
-
-      onGenerateRoute: (RouteSettings settings) {
-        // A custom `fadeThrough` route transition animation.
-        return Routes.fadeThrough(settings, (context) {
-          // Wrap widgets with another widget based on the route.
-          // Wrap the page with the ResponsiveScaledBox for desired pages.
-          return ConditionalRouteWidget(
-              routesExcluded: const [
-                // TypographyPage.name
-              ], // Excluding a page from AutoScale.
-              builder: (context, child) => MaxWidthBox(
-                // A widget that limits the maximum width.
-                // This is used to create a gutter area on either side of the content.
-                maxWidth: 1200,
-                background: Container(color: const Color(0xFFF5F5F5)),
-                child: ResponsiveScaledBox(
-                  // ResponsiveScaledBox renders its child with a FittedBox set to the `width` value.
-                  // Set the fixed width value based on the active breakpoint.
-                    width: ResponsiveValue<double>(context,
-                        conditionalValues: [
-                          Condition.equals(name: MOBILE, value: 450),
-                          Condition.between(
-                              start: 800, end: 1100, value: 800),
-                          Condition.between(
-                              start: 1000, end: 1200, value: 1000),
-                          // There are no conditions for width over 1200
-                          // because the `maxWidth` is set to 1200 via the MaxWidthBox.
-                        ]).value,
-                    child: child!),
-              ),
-              child: BouncingScrollWrapper.builder(
-                  context, buildPage(settings.name ?? ''),
-                  dragWithMouse: true));
-        });
-      },
       title: 'JeeConnect',
       supportedLocales: [Locale('en')],
-      // theme: ThemeData(
-      //   // This is the theme of your application.
-      //   //
-      //   // Try running your application with "flutter run". You'll see the
-      //   // application has a blue toolbar. Then, without quitting the app, try
-      //   // changing the primarySwatch below to Colors.green and then invoke
-      //   // "hot reload" (press "r" in the console where you ran "flutter run",
-      //   // or simply save your changes to "hot reload" in a Flutter IDE).
-      //   // Notice that the counter didn't reset back to zero; the application
-      //   // is not restarted.
-      //   primarySwatch: Colors.blue,
-      // ),
-      home: LoginScreen(),
+      initialRoute: Get.find<AuthController>().isLoggedIn()
+          ? RouteHelper.getMainScreenRoute()
+          : RouteHelper.getLoginRoute(),
+      getPages: RouteHelper.routes,
     );
   }
+}
 
-  Widget buildPage(String name) {
-    switch (name) {
-      case '/':
-        return const LoginScreen();
-      case SignUpScreen.name:
-        return const SignUpScreen();
-      case HomeScreen.name:
-        return     HomeScreen();
-      case OtpScreen.name:
-        return const OtpScreen();
-      case ProfileScreen.name:
-        return const ProfileScreen();
-      // case CategoryListingScreen.name:
-      //   return const CategoryListingScreen();
-      // case SessionScreen.name:
-      //   return const SessionScreen();
-      // case ExtraSessionsScreen.name:
-      //   return const ExtraSessionsScreen();
-      // case TodaysSessionScreen.name:
-      //   return const TodaysSessionScreen();
-      // case SessionDetailsScreen.name:
-      //   return const SessionDetailsScreen();
-      // case RequestForChangeTutorScreen.name:
-      //   return const RequestForChangeTutorScreen();
-      // case ParentRegistrationScreen.name:
-      //   return const ParentRegistrationScreen();
-      default:
-        return const SizedBox.shrink();
-    }
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

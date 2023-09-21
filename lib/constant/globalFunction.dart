@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class GlobalFunctions {/*
+class GlobalFunctions {
+  /*
   static InputDecoration getInputDecoration(String hintext, IconData iconData) {
     return InputDecoration(
       enabledBorder: const OutlineInputBorder(
@@ -107,7 +108,8 @@ class GlobalFunctions {/*
     );
   }
 
-  static InputDecoration getInputDecorationWhiteBGBlackBroderColor(String hintext) {
+  static InputDecoration getInputDecorationWhiteBGBlackBroderColor(
+      String hintext) {
     return InputDecoration(
       enabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
@@ -143,6 +145,25 @@ class GlobalFunctions {/*
       contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
     );
   }
+
+  static void showErrorDialog(String message, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Alert'),
+        content: Text(message, style: const TextStyle(color: Colors.red)),
+        actions: <Widget>[
+          MaterialButton(
+            child: const Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
 /*
 
   static String getCurrentDate() {
@@ -212,4 +233,20 @@ class GlobalFunctions {/*
     DateFormat formatter = DateFormat('dd MMM yyyy hh:mm a');
     return formatter.format(date);
   }*/
+
+  static bool isMobilePhone() {
+    if (!kIsWeb) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
+  }
 }

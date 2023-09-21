@@ -28,6 +28,7 @@ class TextConstant {
   static String email = "Email";
   static String password = "Password";
   static String confirmPassword = "Re-Enter Password";
+  static String pincode = "Pincode";
   static String re_enter_password = "Re-Enter Password";
   static String otp_verification = "OTP VERIFICATION";
   static String otp_msg =

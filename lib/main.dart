@@ -8,7 +8,6 @@ import 'package:responsive_framework/breakpoint.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import 'constant/globalFunction.dart';
-import 'controllers/authController.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,9 +39,10 @@ class MyApp extends StatelessWidget {
       ),
       title: 'JeeConnect',
       supportedLocales: [Locale('en')],
-      initialRoute: Get.find<AuthController>().isLoggedIn()
-          ? RouteHelper.getMainScreenRoute()
-          : RouteHelper.getLoginRoute(),
+      initialRoute: /* Get.find<AuthController>().isLoggedIn()
+          ? */
+          RouteHelper.getUpdateProfileScreenRoute("token", "userId"),
+      // : RouteHelper.getLoginRoute(),
       getPages: RouteHelper.routes,
     );
   }

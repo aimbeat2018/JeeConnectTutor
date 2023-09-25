@@ -13,6 +13,7 @@ import 'package:jeeconnecttutor/screens/userAuth/courseDetailsBottomSheetScreen.
 import '../../constant/app_constants.dart';
 import '../../constant/internetConnectivity.dart';
 import '../../constant/no_internet_screen.dart';
+import '../../model/updateProfileModel.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   final String token;
@@ -56,6 +57,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
+  List<CourseDetails> selectedCourseList = [];
+
   @override
   void initState() {
     super.initState();
@@ -97,344 +100,382 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
               body: SafeArea(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 15),
                     child: Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
+                          MaterialButton(
+                            elevation: 0,
+                            color: kYellowColor,
+                            onPressed: () {
+                              showModalBottomSheet(
+                                useSafeArea: true,
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) =>
+                                    CourseDetailsBottomSheetScreen(
+                                  categoryList:
+                                      courseController.categoryList != null
+                                          ? courseController.categoryList!
+                                          : [],
+                                ),
+                                backgroundColor: Colors.transparent,
+                              ).then((courseDetails) => {
+                                    setState(() {
+                                      CourseDetails model = courseDetails;
+
+                                      selectedCourseList.add(model);
+                                    })
+                                  });
+                            },
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 15),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                children: [
-                                  Column(
+                                horizontal: 5, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadiusDirectional.circular(10),
+                              // side: const BorderSide(color: kRedColor),
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Add Course Details',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: selectedCourseList.isNotEmpty
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      MaterialButton(
-                                        elevation: 0,
-                                        color: kYellowColor,
-                                        onPressed: () {
-                                          showModalBottomSheet(
-                                            useSafeArea: true,
-                                            context: context,
-                                            isScrollControlled: true,
-                                            builder: (context) =>
-                                                CourseDetailsBottomSheetScreen(
-                                              categoryList: courseController
-                                                          .categoryList !=
-                                                      null
-                                                  ? courseController
-                                                      .categoryList!
-                                                  : [],
-                                            ),
-                                            backgroundColor: Colors.transparent,
-                                          ).then((leaveTypeModel) => {
-                                                // setState(() {
-                                                //   LeaveTypeData model = leaveTypeModel;
-                                                //   selectedLeaveType = model.typeName!;
-                                                //   selectedLeaveTypeId =
-                                                //       model.id!.toString();
-                                                // })
-                                              });
-                                        },
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 15),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadiusDirectional.circular(
-                                                  10),
-                                          // side: const BorderSide(color: kRedColor),
-                                        ),
-                                        child: const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Add Course Details',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      TextFormField(
-                                        focusNode: _focusNodes[0],
-                                        controller: _experienceController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.experience),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null && value == "")
-                                              ? 'Enter experience'
-                                              : null;
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      TextFormField(
-                                        focusNode: _focusNodes[1],
-                                        controller: _tutorLocationController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.tutorsLocation),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        // validator: (String? value) {
-                                        //   return (value != null &&
-                                        //       value=="")
-                                        //       ? 'Enter User Id'
-                                        //       : null;
-                                        // },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      TextFormField(
-                                        focusNode: _focusNodes[2],
-                                        controller: _selectNearbyAreaController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant
-                                                    .selectNearbyAreaKm),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null && value == "")
-                                              ? 'Enter mobile'
-                                              : null;
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      TextFormField(
-                                        focusNode: _focusNodes[3],
-                                        controller: _nocController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.noc),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null && value == "")
-                                              ? 'Enter address'
-                                              : null;
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      const Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 8.0),
-                                        child: Text(
-                                          'KYC Details',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      TextFormField(
-                                        focusNode: _focusNodes[4],
-                                        controller: _aadhaarController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.aadhaarCard),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null &&
-                                                  value.contains('@'))
-                                              ? 'Do not use the @ char.'
-                                              : null;
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      TextFormField(
-                                        focusNode: _focusNodes[5],
-                                        controller: _panNoController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.panNO),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null &&
-                                                  value.contains('@'))
-                                              ? 'Do not use the @ char.'
-                                              : null;
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
                                       const Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.0),
                                         child: Text(
-                                          'Bank Details',
-                                          textAlign: TextAlign.left,
+                                          'Select Courses ',
                                           style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal),
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.normal,
+                                          ),
                                         ),
                                       ),
-                                      TextFormField(
-                                        controller: _bankNameController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.bankName),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null &&
-                                                  value.contains('@'))
-                                              ? 'Do not use the @ char.'
-                                              : null;
-                                        },
-                                      ),
                                       const SizedBox(
-                                        height: 20,
+                                        height: 5,
                                       ),
-                                      TextFormField(
-                                        controller:
-                                            _accountHolderNameController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.accountHolderName),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null &&
-                                                  value.contains('@'))
-                                              ? 'Do not use the @ char.'
-                                              : null;
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      TextFormField(
-                                        controller: _accountNoController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.accountNo),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null &&
-                                                  value.contains('@'))
-                                              ? 'Do not use the @ char.'
-                                              : null;
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      TextFormField(
-                                        controller: _ifscController,
-                                        decoration: GlobalFunctions
-                                            .getInputDecorationWhite(
-                                                TextConstant.ifsc),
-                                        onSaved: (String? value) {
-                                          // This optional block of code can be used to run
-                                          // code when the user saves the form.
-                                        },
-                                        validator: (String? value) {
-                                          return (value != null &&
-                                                  value.contains('@'))
-                                              ? 'Do not use the @ char.'
-                                              : null;
-                                        },
-                                      ),
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: _isLoading
-                                            ? const Center(
-                                                child:
-                                                    CircularProgressIndicator())
-                                            : Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 100.0,
-                                                    top: 35.0,
-                                                    right: 100.0,
-                                                    bottom: 15.0),
-                                                child: MaterialButton(
-                                                  elevation: 0,
-                                                  color: Colors.blue.shade900,
-                                                  onPressed: _submit,
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 5,
-                                                      vertical: 15),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadiusDirectional
-                                                            .circular(10),
-                                                    // side: const BorderSide(color: kRedColor),
-                                                  ),
-                                                  child: const Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                      Container(
+                                        height: 200,
+                                        child: ListView.separated(
+                                          itemCount: selectedCourseList.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(),
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0,
+                                                      vertical: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
-                                                        'Update Profile',
-                                                        style: TextStyle(
+                                                        'Category name : ${selectedCourseList[index].categoryName!}',
+                                                        style: const TextStyle(
                                                           fontSize: 14,
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                           fontWeight:
-                                                              FontWeight.bold,
+                                                              FontWeight.normal,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 3,
+                                                      ),
+                                                      Text(
+                                                        'Sub-Category name : ${selectedCourseList[index].subCategoryName!}',
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.normal,
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
+                                                ],
                                               ),
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) {
+                                            return Divider();
+                                          },
+                                        ),
                                       ),
-                                      const SizedBox(height: 20),
                                     ],
                                   )
-                                ],
-                              ),
+                                : SizedBox(),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            focusNode: _focusNodes[0],
+                            controller: _experienceController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.experience),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value == "")
+                                  ? 'Enter experience'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            focusNode: _focusNodes[1],
+                            controller: _tutorLocationController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.tutorsLocation),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            // validator: (String? value) {
+                            //   return (value != null &&
+                            //       value=="")
+                            //       ? 'Enter User Id'
+                            //       : null;
+                            // },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            focusNode: _focusNodes[2],
+                            controller: _selectNearbyAreaController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.selectNearbyAreaKm),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value == "")
+                                  ? 'Enter mobile'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            focusNode: _focusNodes[3],
+                            controller: _nocController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.noc),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value == "")
+                                  ? 'Enter address'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text(
+                              'KYC Details',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            focusNode: _focusNodes[4],
+                            controller: _aadhaarController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.aadhaarCard),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value.contains('@'))
+                                  ? 'Do not use the @ char.'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            focusNode: _focusNodes[5],
+                            controller: _panNoController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.panNO),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value.contains('@'))
+                                  ? 'Do not use the @ char.'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Bank Details',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: _bankNameController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.bankName),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value.contains('@'))
+                                  ? 'Do not use the @ char.'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _accountHolderNameController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.accountHolderName),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value.contains('@'))
+                                  ? 'Do not use the @ char.'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _accountNoController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.accountNo),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value.contains('@'))
+                                  ? 'Do not use the @ char.'
+                                  : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _ifscController,
+                            decoration: GlobalFunctions.getInputDecorationWhite(
+                                TextConstant.ifsc),
+                            onSaved: (String? value) {
+                              // This optional block of code can be used to run
+                              // code when the user saves the form.
+                            },
+                            validator: (String? value) {
+                              return (value != null && value.contains('@'))
+                                  ? 'Do not use the @ char.'
+                                  : null;
+                            },
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: _isLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 100.0,
+                                        top: 35.0,
+                                        right: 100.0,
+                                        bottom: 15.0),
+                                    child: MaterialButton(
+                                      elevation: 0,
+                                      color: Colors.blue.shade900,
+                                      onPressed: _submit,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 15),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadiusDirectional.circular(
+                                                10),
+                                        // side: const BorderSide(color: kRedColor),
+                                      ),
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Update Profile',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

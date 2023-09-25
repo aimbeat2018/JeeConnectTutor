@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jeeconnecttutor/model/updateCourseModel.dart';
 import 'package:jeeconnecttutor/model/updateProfileModel.dart';
 
 import '../../constant/colorsConstant.dart';
-import '../../constant/globalFunction.dart';
 import '../../controllers/courseController.dart';
 import '../../model/categoryModel.dart';
 
@@ -23,10 +21,11 @@ class _CourseDetailsBottomSheetScreen
     extends State<CourseDetailsBottomSheetScreen> {
   String? selectedCategory,
       selectedSubCategory,
-      selectedCategoryId,
-      selectedSubCategoryId;
+      selectedCategoryId = "",
+      selectedSubCategoryId = "";
   List<SubCategories>? subCategoryList;
-  List<UpdateCourseModel>? updateCourseList;
+  List<SelectedCourse> updateCourseList = [];
+  CourseDetails model = CourseDetails();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,7 @@ class _CourseDetailsBottomSheetScreen
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           'Add Course Details'.toUpperCase(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -57,17 +56,17 @@ class _CourseDetailsBottomSheetScreen
                           alignment: Alignment.topRight,
                           child: IconButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.pop(context, model);
                               },
-                              icon: Icon(Icons.close))),
+                              icon: const Icon(Icons.close))),
                     ],
                   ),
-                  Divider(),
-                  SizedBox(
+                  const Divider(),
+                  const SizedBox(
                     height: 0,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       'Select Category',
                       style: TextStyle(
@@ -144,12 +143,12 @@ class _CourseDetailsBottomSheetScreen
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Text(
                                     'Select Sub Category',
                                     style: TextStyle(
@@ -227,80 +226,191 @@ class _CourseDetailsBottomSheetScreen
                                 ),
                               ],
                             )
-                          : SizedBox()
-                      : SizedBox(),
-                  courseController.courseModelList != null &&
-                          !courseController.isLoading
-                      ? courseController.courseModelList!.isNotEmpty
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Text(
-                                    'Course & Charges',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
+                          : const SizedBox()
+                      : const SizedBox(),
+                  if (selectedSubCategoryId != "" || selectedCategoryId != "")
+                    Container(
+                      child: courseController.courseModelList != null &&
+                              !courseController.isLoading
+                          ? courseController.courseModelList!.isNotEmpty
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
                                     ),
-                                  ),
-                                ),
-                                ListView.builder(
-                                    itemCount: courseController
-                                        .courseModelList!.length,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0, vertical: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                courseController
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: Text(
+                                        'Select Courses ',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    ListView.separated(
+                                      itemCount: courseController
+                                          .courseModelList!.length,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0, vertical: 10),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                // if (updateCourseList.contains(
+                                                //     courseController
+                                                //         .courseModelList![index]
+                                                //         .id
+                                                //         .toString())) {
+                                                //   updateCourseList.remove(
+                                                //       courseController
+                                                //           .courseModelList![
+                                                //               index]
+                                                //           .id
+                                                //           .toString());
+                                                // } else {
+                                                //   updateCourseList.add(
+                                                //       courseController
+                                                //           .courseModelList![
+                                                //               index]
+                                                //           .id
+                                                //           .toString());
+                                                // }
+
+                                                if (courseController
                                                     .courseModelList![index]
-                                                    .title!,
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: TextFormField(
-                                                decoration: GlobalFunctions
-                                                    .getInputDecoration(
-                                                  "charge",
-                                                ),
-                                                onChanged: (String value) {
-                                                  setState(() {
-                                                    // updateCourseList
+                                                    .selected!) {
+                                                  courseController
+                                                      .courseModelList![index]
+                                                      .selected = false;
+                                                } else {
+                                                  courseController
+                                                      .courseModelList![index]
+                                                      .selected = true;
+                                                }
+                                              });
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
                                                     courseController
                                                         .courseModelList![index]
-                                                        .charge = value;
-                                                  });
-                                                },
-                                              ),
+                                                        .title!,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                Icon(
+                                                  courseController
+                                                          .courseModelList![
+                                                              index]
+                                                          .selected!
+                                                      ? Icons.check_box
+                                                      : Icons
+                                                          .check_box_outline_blank_outlined,
+                                                  size: 24,
+                                                )
+                                                // Expanded(
+                                                //   child: TextFormField(
+                                                //     decoration: GlobalFunctions
+                                                //         .getInputDecoration(
+                                                //       "charge",
+                                                //     ),
+                                                //     onChanged: (String value) {
+                                                //       setState(() {
+                                                //         // updateCourseList
+                                                //         if (updateCourseList
+                                                //                 .length ==
+                                                //             0) {
+                                                //           updateCourseList.add(UpdateCourseModel(
+                                                //               charge: int.parse(
+                                                //                   value),
+                                                //               courseId:
+                                                //                   courseController
+                                                //                       .courseModelList![
+                                                //                           index]
+                                                //                       .id!,
+                                                //               courseName:
+                                                //                   courseController
+                                                //                       .courseModelList![
+                                                //                           index]
+                                                //                       .title!));
+                                                //         } else {
+                                                //           for (var updateCourseModel
+                                                //               in updateCourseList) {
+                                                //             if (updateCourseModel
+                                                //                     .courseId ==
+                                                //                 courseController
+                                                //                     .courseModelList![
+                                                //                         index]
+                                                //                     .id!) {
+                                                //               updateCourseModel
+                                                //                       .charge =
+                                                //                   int.parse(
+                                                //                       value);
+                                                //               break;
+                                                //             } else {
+                                                //               updateCourseList.add(UpdateCourseModel(
+                                                //                   charge:
+                                                //                       int.parse(
+                                                //                           value),
+                                                //                   courseId:
+                                                //                       courseController
+                                                //                           .courseModelList![
+                                                //                               index]
+                                                //                           .id!,
+                                                //                   courseName:
+                                                //                       courseController
+                                                //                           .courseModelList![
+                                                //                               index]
+                                                //                           .title!));
+                                                //               break;
+                                                //             }
+                                                //           }
+                                                //         }
+                                                //         print(updateCourseList);
+                                                //         // courseController
+                                                //         //     .courseModelList![index]
+                                                //         //     .charge = value;
+                                                //       });
+                                                //     },
+                                                //   ),
+                                                // ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                              ],
-                            )
-                          : SizedBox()
-                      : SizedBox(),
-                  SizedBox(
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return Divider();
+                                      },
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox()
+                          : const SizedBox(),
+                    ),
+                  const SizedBox(
                     height: 20,
                   ),
                   Center(
@@ -308,11 +418,24 @@ class _CourseDetailsBottomSheetScreen
                       elevation: 0,
                       color: kYellowColor,
                       onPressed: () {
-                        ProfileCourse model = ProfileCourse();
                         model.categoryId = selectedCategoryId;
                         model.subCategoryId = selectedSubCategoryId;
+                        model.subCategoryName = selectedSubCategory;
+                        model.categoryName = selectedCategory;
 
-                        Navigator.pop(context);
+                        List<SelectedCourse> selectedList = [];
+
+                        for (var courseModel
+                            in courseController.courseModelList!) {
+                          if (courseModel.selected!) {
+                            selectedList.add(SelectedCourse(
+                                courseId: courseModel.id,
+                                courseName: courseModel.title));
+                          }
+                        }
+                        model.selectedCourse = selectedList;
+
+                        Navigator.pop(context, model);
                       },
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 15),
@@ -336,6 +459,9 @@ class _CourseDetailsBottomSheetScreen
                         ],
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                 ],
               ),

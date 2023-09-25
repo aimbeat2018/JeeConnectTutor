@@ -1,6 +1,6 @@
 class UpdateProfileModel {
   int? userId;
-  List<ProfileCourse>? course;
+  List<CourseDetails>? courseDetails;
   String? mode;
   int? experience;
   String? tutorLocation;
@@ -15,7 +15,7 @@ class UpdateProfileModel {
 
   UpdateProfileModel(
       {this.userId,
-      this.course,
+      this.courseDetails,
       this.mode,
       this.experience,
       this.tutorLocation,
@@ -30,10 +30,10 @@ class UpdateProfileModel {
 
   UpdateProfileModel.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
-    if (json['course'] != null) {
-      course = <ProfileCourse>[];
-      json['course'].forEach((v) {
-        course!.add(new ProfileCourse.fromJson(v));
+    if (json['course_details'] != null) {
+      courseDetails = <CourseDetails>[];
+      json['course_details'].forEach((v) {
+        courseDetails!.add(new CourseDetails.fromJson(v));
       });
     }
     mode = json['mode'];
@@ -52,8 +52,9 @@ class UpdateProfileModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['user_id'] = this.userId;
-    if (this.course != null) {
-      data['course'] = this.course!.map((v) => v.toJson()).toList();
+    if (this.courseDetails != null) {
+      data['course_details'] =
+          this.courseDetails!.map((v) => v.toJson()).toList();
     }
     data['mode'] = this.mode;
     data['experience'] = this.experience;
@@ -70,32 +71,31 @@ class UpdateProfileModel {
   }
 }
 
-class ProfileCourse {
+class CourseDetails {
   String? categoryId;
   String? categoryName;
   String? subCategoryId;
   String? subCategoryName;
-  String? courseId;
-  String? courseName;
-  int? charge;
+  List<SelectedCourse>? selectedCourse;
 
-  ProfileCourse(
+  CourseDetails(
       {this.categoryId,
       this.categoryName,
       this.subCategoryId,
       this.subCategoryName,
-      this.courseId,
-      this.courseName,
-      this.charge});
+      this.selectedCourse});
 
-  ProfileCourse.fromJson(Map<String, dynamic> json) {
+  CourseDetails.fromJson(Map<String, dynamic> json) {
     categoryId = json['category_id'];
     categoryName = json['category_name'];
     subCategoryId = json['sub_category_id'];
     subCategoryName = json['sub_category_name'];
-    courseId = json['course_id'];
-    courseName = json['course_name'];
-    charge = json['charge'];
+    if (json['selected_course'] != null) {
+      selectedCourse = <SelectedCourse>[];
+      json['selected_course'].forEach((v) {
+        selectedCourse!.add(new SelectedCourse.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -104,9 +104,29 @@ class ProfileCourse {
     data['category_name'] = this.categoryName;
     data['sub_category_id'] = this.subCategoryId;
     data['sub_category_name'] = this.subCategoryName;
+    if (this.selectedCourse != null) {
+      data['selected_course'] =
+          this.selectedCourse!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class SelectedCourse {
+  String? courseId;
+  String? courseName = "";
+
+  SelectedCourse({this.courseId, this.courseName});
+
+  SelectedCourse.fromJson(Map<String, dynamic> json) {
+    courseId = json['course_id'];
+    courseName = json['course_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['course_id'] = this.courseId;
     data['course_name'] = this.courseName;
-    data['charge'] = this.charge;
     return data;
   }
 }

@@ -40,6 +40,7 @@ class CourseModel {
   int? totalEnrollment;
   String? shareableLink;
   String? charge = "0";
+  bool? selected = false;
 
   CourseModel(
       {this.id,

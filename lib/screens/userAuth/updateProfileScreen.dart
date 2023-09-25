@@ -125,7 +125,9 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                     setState(() {
                                       CourseDetails model = courseDetails;
 
-                                      selectedCourseList.add(model);
+                                      if (model.categoryId != null) {
+                                        selectedCourseList.add(model);
+                                      }
                                     })
                                   });
                             },
@@ -220,6 +222,10 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                                       ),
                                                     ],
                                                   ),
+                                                  Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                  )
                                                 ],
                                               ),
                                             );

@@ -16,74 +16,196 @@ class _RequestListWidgetState extends State<RequestListWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Student name : ${widget.model.studentName}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
+              RichText(
+                  text: TextSpan(
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                      children: <TextSpan>[
+                    TextSpan(
+                      text: 'Student name : ',
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: widget.model.studentName,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  ])),
+              InkWell(
+                onTap: () {},
+                child: Icon(
+                  Icons.phone,
                 ),
-              ),
-              SizedBox(
-                height: 3,
-              ),
-              Text(
-                'Student Address : ${widget.model.studentAddress}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                'Subject : ${widget.model.courseName}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                'Date & Time : ${widget.model.date}${widget.model.time}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                'Status : ${widget.model.status}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              Row(
-                children: [],
               )
             ],
           ),
-          InkWell(
-            onTap: () {},
-            child: Icon(
-              Icons.phone,
-            ),
+          SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Student Address : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: widget.model.studentAddress,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Subject : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: widget.model.courseName,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Date & Time : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: '${widget.model.date} ${widget.model.time}',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Day & Shift : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: '${widget.model.day} ${widget.model.shift}',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Status :  ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: 'Pending',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MaterialButton(
+                elevation: 0,
+                color: Colors.green,
+                onPressed: () {},
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(10),
+                  // side: const BorderSide(color: kRedColor),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Accept',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MaterialButton(
+                elevation: 0,
+                color: Colors.red,
+                onPressed: () {},
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(10),
+                  // side: const BorderSide(color: kRedColor),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Decline',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           )
         ],
       ),

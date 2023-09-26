@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
+import 'package:jeeconnecttutor/screens/home/acceptListScreen.dart';
+import 'package:jeeconnecttutor/screens/home/completedScreen.dart';
 import 'package:jeeconnecttutor/screens/home/homeScreen.dart';
+
+import '../../constant/route_helper.dart';
+import '../../controllers/authController.dart';
 
 void main() {
   runApp(MainScreen());
@@ -21,58 +27,105 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      // appBar: AppBar(
-      //   title: const Text('Moony navigation bar'),
-      // ),
-      body: HomeScreen(),
-      // bottomNavigationBar: MoonyNavigationBar(
-      //   items: <NavigationBarItem>[
-      //     NavigationBarItem(
-      //         icon: Icons.home_outlined,
-      //         activeIcon: Icons.home,
-      //         color: Colors.pink,
-      //         indicatorColor: Colors.pink,
-      //         onTap: () {
-      //           onTapHandler(0);
-      //         }),
-      //     NavigationBarItem(
-      //         icon: Icons.calendar_month_outlined,
-      //         activeIcon: Icons.calendar_month,
-      //         color: Colors.pink,
-      //         indicatorColor: Colors.pink,
-      //         onTap: () {
-      //           onTapHandler(1);
-      //         }),
-      //     NavigationBarItem(
-      //         icon: Icons.chat_outlined,
-      //         activeIcon: Icons.chat,
-      //         color: Colors.pink,
-      //         indicatorColor: Colors.pink,
-      //         onTap: () {
-      //           onTapHandler(2);
-      //         }),
-      //     NavigationBarItem(
-      //         icon: Icons.person_outline,
-      //         activeIcon: Icons.person,
-      //         color: Colors.pink,
-      //         indicatorColor: Colors.pink,
-      //         onTap: () {
-      //           onTapHandler(3);
-      //         })
-      //   ],
-      //   style: MoonyNavStyle(
-      //     activeColor: Theme.of(context).primaryColor,
-      //     indicatorPosition: IndicatorPosition.TOP,
-      //     indicatorType: IndicatorType.LINE,
-      //     indicatorColor: Colors.yellow,
-      //     borderRadius: BorderRadius.only(
-      //       topLeft: Radius.circular(25),
-      //       topRight: Radius.circular(25),
-      //     ),
-      //   ),
-      // ),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: kYellowColor,
+          automaticallyImplyLeading: false,
+          centerTitle: false,
+          bottom: const TabBar(
+            indicatorColor: Colors.white,
+            tabs: [
+              Tab(
+                text: 'Pending',
+              ),
+              Tab(
+                text: 'Accepted',
+              ),
+              Tab(
+                text: 'Completed',
+              ),
+            ],
+          ),
+          title: Text(
+            'Jeeconnect'.toUpperCase(),
+            style: const TextStyle(
+                color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: InkWell(
+                onTap: () {
+                  Get.toNamed(RouteHelper.getProfileScreenRoute());
+                },
+                child: const Icon(
+                  Icons.person,
+                  size: 30,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: InkWell(
+                onTap: () {
+                  showDialog(
+                      builder: (ctxt) {
+                        return AlertDialog(
+                          title: const Text(
+                            'Logout',
+                            style: TextStyle(color: kYellowColor),
+                          ),
+                          content: const Text('Do you Really want to logout?'),
+                          actions: [
+                            // The "Yes" button
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(ctxt).pop();
+                                },
+                                child: const Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                      color: kYellowColor,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                            TextButton(
+                                onPressed: () {
+                                  // Close the dialog
+                                  Navigator.of(ctxt).pop();
+                                  Get.find<AuthController>().clearSharedData();
+
+                                  Get.offAllNamed(RouteHelper.getLoginRoute());
+                                },
+                                child: const Text(
+                                  'Logout',
+                                  style: TextStyle(
+                                      color: kYellowColor,
+                                      fontWeight: FontWeight.bold),
+                                ))
+                          ],
+                        );
+                      },
+                      context: context);
+                },
+                child: const Icon(
+                  Icons.logout,
+                  size: 25,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: kBackgroundColor,
+        body: TabBarView(
+          children: [
+            HomeScreen(),
+            const AcceptListScreen(),
+            const CompletedScreen(),
+          ],
+        ),
+      ),
     );
   }
 }

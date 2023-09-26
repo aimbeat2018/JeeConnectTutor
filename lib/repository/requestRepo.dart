@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
@@ -10,6 +11,16 @@ class RequestRepo {
   final SharedPreferences sharedPreferences;
 
   RequestRepo({required this.apiClient, required this.sharedPreferences});
+
+  Future<Response> acceptRequest(String token, String id) async {
+    return await apiClient.postBodyData(
+        AppConstants.acceptRequest, {"id": id, "auth_token": token});
+  }
+
+  Future<Response> declineRequest(String token, String id) async {
+    return await apiClient.postBodyData(
+        AppConstants.declineRequest, {"id": id, "auth_token": token});
+  }
 
   // for  user token
   Future<bool> saveUserToken(String token) async {

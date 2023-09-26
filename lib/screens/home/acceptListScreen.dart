@@ -4,25 +4,28 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/controllers/authController.dart';
 import 'package:jeeconnecttutor/controllers/requestController.dart';
 import 'package:jeeconnecttutor/screens/home/requestListWidget.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../constant/app_constants.dart';
-import '../../constant/colorsConstant.dart';
 import '../../constant/internetConnectivity.dart';
 import '../../constant/no_internet_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class AcceptListScreen extends StatefulWidget {
   static const String name = 'home';
 
-  HomeScreen({super.key});
+  const AcceptListScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => HomeScreenState();
+  State<StatefulWidget> createState() => AcceptListScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class AcceptListScreenState extends State<AcceptListScreen>
+    with TickerProviderStateMixin {
+  final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
   String _connectionStatus = 'unKnown';

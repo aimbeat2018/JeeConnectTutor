@@ -268,26 +268,6 @@ class _CourseDetailsBottomSheetScreen
                                           child: InkWell(
                                             onTap: () {
                                               setState(() {
-                                                // if (updateCourseList.contains(
-                                                //     courseController
-                                                //         .courseModelList![index]
-                                                //         .id
-                                                //         .toString())) {
-                                                //   updateCourseList.remove(
-                                                //       courseController
-                                                //           .courseModelList![
-                                                //               index]
-                                                //           .id
-                                                //           .toString());
-                                                // } else {
-                                                //   updateCourseList.add(
-                                                //       courseController
-                                                //           .courseModelList![
-                                                //               index]
-                                                //           .id
-                                                //           .toString());
-                                                // }
-
                                                 if (courseController
                                                     .courseModelList![index]
                                                     .selected!) {
@@ -308,9 +288,7 @@ class _CourseDetailsBottomSheetScreen
                                               children: [
                                                 Expanded(
                                                   child: Text(
-                                                    courseController
-                                                        .courseModelList![index]
-                                                        .title!,
+                                                    "${courseController.courseModelList![index].title!} (${courseController.courseModelList![index].price!})",
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.black,

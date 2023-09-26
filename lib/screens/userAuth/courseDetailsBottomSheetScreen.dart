@@ -418,22 +418,32 @@ class _CourseDetailsBottomSheetScreen
                       elevation: 0,
                       color: kYellowColor,
                       onPressed: () {
+                        if (selectedSubCategoryId == null ||
+                            selectedSubCategoryId == "") {
+                          selectedSubCategory = "";
+                          selectedSubCategoryId = "";
+                        }
                         model.categoryId = selectedCategoryId;
                         model.subCategoryId = selectedSubCategoryId;
                         model.subCategoryName = selectedSubCategory;
                         model.categoryName = selectedCategory;
 
                         List<SelectedCourse> selectedList = [];
-
+                        String course = "";
                         for (var courseModel
                             in courseController.courseModelList!) {
                           if (courseModel.selected!) {
                             selectedList.add(SelectedCourse(
                                 courseId: courseModel.id,
                                 courseName: courseModel.title));
+                            course += courseModel.title! + ",";
                           }
                         }
+
+                        course = course.substring(0, course.length - 1);
+
                         model.selectedCourse = selectedList;
+                        model.selectedCourserStr = course;
 
                         Navigator.pop(context, model);
                       },

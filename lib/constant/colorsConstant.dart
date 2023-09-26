@@ -38,6 +38,13 @@ const iCardColor = Color(0xFFF4F8F9);
 const iLongArrowRightColor = Color(0xFF559595);
 const otpColor = Color(0xFF0B0ABE);
 
+const primaryColor = kStarColor;
+const canvasColor = kLiveClassColor;
+const scaffoldBackgroundColor = kComplimentaryBackgroundColor;
+const accentCanvasColor = kYellowColor;
+const white = Colors.white;
+const actionColor = Colors.black;
+
 const kDefaultInputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(12.0)),
   borderSide: BorderSide(color: Colors.white, width: 2),
@@ -58,4 +65,3 @@ const kDefaultShadow = BoxShadow(
   blurRadius: 20,
   color: Colors.black12, // Black color with 12% opacity
 );
-

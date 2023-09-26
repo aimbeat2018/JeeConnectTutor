@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:jeeconnecttutor/constant/app_constants.dart';
 import 'package:jeeconnecttutor/model/otpModel.dart';
+import 'package:jeeconnecttutor/model/profileViewModel.dart';
 import 'package:jeeconnecttutor/model/registerModel.dart';
+import 'package:jeeconnecttutor/model/updateProfileModel.dart';
+import 'package:jeeconnecttutor/model/updateProfileResponseModel.dart';
 
 import '../model/loginModel.dart';
 import '../repository/authRepo.dart';
@@ -18,6 +21,10 @@ class AuthController extends GetxController implements GetxService {
 
   RegisterModel? registerModel;
 
+  ProfileViewModel? profileViewModel;
+
+  UpdateProfileResponseModel? updateProfileResponseModel;
+
   OtpModel? otpModel;
 
   String? msgReset;
@@ -26,21 +33,6 @@ class AuthController extends GetxController implements GetxService {
 
   bool get isLoading => _isLoading!;
 
-  // Future<CheckEmailModel?> checkEmail(String? phone) async {
-  //   _isLoading = true;
-  //   update();
-  //   Response response = await authRepo.checkEmail(phone: phone);
-  //
-  //   if (response.statusCode == 200) {
-  //     responseModel = CheckEmailModel.fromJson(response.body);
-  //   } else {
-  //     responseModel = CheckEmailModel();
-  //   }
-  //   _isLoading = false;
-  //   update();
-  //   return responseModel;
-  // }
-  //
   Future<LoginModel?> loginUser(
       {String? phone, String? password, String? deviceToken}) async {
     _isLoading = true;
@@ -127,6 +119,62 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = false;
     update();
     return otpModel;
+  }
+
+  Future<UpdateProfileResponseModel?> updateProfile(
+      UpdateProfileModel model, String userId, String token) async {
+    _isLoading = true;
+    update();
+
+    Response response = await authRepo.updateProfile(model);
+
+    if (response.statusCode == 200) {
+      if (response.body['status'] == 200) {
+        updateProfileResponseModel =
+            UpdateProfileResponseModel.fromJson(response.body);
+        authRepo.saveUserToken(token);
+        authRepo.saveUserId(userId);
+      } else {
+        updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
+      }
+    } else {
+      updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
+    }
+    _isLoading = false;
+    update();
+    return updateProfileResponseModel;
+  }
+
+  Future<ProfileViewModel?> getProfile(String token) async {
+    _isLoading = true;
+    // update();
+
+    // String token = courseRepo.getUserToken();
+
+    var url =
+        '${AppConstants.baseUrl}${AppConstants.getProfile}?auth_token=$token';
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      );
+      // final responseData = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        profileViewModel =
+            ProfileViewModel.fromJson(json.decode(response.body));
+      } else {
+        profileViewModel = ProfileViewModel();
+      }
+    } catch (error) {
+      rethrow;
+    }
+    _isLoading = false;
+    update();
+    return profileViewModel;
   }
 
   bool isLoggedIn() {

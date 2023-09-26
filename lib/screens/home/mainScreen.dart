@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/screens/home/homeScreen.dart';
-import 'package:jeeconnecttutor/screens/schedule/scheduleListingScreen.dart';
-
-import '../userAuth/profileScreen.dart';
 
 void main() {
   runApp(MainScreen());
@@ -17,12 +14,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Widget _screen1 = HomeScreen();
-  Widget _screen2 = ScheduleListingScreen();
-  Widget _screen3 = HomeScreen();
-  Widget _screen4 = ProfileScreen();
-  int selectedIndex = 0;
-
   @override
   void initState() {
     super.initState();
@@ -35,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
       // appBar: AppBar(
       //   title: const Text('Moony navigation bar'),
       // ),
-      body: getBody(),
+      body: HomeScreen(),
       // bottomNavigationBar: MoonyNavigationBar(
       //   items: <NavigationBarItem>[
       //     NavigationBarItem(
@@ -83,23 +74,5 @@ class _MainScreenState extends State<MainScreen> {
       //   ),
       // ),
     );
-  }
-
-  Widget getBody() {
-    if (this.selectedIndex == 0) {
-      return this._screen1;
-    } else if (this.selectedIndex == 1) {
-      return this._screen2;
-    } else if (this.selectedIndex == 2) {
-      return this._screen3;
-    } else {
-      return this._screen4;
-    }
-  }
-
-  void onTapHandler(int index) {
-    this.setState(() {
-      this.selectedIndex = index;
-    });
   }
 }

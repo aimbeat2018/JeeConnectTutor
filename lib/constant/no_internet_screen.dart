@@ -4,8 +4,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../screens/home/homeScreen.dart';
 import 'app_constants.dart';
+import 'colorsConstant.dart';
 import 'internetConnectivity.dart';
 
 class NoInternetScreen extends StatefulWidget {

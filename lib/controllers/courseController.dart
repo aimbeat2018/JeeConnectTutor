@@ -23,7 +23,7 @@ class CourseController extends GetxController implements GetxService {
 
   Future<List<CategoryModel>?> getCategoryList(String token) async {
     _isLoading = true;
-    update();
+    // update();
 
     // String token = courseRepo.getUserToken();
 

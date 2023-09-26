@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/screens/userAuth/otpScreen.dart';
+import 'package:jeeconnecttutor/screens/userAuth/profileScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/signUpScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/updateProfileScreen.dart';
 
@@ -15,9 +16,8 @@ class RouteHelper {
   static const String updateProfileScreen = '/updateProfileScreen';
   static const String passwordScreen = '/passwordScreen';
   static const String mainScreen = '/mainScreen';
+  static const String profileScreen = '/profileScreen';
   static const String passwordChangedScreen = '/passwordChangedScreen';
-  static const String salonDetails = '/salonDetails';
-  static const String addDemoRequest = '/addDemoRequest';
 
   static String getLoginRoute() => login;
 
@@ -25,8 +25,11 @@ class RouteHelper {
 
   static String getRegisterScreenRoute() => registerScreen;
 
-  static String getUpdateProfileScreenRoute(String token, String userId) =>
-      '$updateProfileScreen?token=$token&userId=$userId';
+  static String getProfileScreenRoute() => profileScreen;
+
+  static String getUpdateProfileScreenRoute(
+          String token, String userId, String from) =>
+      '$updateProfileScreen?token=$token&userId=$userId&from=$from';
 
   static String getOtpScreenRoute(
     String name,
@@ -45,21 +48,17 @@ class RouteHelper {
   static String getPasswordScreenRoute(String image, String email) =>
       '$passwordScreen?image=$image&email=$email';
 
-  static String getSalonDetailsRoute(String salonId) =>
-      '$salonDetails?salonId=$salonId';
-
-  static String getDemoRequestRoute(String salonId) =>
-      '$addDemoRequest?salonId=$salonId';
-
   static List<GetPage> routes = [
     GetPage(name: login, page: () => getRoute(const LoginScreen())),
     GetPage(name: mainScreen, page: () => getRoute(MainScreen())),
     GetPage(name: registerScreen, page: () => getRoute(const SignUpScreen())),
+    GetPage(name: profileScreen, page: () => getRoute(const ProfileScreen())),
     GetPage(
         name: updateProfileScreen,
         page: () => getRoute(UpdateProfileScreen(
               token: Get.parameters['token']!,
               userId: Get.parameters['userId']!,
+              from: Get.parameters['from']!,
             ))),
     GetPage(
         name: otpScreen,

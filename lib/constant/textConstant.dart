@@ -11,7 +11,8 @@ class TextConstant {
   static String register = "Register";
   static String name = "Name";
   static String experience = "Experience";
-  static String tutorsLocation = "Tutors Location";
+  static String tutorsLocation = "Tutors Area";
+  static String tutorsPincode = "Tutors Pincode";
   static String selectNearbyAreaKm = "Select Nearby Area Km 2-5";
   static String noc = "NOC";
   static String aadhaarCard = "Aadhaar Card";

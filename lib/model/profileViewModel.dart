@@ -1,92 +1,106 @@
-class UpdateProfileModel {
-  int? userId;
-  List<CourseDetails>? courseDetails;
+class ProfileViewModel {
+  String? userId;
+  String? name;
+  String? email;
+  String? phone;
+  List<CourseInfo>? courseInfo;
   String? mode;
-  int? experience;
-  String? tutorLocation;
+  String? experience;
+  String? location;
   String? area;
   String? noc;
-  String? adhaarCard;
+  String? adhaarNo;
   String? panNo;
   String? bankName;
   String? accountHolderName;
   String? accountNo;
   String? ifscCode;
+  String? pincode;
 
-  UpdateProfileModel(
+  ProfileViewModel(
       {this.userId,
-      this.courseDetails,
+      this.name,
+      this.email,
+      this.phone,
+      this.courseInfo,
       this.mode,
       this.experience,
-      this.tutorLocation,
+      this.location,
       this.area,
       this.noc,
-      this.adhaarCard,
+      this.adhaarNo,
       this.panNo,
       this.bankName,
       this.accountHolderName,
       this.accountNo,
-      this.ifscCode});
+      this.ifscCode,
+      this.pincode});
 
-  UpdateProfileModel.fromJson(Map<String, dynamic> json) {
+  ProfileViewModel.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
-    if (json['course_details'] != null) {
-      courseDetails = <CourseDetails>[];
-      json['course_details'].forEach((v) {
-        courseDetails!.add(new CourseDetails.fromJson(v));
+    name = json['name'];
+    email = json['email'];
+    phone = json['phone'];
+    if (json['course_info'] != null) {
+      courseInfo = <CourseInfo>[];
+      json['course_info'].forEach((v) {
+        courseInfo!.add(new CourseInfo.fromJson(v));
       });
     }
     mode = json['mode'];
     experience = json['experience'];
-    tutorLocation = json['tutor_location'];
+    location = json['location'];
     area = json['area'];
     noc = json['noc'];
-    adhaarCard = json['adhaar_card'];
+    adhaarNo = json['adhaar_no'];
     panNo = json['pan_no'];
     bankName = json['bank_name'];
     accountHolderName = json['account_holder_name'];
     accountNo = json['account_no'];
     ifscCode = json['ifsc_code'];
+    pincode = json['pincode'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['user_id'] = this.userId;
-    if (this.courseDetails != null) {
-      data['course_details'] =
-          this.courseDetails!.map((v) => v.toJson()).toList();
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    if (this.courseInfo != null) {
+      data['course_info'] = this.courseInfo!.map((v) => v.toJson()).toList();
     }
     data['mode'] = this.mode;
     data['experience'] = this.experience;
-    data['tutor_location'] = this.tutorLocation;
+    data['location'] = this.location;
     data['area'] = this.area;
     data['noc'] = this.noc;
-    data['adhaar_card'] = this.adhaarCard;
+    data['adhaar_no'] = this.adhaarNo;
     data['pan_no'] = this.panNo;
     data['bank_name'] = this.bankName;
     data['account_holder_name'] = this.accountHolderName;
     data['account_no'] = this.accountNo;
     data['ifsc_code'] = this.ifscCode;
+    data['pincode'] = this.pincode;
     return data;
   }
 }
 
-class CourseDetails {
+class CourseInfo {
   String? categoryId;
   String? categoryName;
   String? subCategoryId;
   String? subCategoryName;
-  String? selectedCourserStr = "";
   List<SelectedCourse>? selectedCourse;
 
-  CourseDetails(
+  CourseInfo(
       {this.categoryId,
       this.categoryName,
       this.subCategoryId,
       this.subCategoryName,
       this.selectedCourse});
 
-  CourseDetails.fromJson(Map<String, dynamic> json) {
+  CourseInfo.fromJson(Map<String, dynamic> json) {
     categoryId = json['category_id'];
     categoryName = json['category_name'];
     subCategoryId = json['sub_category_id'];
@@ -115,7 +129,7 @@ class CourseDetails {
 
 class SelectedCourse {
   String? courseId;
-  String? courseName = "";
+  String? courseName;
 
   SelectedCourse({this.courseId, this.courseName});
 

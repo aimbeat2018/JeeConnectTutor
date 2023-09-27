@@ -87,14 +87,37 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                         child: Column(children: [
                           if (requestController.sessionDetailsModel!.status! ==
                               "4")
-                            Text(
-                              'YOUR TODAYS SESSION\nHAS BEEN ENDED',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.blue.shade700,
-                              ),
+                            Column(
+                              children: [
+                                Text(
+                                  'YOUR TODAYS SESSION\nHAS BEEN ENDED',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.blue.shade700,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                if (requestController.sessionDetailsModel!
+                                            .studReviewStatus ==
+                                        "0" &&
+                                    requestController.sessionDetailsModel!
+                                            .insReviewStatus ==
+                                        "1")
+                                  Text(
+                                    'Review from Student side is pending'
+                                        .toUpperCase(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: kYellowColor,
+                                    ),
+                                  ),
+                              ],
                             ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.35,
@@ -296,7 +319,10 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                             ),
                           ),
                           if (requestController.sessionDetailsModel!.status ==
-                              "4")
+                                  "4" &&
+                              requestController
+                                      .sessionDetailsModel!.insReviewStatus !=
+                                  "1")
                             SizedBox(
                               child: Center(
                                 child: Padding(

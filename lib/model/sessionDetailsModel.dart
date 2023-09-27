@@ -13,6 +13,12 @@ class SessionDetailsModel {
   String? otpCode;
   String? startTime;
   String? endTime;
+  String? studReviewStatus;
+  String? studRivew;
+  String? insReviewStatus;
+  String? insReview;
+  String? studRating;
+  String? insRating;
   String? isScheduled;
   String? createdBy;
   String? createdAt;
@@ -24,7 +30,7 @@ class SessionDetailsModel {
   String? studentAddress;
   String? instructorName;
   String? instructorMobile;
-  String? instructorLocation;
+  Null? instructorLocation;
 
   SessionDetailsModel(
       {this.id,
@@ -41,6 +47,12 @@ class SessionDetailsModel {
       this.otpCode,
       this.startTime,
       this.endTime,
+      this.studReviewStatus,
+      this.studRivew,
+      this.insReviewStatus,
+      this.insReview,
+      this.studRating,
+      this.insRating,
       this.isScheduled,
       this.createdBy,
       this.createdAt,
@@ -69,6 +81,12 @@ class SessionDetailsModel {
     otpCode = json['otp_code'];
     startTime = json['start_time'];
     endTime = json['end_time'];
+    studReviewStatus = json['stud_review_status'];
+    studRivew = json['stud_rivew'];
+    insReviewStatus = json['ins_review_status'];
+    insReview = json['ins_review'];
+    studRating = json['stud_rating'];
+    insRating = json['ins_rating'];
     isScheduled = json['is_scheduled'];
     createdBy = json['created_by'];
     createdAt = json['created_at'];
@@ -99,6 +117,12 @@ class SessionDetailsModel {
     data['otp_code'] = this.otpCode;
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
+    data['stud_review_status'] = this.studReviewStatus;
+    data['stud_rivew'] = this.studRivew;
+    data['ins_review_status'] = this.insReviewStatus;
+    data['ins_review'] = this.insReview;
+    data['stud_rating'] = this.studRating;
+    data['ins_rating'] = this.insRating;
     data['is_scheduled'] = this.isScheduled;
     data['created_by'] = this.createdBy;
     data['created_at'] = this.createdAt;

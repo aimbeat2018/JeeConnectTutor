@@ -280,7 +280,13 @@ class AcceptListScreenState extends State<AcceptListScreen>
                       fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
-                  text: 'Pending',
+                  text: model.status == "1"
+                      ? 'Accepted'
+                      : model.status == "3"
+                          ? 'Started'
+                          : model.status == "4"
+                              ? 'Ended'
+                              : 'Completed',
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500),
                 ),
@@ -317,31 +323,33 @@ class AcceptListScreenState extends State<AcceptListScreen>
                   ],
                 ),
               ),
-              MaterialButton(
-                elevation: 0,
-                color: Colors.red,
-                onPressed: () {
-                  cancelRequest(model.id!, requestController);
-                },
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.circular(10),
-                  // side: const BorderSide(color: kRedColor),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Cancel',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+              if (model.status == "1")
+                MaterialButton(
+                  elevation: 0,
+                  color: Colors.red,
+                  onPressed: () {
+                    cancelRequest(model.id!, requestController);
+                  },
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.circular(10),
+                    // side: const BorderSide(color: kRedColor),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
             ],
           )
         ],

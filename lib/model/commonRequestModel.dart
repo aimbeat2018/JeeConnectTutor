@@ -5,6 +5,8 @@ class CommonRequestModel {
   String? toDate;
   String? otp;
   String? startTime;
+  String? rating;
+  String? review;
 
   CommonRequestModel(
       {this.id,
@@ -12,7 +14,9 @@ class CommonRequestModel {
       this.fromDate,
       this.toDate,
       this.otp,
-      this.startTime});
+      this.startTime,
+      this.rating,
+      this.review});
 
   CommonRequestModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -21,15 +25,19 @@ class CommonRequestModel {
     toDate = json['to_date'];
     otp = json['otp'];
     startTime = json['start_time'];
+    rating = json['rating'];
+    review = json['review'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['auth_token'] = this.authToken;
-    data['from_date'] = this.fromDate;
-    data['otp'] = this.otp;
-    data['start_time'] = this.startTime;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['auth_token'] = authToken;
+    data['from_date'] = fromDate;
+    data['otp'] = otp;
+    data['start_time'] = startTime;
+    data['rating'] = rating;
+    data['review'] = review;
     return data;
   }
 }

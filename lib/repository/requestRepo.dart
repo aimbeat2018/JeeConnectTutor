@@ -39,6 +39,11 @@ class RequestRepo {
         AppConstants.sessionEnd, jsonEncode(model.toJson()));
   }
 
+  Future<Response> addReview(CommonRequestModel model) async {
+    return await apiClient.postBodyData(
+        AppConstants.addReview, jsonEncode(model.toJson()));
+  }
+
   Future<Response> acceptedRequestList(CommonRequestModel model) async {
     return await apiClient.postBodyData(
         AppConstants.instructorAcceptedRequestList, jsonEncode(model.toJson()));

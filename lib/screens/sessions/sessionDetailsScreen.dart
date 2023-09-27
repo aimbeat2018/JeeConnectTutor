@@ -29,9 +29,10 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
   String _connectionStatus = 'unKnown';
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  TextEditingController reviewController = TextEditingController();
 
   final _otpPinFieldController = GlobalKey<OtpPinFieldState>();
-  String rating = "5.0";
+  String ratingStr = "5.0";
 
   @override
   void initState() {
@@ -337,7 +338,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                             ),
                                           ),
                                           const SizedBox(
-                                            height: 10,
+                                            height: 20,
                                           ),
                                           RatingBar.builder(
                                             initialRating: 5,
@@ -353,6 +354,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                             ),
                                             onRatingUpdate: (rating) {
                                               print(rating);
+                                              ratingStr = rating.toString();
                                             },
                                           ),
                                           SizedBox(
@@ -362,12 +364,13 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 8, vertical: 16),
                                             child: TextFormField(
+                                              controller: reviewController,
                                               decoration: const InputDecoration(
                                                 border: UnderlineInputBorder(),
-                                                labelText: '',
+                                                labelText: 'Enter Review',
                                               ),
-                                              minLines: 1,
-                                              maxLines: 1,
+                                              minLines: 3,
+                                              maxLines: 3,
                                             ),
                                           ),
                                           const SizedBox(
@@ -379,7 +382,19 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     Colors.blue.shade900,
                                                 textStyle: const TextStyle(
                                                     fontSize: 14)),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              if (reviewController
+                                                  .text.isEmpty) {
+                                                showCustomSnackBar(
+                                                    'Enter Review');
+                                              } else {
+                                                addReview(
+                                                    requestController
+                                                        .sessionDetailsModel!
+                                                        .id!,
+                                                    requestController);
+                                              }
+                                            },
                                             child: const Text('Submit'),
                                           ),
                                           const SizedBox(
@@ -693,13 +708,13 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
   }
 
   void addReview(String id, RequestController requestController) {
-    String currentTime = GlobalFunctions.getCurrentTime();
     requestController
-        .endSession(id, Get.find<AuthController>().getUserToken(), currentTime)
+        .addReview(id, Get.find<AuthController>().getUserToken(), ratingStr,
+            reviewController.text)
         .then((model) async {
       if (model!.status != 403) {
         showCustomSnackBar(model.message!, isError: false);
-        requestController.sessionDetailsModel!.status = "4";
+        requestController.sessionDetailsModel!.status = "5";
         setState(() {});
       } else {
         showCustomSnackBar(model.message!);

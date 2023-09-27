@@ -18,6 +18,7 @@ class AppConstants {
   static const String sessionDetails = 'session_details';
   static const String sessionStart = 'session_start';
   static const String sessionEnd = 'session_end';
+  static const String addReview = 'inst_review';
 
   static const String resetPassword = 'forget/password';
   static const String userProfile = 'get/employee/profile';

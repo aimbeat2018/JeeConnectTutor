@@ -255,4 +255,26 @@ class RequestController extends GetxController implements GetxService {
     update();
     return model;
   }
+
+  Future<UpdateProfileResponseModel?> addReview(
+      String id, String token, String rating, String review) async {
+    _isLoading = true;
+    update();
+
+    Response response = await requestRepo.addReview(CommonRequestModel(
+        id: id, authToken: token, rating: rating, review: review));
+
+    if (response.statusCode == 200) {
+      // if (response.body['status'] == 200) {
+      model = UpdateProfileResponseModel.fromJson(response.body);
+      // } else {
+      //   model = UpdateProfileResponseModel(status: 403);
+      // }
+    } else {
+      model = UpdateProfileResponseModel(status: 403);
+    }
+    _isLoading = false;
+    update();
+    return model;
+  }
 }

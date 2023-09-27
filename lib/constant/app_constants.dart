@@ -10,8 +10,14 @@ class AppConstants {
   static const String updateProfile = 'update_instructor_profile';
   static const String getProfile = 'instructor_profile';
   static const String instructorRequestList = 'instructor_course_list';
+  static const String instructorAcceptedRequestList = 'accept_session_list';
+  static const String instructorCompletedRequestList = 'complete_session_list';
   static const String acceptRequest = 'accept_request';
   static const String declineRequest = 'decline_request';
+  static const String cancelRequest = 'cancel_request';
+  static const String sessionDetails = 'session_details';
+  static const String sessionStart = 'session_start';
+  static const String sessionEnd = 'session_end';
 
   static const String resetPassword = 'forget/password';
   static const String userProfile = 'get/employee/profile';

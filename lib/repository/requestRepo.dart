@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:jeeconnecttutor/model/commonRequestModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
@@ -12,14 +14,45 @@ class RequestRepo {
 
   RequestRepo({required this.apiClient, required this.sharedPreferences});
 
-  Future<Response> acceptRequest(String token, String id) async {
+  Future<Response> acceptRequest(CommonRequestModel model) async {
     return await apiClient.postBodyData(
-        AppConstants.acceptRequest, {"id": id, "auth_token": token});
+        AppConstants.acceptRequest, jsonEncode(model.toJson()));
   }
 
-  Future<Response> declineRequest(String token, String id) async {
+  Future<Response> declineRequest(CommonRequestModel model) async {
     return await apiClient.postBodyData(
-        AppConstants.declineRequest, {"id": id, "auth_token": token});
+        AppConstants.declineRequest, jsonEncode(model.toJson()));
+  }
+
+  Future<Response> cancelRequest(CommonRequestModel model) async {
+    return await apiClient.postBodyData(
+        AppConstants.cancelRequest, jsonEncode(model.toJson()));
+  }
+
+  Future<Response> startSession(CommonRequestModel model) async {
+    return await apiClient.postBodyData(
+        AppConstants.sessionStart, jsonEncode(model.toJson()));
+  }
+
+  Future<Response> endSession(CommonRequestModel model) async {
+    return await apiClient.postBodyData(
+        AppConstants.sessionEnd, jsonEncode(model.toJson()));
+  }
+
+  Future<Response> acceptedRequestList(CommonRequestModel model) async {
+    return await apiClient.postBodyData(
+        AppConstants.instructorAcceptedRequestList, jsonEncode(model.toJson()));
+  }
+
+  Future<Response> completedRequestList(CommonRequestModel model) async {
+    return await apiClient.postBodyData(
+        AppConstants.instructorCompletedRequestList,
+        jsonEncode(model.toJson()));
+  }
+
+  Future<Response> sessionDetail(CommonRequestModel model) async {
+    return await apiClient.postBodyData(
+        AppConstants.sessionDetails, jsonEncode(model.toJson()));
   }
 
   // for  user token

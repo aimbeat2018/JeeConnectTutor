@@ -90,7 +90,7 @@ class ApiClient extends GetxService {
         body: body,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
+          // 'Authorization': 'Bearer $token'
         },
       ).timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(_response, uri);

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class GlobalFunctions {
   static InputDecoration getInputDecoration(String hintext) {
@@ -265,6 +266,21 @@ class GlobalFunctions {
     DateFormat formatter = DateFormat('dd MMM yyyy hh:mm a');
     return formatter.format(date);
   }*/
+  static String formatDate(String dateString) {
+    DateTime date = DateTime.parse(dateString);
+    DateFormat formatter = DateFormat('dd MMMM yyyy');
+    return formatter.format(date);
+  }
+
+  static String getCurrentTime() {
+    // DateTime date = DateTime.parse(dateString);
+    //
+    // DateFormat formatter = DateFormat('dd MMMM yyyy');
+    // return formatter.format(date);
+
+    String currentTime = DateFormat.jm().format(DateTime.now());
+    return currentTime;
+  }
 
   static bool isMobilePhone() {
     if (!kIsWeb) {

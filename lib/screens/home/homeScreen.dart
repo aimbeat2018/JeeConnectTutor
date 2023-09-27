@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/controllers/authController.dart';
 import 'package:jeeconnecttutor/controllers/requestController.dart';
-import 'package:jeeconnecttutor/screens/home/requestListWidget.dart';
 
 import '../../constant/app_constants.dart';
 import '../../constant/colorsConstant.dart';
+import '../../constant/custom_snackbar.dart';
 import '../../constant/internetConnectivity.dart';
 import '../../constant/no_internet_screen.dart';
+import '../../model/tutorRequestModel.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String name = 'home';
@@ -117,9 +118,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           const AlwaysScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return RequestListWidget(
-                                            model: requestController
-                                                .tutorRequestList![index]);
+                                        return itemData(
+                                            requestController
+                                                .tutorRequestList![index],
+                                            requestController);
                                       },
                                       separatorBuilder: (context, index) {
                                         return Divider();
@@ -133,5 +135,241 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             );
           });
+  }
+
+  Widget itemData(
+      TutorRequestModel model, RequestController requestController) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RichText(
+                  text: TextSpan(
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                      children: <TextSpan>[
+                    TextSpan(
+                      text: 'Student name : ',
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: model.studentName,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  ])),
+              InkWell(
+                onTap: () {},
+                child: Icon(
+                  Icons.phone,
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Student Address : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: model.studentAddress,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Subject : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: model.courseName,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Date & Time : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: '${model.date} ${model.time}',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Day & Shift : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: '${model.day} ${model.shift}',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Status :  ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: 'Pending',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MaterialButton(
+                elevation: 0,
+                color: Colors.green,
+                onPressed: () {
+                  acceptRequest(model.id!, requestController);
+                },
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(10),
+                  // side: const BorderSide(color: kRedColor),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    requestController.isLoading
+                        ? CircularProgressIndicator()
+                        : Text(
+                            'Accept',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+              MaterialButton(
+                elevation: 0,
+                color: Colors.red,
+                onPressed: () {
+                  declineRequest(model.id!, requestController);
+                },
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(10),
+                  // side: const BorderSide(color: kRedColor),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Decline',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void acceptRequest(String id, RequestController requestController) {
+    requestController
+        .acceptRequest(id, Get.find<AuthController>().getUserToken())
+        .then((model) async {
+      if (model!.status != 403) {
+        showCustomSnackBar(model.message!);
+        requestController
+            .getTutorRequestList(Get.find<AuthController>().getUserToken());
+        setState(() {});
+      } else {
+        showCustomSnackBar(model.message!);
+      }
+    });
+  }
+
+  void declineRequest(String id, RequestController requestController) {
+    requestController
+        .declineRequest(id, Get.find<AuthController>().getUserToken())
+        .then((model) async {
+      if (model!.status != 403) {
+        showCustomSnackBar(model.message!);
+        requestController
+            .getTutorRequestList(Get.find<AuthController>().getUserToken());
+        setState(() {});
+      } else {
+        showCustomSnackBar(model.message!);
+      }
+    });
   }
 }

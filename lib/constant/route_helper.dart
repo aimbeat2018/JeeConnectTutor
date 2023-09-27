@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jeeconnecttutor/screens/sessions/sessionDetailsScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/otpScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/profileScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/signUpScreen.dart';
@@ -17,6 +18,7 @@ class RouteHelper {
   static const String passwordScreen = '/passwordScreen';
   static const String mainScreen = '/mainScreen';
   static const String profileScreen = '/profileScreen';
+  static const String sessionDetails = '/sessionDetails';
   static const String passwordChangedScreen = '/passwordChangedScreen';
 
   static String getLoginRoute() => login;
@@ -30,6 +32,9 @@ class RouteHelper {
   static String getUpdateProfileScreenRoute(
           String token, String userId, String from) =>
       '$updateProfileScreen?token=$token&userId=$userId&from=$from';
+
+  static String getSessionDetailsScreenRoute(String id) =>
+      '$sessionDetails?id=$id';
 
   static String getOtpScreenRoute(
     String name,
@@ -60,6 +65,9 @@ class RouteHelper {
               userId: Get.parameters['userId']!,
               from: Get.parameters['from']!,
             ))),
+    GetPage(
+        name: sessionDetails,
+        page: () => getRoute(SessionDetailsScreen(id: Get.parameters['id']!))),
     GetPage(
         name: otpScreen,
         page: () => OtpScreen(

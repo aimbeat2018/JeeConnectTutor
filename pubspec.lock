@@ -195,6 +195,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.16"
+  flutter_rating_bar:
+    dependency: "direct main"
+    description:
+      name: flutter_rating_bar
+      sha256: d2af03469eac832c591a1eba47c91ecc871fe5708e69967073c043b2d775ed93
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -389,6 +397,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
+  otp_pin_field:
+    dependency: "direct main"
+    description:
+      name: otp_pin_field
+      sha256: d15b348ebc21c17fccc926a79a21447dd653a29c7a514b6a4015c1ff6ddc71ec
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   path:
     dependency: "direct main"
     description:

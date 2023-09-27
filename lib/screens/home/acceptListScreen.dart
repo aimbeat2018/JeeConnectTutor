@@ -5,14 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
+import 'package:jeeconnecttutor/constant/route_helper.dart';
 import 'package:jeeconnecttutor/controllers/authController.dart';
 import 'package:jeeconnecttutor/controllers/requestController.dart';
-import 'package:jeeconnecttutor/screens/home/requestListWidget.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../../constant/app_constants.dart';
+import '../../constant/custom_snackbar.dart';
 import '../../constant/internetConnectivity.dart';
 import '../../constant/no_internet_screen.dart';
+import '../../model/tutorRequestModel.dart';
 
 class AcceptListScreen extends StatefulWidget {
   static const String name = 'home';
@@ -44,11 +46,12 @@ class AcceptListScreenState extends State<AcceptListScreen>
             _connectionStatus = value;
           }));
     });
-    Get.find<RequestController>()
-        .getTutorRequestList(Get.find<AuthController>().getUserToken());
-  }
 
-  void getRequestList() {}
+    if (mounted) {
+      Get.find<RequestController>().getAcceptedTutorRequestList(
+          Get.find<AuthController>().getUserToken());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +107,8 @@ class AcceptListScreenState extends State<AcceptListScreen>
                               ? Center(
                                   child: CircularProgressIndicator(),
                                 )
-                              : requestController.tutorRequestList!.isEmpty
+                              : requestController
+                                      .acceptedTutorRequestList!.isEmpty
                                   ? Container(
                                       height:
                                           MediaQuery.of(context).size.height /
@@ -115,14 +119,16 @@ class AcceptListScreenState extends State<AcceptListScreen>
                                   : ListView.separated(
                                       shrinkWrap: true,
                                       itemCount: requestController
-                                          .tutorRequestList!.length,
+                                          .acceptedTutorRequestList!.length,
                                       physics:
                                           const AlwaysScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return RequestListWidget(
-                                            model: requestController
-                                                .tutorRequestList![index]);
+                                        return itemData(
+                                            requestController
+                                                    .acceptedTutorRequestList![
+                                                index],
+                                            requestController);
                                       },
                                       separatorBuilder: (context, index) {
                                         return Divider();
@@ -136,5 +142,225 @@ class AcceptListScreenState extends State<AcceptListScreen>
               ),
             );
           });
+  }
+
+  Widget itemData(
+      TutorRequestModel model, RequestController requestController) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RichText(
+                  text: TextSpan(
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                      children: <TextSpan>[
+                    TextSpan(
+                      text: 'Student name : ',
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: model.studentName,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  ])),
+              InkWell(
+                onTap: () {},
+                child: Icon(
+                  Icons.phone,
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Student Address : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: model.studentAddress,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Subject : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: model.courseName,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Date & Time : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: '${model.date} ${model.time}',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Day & Shift : ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: '${model.day} ${model.shift}',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                TextSpan(
+                  text: 'Status :  ',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: 'Pending',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ])),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MaterialButton(
+                elevation: 0,
+                color: kYellowColor,
+                onPressed: () {
+                  Get.toNamed(
+                      RouteHelper.getSessionDetailsScreenRoute(model.id!));
+                },
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(10),
+                  // side: const BorderSide(color: kRedColor),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'View',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MaterialButton(
+                elevation: 0,
+                color: Colors.red,
+                onPressed: () {
+                  cancelRequest(model.id!, requestController);
+                },
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(10),
+                  // side: const BorderSide(color: kRedColor),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void cancelRequest(String id, RequestController requestController) {
+    requestController
+        .cancelRequest(id, Get.find<AuthController>().getUserToken())
+        .then((model) async {
+      if (model!.status != 403) {
+        showCustomSnackBar(model.message!);
+        requestController
+            .getTutorRequestList(Get.find<AuthController>().getUserToken());
+        setState(() {});
+      } else {
+        showCustomSnackBar(model.message!);
+      }
+    });
   }
 }

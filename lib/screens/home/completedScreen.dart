@@ -44,8 +44,8 @@ class CompletedScreenState extends State<CompletedScreen>
             _connectionStatus = value;
           }));
     });
-    Get.find<RequestController>()
-        .getTutorRequestList(Get.find<AuthController>().getUserToken());
+    Get.find<RequestController>().getCompletedTutorRequestList(
+        Get.find<AuthController>().getUserToken());
   }
 
   @override
@@ -102,7 +102,8 @@ class CompletedScreenState extends State<CompletedScreen>
                               ? Center(
                                   child: CircularProgressIndicator(),
                                 )
-                              : requestController.tutorRequestList!.isEmpty
+                              : requestController.completedTutorRequestList ==
+                                      null
                                   ? Container(
                                       height:
                                           MediaQuery.of(context).size.height /
@@ -113,14 +114,15 @@ class CompletedScreenState extends State<CompletedScreen>
                                   : ListView.separated(
                                       shrinkWrap: true,
                                       itemCount: requestController
-                                          .tutorRequestList!.length,
+                                          .completedTutorRequestList!.length,
                                       physics:
                                           const AlwaysScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return RequestListWidget(
                                             model: requestController
-                                                .tutorRequestList![index]);
+                                                    .completedTutorRequestList![
+                                                index]);
                                       },
                                       separatorBuilder: (context, index) {
                                         return Divider();

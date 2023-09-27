@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 
 import '../../model/tutorRequestModel.dart';
 
@@ -161,7 +162,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
             children: [
               MaterialButton(
                 elevation: 0,
-                color: Colors.green,
+                color: kYellowColor,
                 onPressed: () {},
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 shape: RoundedRectangleBorder(
@@ -172,30 +173,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Accept',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              MaterialButton(
-                elevation: 0,
-                color: Colors.red,
-                onPressed: () {},
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.circular(10),
-                  // side: const BorderSide(color: kRedColor),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Decline',
+                      'View',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white,

@@ -106,13 +106,13 @@ class RequestController extends GetxController implements GetxService {
 
     if (response.statusCode == 200) {
       List data = response.body;
-      acceptedTutorRequestList = toResponseList(data);
+      completedTutorRequestList = toResponseList(data);
     } else {
-      acceptedTutorRequestList = [];
+      completedTutorRequestList = [];
     }
     _isLoading = false;
     update();
-    return acceptedTutorRequestList;
+    return completedTutorRequestList;
   }
 
   Future<UpdateProfileResponseModel?> acceptRequest(
@@ -240,7 +240,7 @@ class RequestController extends GetxController implements GetxService {
     update();
 
     Response response = await requestRepo.endSession(
-        CommonRequestModel(id: id, authToken: token, startTime: startTime));
+        CommonRequestModel(id: id, authToken: token, endTime: startTime));
 
     if (response.statusCode == 200) {
       // if (response.body['status'] == 200) {

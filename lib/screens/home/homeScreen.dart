@@ -42,8 +42,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             _connectionStatus = value;
           }));
     });
-    Get.find<RequestController>()
-        .getTutorRequestList(Get.find<AuthController>().getUserToken());
+    if (_connectionStatus != AppConstants.connectivityCheck) {
+      Get.find<RequestController>()
+          .getTutorRequestList(Get.find<AuthController>().getUserToken());
+    }
   }
 
   void getRequestList() {}

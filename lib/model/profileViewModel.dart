@@ -16,6 +16,7 @@ class ProfileViewModel {
   String? accountNo;
   String? ifscCode;
   String? pincode;
+  String? uniqueCode;
 
   ProfileViewModel(
       {this.userId,
@@ -34,6 +35,7 @@ class ProfileViewModel {
       this.accountHolderName,
       this.accountNo,
       this.ifscCode,
+      this.uniqueCode,
       this.pincode});
 
   ProfileViewModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class ProfileViewModel {
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
+    uniqueCode = json['unique_code'];
     if (json['course_info'] != null) {
       courseInfo = <CourseInfo>[];
       json['course_info'].forEach((v) {
@@ -66,6 +69,7 @@ class ProfileViewModel {
     data['user_id'] = this.userId;
     data['name'] = this.name;
     data['email'] = this.email;
+    data['unique_code'] = this.uniqueCode;
     data['phone'] = this.phone;
     if (this.courseInfo != null) {
       data['course_info'] = this.courseInfo!.map((v) => v.toJson()).toList();

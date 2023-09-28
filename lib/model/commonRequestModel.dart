@@ -5,6 +5,7 @@ class CommonRequestModel {
   String? toDate;
   String? otp;
   String? startTime;
+  String? endTime;
   String? rating;
   String? review;
 
@@ -15,6 +16,7 @@ class CommonRequestModel {
       this.toDate,
       this.otp,
       this.startTime,
+      this.endTime,
       this.rating,
       this.review});
 
@@ -25,6 +27,7 @@ class CommonRequestModel {
     toDate = json['to_date'];
     otp = json['otp'];
     startTime = json['start_time'];
+    endTime = json['end_time'];
     rating = json['rating'];
     review = json['review'];
   }
@@ -36,6 +39,7 @@ class CommonRequestModel {
     data['from_date'] = fromDate;
     data['otp'] = otp;
     data['start_time'] = startTime;
+    data['end_time'] = endTime;
     data['rating'] = rating;
     data['review'] = review;
     return data;

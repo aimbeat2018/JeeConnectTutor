@@ -100,7 +100,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                       authController.profileViewModel!.experience!;
                   _nocController.text = authController.profileViewModel!.noc!;
                   _tutorLocationController.text =
-                      authController.profileViewModel!.area!;
+                      authController.profileViewModel!.location!;
                   _tutorPincodeController.text =
                       authController.profileViewModel!.pincode!;
                   _aadhaarController.text =
@@ -250,54 +250,62 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                                         vertical: 10),
                                                 child: Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                      MainAxisAlignment.start,
                                                   children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Category name : ${selectedCourseList[index].categoryName!}',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'Category name : ${selectedCourseList[index].categoryName!}',
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 3,
-                                                        ),
-                                                        Text(
-                                                          'Sub-Category name : ${selectedCourseList[index].subCategoryName!}',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                          SizedBox(
+                                                            height: 3,
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          'Course : ${selectedCourseList[index].selectedCourserStr!}',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                          Text(
+                                                            'Sub-Category name : ${selectedCourseList[index].subCategoryName!}',
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                          const SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Text(
+                                                            'Course : ${selectedCourseList[index].selectedCourserStr!}',
+                                                            maxLines: 2,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
                                                     ),
                                                     InkWell(
                                                       onTap: () {

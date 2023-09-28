@@ -106,6 +106,7 @@ class LoginScreenState extends State<LoginScreen> {
                                         children: [
                                           TextFormField(
                                             controller: _mobileController,
+                                            keyboardType: TextInputType.number,
                                             decoration: InputDecoration(
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius:

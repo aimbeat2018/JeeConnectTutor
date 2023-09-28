@@ -55,14 +55,14 @@ class _MainScreenState extends State<MainScreen> {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
               child: InkWell(
                 onTap: () {
                   Get.toNamed(RouteHelper.getProfileScreenRoute());
                 },
                 child: const Icon(
                   Icons.person,
-                  size: 30,
+                  // size: 20,
                 ),
               ),
             ),
@@ -111,7 +111,7 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 child: const Icon(
                   Icons.logout,
-                  size: 25,
+                  // size: 20,
                 ),
               ),
             ),

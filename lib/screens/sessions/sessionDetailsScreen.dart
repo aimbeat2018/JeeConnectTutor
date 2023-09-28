@@ -98,7 +98,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                     color: Colors.blue.shade700,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 if (requestController.sessionDetailsModel!
@@ -111,7 +111,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                     'Review from Student side is pending'
                                         .toUpperCase(),
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: kYellowColor,
@@ -198,7 +198,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    'Location ${requestController.sessionDetailsModel!.studentAddress!}',
+                                                    'Location : ${requestController.sessionDetailsModel!.studentAddress!}',
                                                     textAlign: TextAlign.start,
                                                     style: const TextStyle(
                                                       fontSize: 14,
@@ -357,7 +357,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                             'Give Review to student'
                                                 .toUpperCase(),
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
                                               color: Colors.black,
@@ -372,18 +372,20 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
                                             itemCount: 5,
-                                            itemPadding: EdgeInsets.symmetric(
-                                                horizontal: 2.0),
-                                            itemBuilder: (context, _) => Icon(
+                                            itemPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 2.0),
+                                            itemBuilder: (context, _) =>
+                                                const Icon(
                                               Icons.star,
-                                              color: Colors.amber,
+                                              color: kYellowColor,
                                             ),
                                             onRatingUpdate: (rating) {
                                               print(rating);
                                               ratingStr = rating.toString();
                                             },
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 15,
                                           ),
                                           Padding(
@@ -480,6 +482,8 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                           OtpPinField(
                                             key: _otpPinFieldController,
                                             autoFillEnable: false,
+                                            fieldHeight: 40,
+                                            fieldWidth: 40,
                                             textInputAction:
                                                 TextInputAction.done,
                                             otpPinFieldDecoration:
@@ -500,7 +504,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                             height: 20,
                                           ),
                                           requestController.isLoading
-                                              ? CircularProgressIndicator()
+                                              ? const CircularProgressIndicator()
                                               : ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
@@ -604,7 +608,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                               height: 20,
                                             ),
                                             requestController.isLoading
-                                                ? CircularProgressIndicator()
+                                                ? const CircularProgressIndicator()
                                                 : ElevatedButton(
                                                     style: ElevatedButton
                                                         .styleFrom(

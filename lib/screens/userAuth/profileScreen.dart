@@ -76,7 +76,8 @@ class ProfileScreenState extends State<ProfileScreen>
               _nameController.text = authController.profileViewModel!.name!;
               _mobileController.text = authController.profileViewModel!.phone!;
               _emailController.text = authController.profileViewModel!.email!;
-              userIdController.text = authController.profileViewModel!.userId!;
+              userIdController.text =
+                  authController.profileViewModel!.uniqueCode!;
             }
             return Scaffold(
               key: _scaffoldKey,
@@ -321,6 +322,36 @@ class ProfileScreenState extends State<ProfileScreen>
                                             children: [
                                               Text(
                                                 'View Other Details',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        MaterialButton(
+                                          elevation: 0,
+                                          color: kYellowColor,
+                                          onPressed: () {},
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5, vertical: 15),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadiusDirectional
+                                                    .circular(10),
+                                            // side: const BorderSide(color: kRedColor),
+                                          ),
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Change Password',
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.white,

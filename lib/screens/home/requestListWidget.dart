@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 
 import '../../model/tutorRequestModel.dart';
 
@@ -41,12 +40,6 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                   ])),
-              InkWell(
-                onTap: () {},
-                child: Icon(
-                  Icons.phone,
-                ),
-              )
             ],
           ),
           SizedBox(
@@ -149,7 +142,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                       fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
-                  text: 'Pending',
+                  text: 'Completed',
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500),
                 ),
@@ -157,34 +150,6 @@ class _RequestListWidgetState extends State<RequestListWidget> {
           SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              MaterialButton(
-                elevation: 0,
-                color: kYellowColor,
-                onPressed: () {},
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.circular(10),
-                  // side: const BorderSide(color: kRedColor),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'View',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );

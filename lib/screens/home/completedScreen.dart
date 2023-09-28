@@ -116,7 +116,7 @@ class CompletedScreenState extends State<CompletedScreen>
                                       itemCount: requestController
                                           .completedTutorRequestList!.length,
                                       physics:
-                                          const AlwaysScrollableScrollPhysics(),
+                                          const NeverScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return RequestListWidget(

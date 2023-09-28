@@ -121,7 +121,7 @@ class AcceptListScreenState extends State<AcceptListScreen>
                                       itemCount: requestController
                                           .acceptedTutorRequestList!.length,
                                       physics:
-                                          const AlwaysScrollableScrollPhysics(),
+                                          const NeverScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return itemData(

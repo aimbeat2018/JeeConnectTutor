@@ -117,7 +117,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       itemCount: requestController
                                           .tutorRequestList!.length,
                                       physics:
-                                          const AlwaysScrollableScrollPhysics(),
+                                          const NeverScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return itemData(

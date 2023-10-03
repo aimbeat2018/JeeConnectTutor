@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/get_di.dart' as di;
@@ -7,17 +9,20 @@ import 'package:jeeconnecttutor/constant/route_helper.dart';
 import 'package:responsive_framework/breakpoint.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
+import 'constant/PushNotificationService.dart';
 import 'constant/globalFunction.dart';
 import 'controllers/authController.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   // await Firebase.initializeApp();
   if (GlobalFunctions.isMobilePhone()) {
     HttpOverrides.global = MyHttpOverrides();
   }
   await di.init();
 
+  FirebaseMessaging.onBackgroundMessage(myForgroundMessageHandler);
   runApp(const MyApp());
 }
 

@@ -8,7 +8,7 @@ import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/route_helper.dart';
 import 'package:jeeconnecttutor/controllers/authController.dart';
 import 'package:jeeconnecttutor/controllers/requestController.dart';
-import 'package:sidebarx/sidebarx.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constant/app_constants.dart';
 import '../../constant/custom_snackbar.dart';
@@ -27,7 +27,6 @@ class AcceptListScreen extends StatefulWidget {
 
 class AcceptListScreenState extends State<AcceptListScreen>
     with TickerProviderStateMixin {
-  final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
   String _connectionStatus = 'unKnown';
@@ -100,20 +99,20 @@ class AcceptListScreenState extends State<AcceptListScreen>
                             // },
                             // onChanged: onSearchTextChanged,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           requestController.isLoading
-                              ? Center(
+                              ? const Center(
                                   child: CircularProgressIndicator(),
                                 )
                               : requestController
                                       .acceptedTutorRequestList!.isEmpty
-                                  ? Container(
+                                  ? SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height /
                                               1.5,
-                                      child: Center(
+                                      child: const Center(
                                           child: Text("No request data found")),
                                     )
                                   : ListView.separated(
@@ -131,7 +130,7 @@ class AcceptListScreenState extends State<AcceptListScreen>
                                             requestController);
                                       },
                                       separatorBuilder: (context, index) {
-                                        return Divider();
+                                        return const Divider();
                                       },
                                     ),
                         ],
@@ -142,6 +141,16 @@ class AcceptListScreenState extends State<AcceptListScreen>
               ),
             );
           });
+  }
+
+  _launchCaller(String number) async {
+    final Uri url = Uri(
+      scheme: 'tel',
+      path: number,
+    );
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
+    }
   }
 
   Widget itemData(
@@ -161,10 +170,10 @@ class AcceptListScreenState extends State<AcceptListScreen>
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                       children: <TextSpan>[
-                    TextSpan(
+                    const TextSpan(
                       text: 'Student name : ',
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
                       text: model.studentName,
@@ -173,14 +182,16 @@ class AcceptListScreenState extends State<AcceptListScreen>
                     ),
                   ])),
               InkWell(
-                onTap: () {},
-                child: Icon(
+                onTap: () {
+                  _launchCaller(model.studentPhone!);
+                },
+                child: const Icon(
                   Icons.phone,
                 ),
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 3,
           ),
           RichText(
@@ -190,10 +201,9 @@ class AcceptListScreenState extends State<AcceptListScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Student Address : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: model.studentAddress,
@@ -211,10 +221,9 @@ class AcceptListScreenState extends State<AcceptListScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Subject : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: model.courseName,
@@ -232,10 +241,9 @@ class AcceptListScreenState extends State<AcceptListScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Date & Time : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: '${model.date} ${model.time}',
@@ -253,10 +261,9 @@ class AcceptListScreenState extends State<AcceptListScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Day & Shift : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: '${model.day} ${model.shift}',
@@ -274,10 +281,9 @@ class AcceptListScreenState extends State<AcceptListScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Status :  ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: model.status == "1"
@@ -291,7 +297,7 @@ class AcceptListScreenState extends State<AcceptListScreen>
                       fontSize: 14, fontWeight: FontWeight.w500),
                 ),
               ])),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(

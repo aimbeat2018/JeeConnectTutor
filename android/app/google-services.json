@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "512905244781",
+    "project_id": "jeeconnect-ef034",
+    "storage_bucket": "jeeconnect-ef034.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512905244781:android:60f21edf29fba93697cf64",
+        "android_client_info": {
+          "package_name": "com.jeeconnecttur.jeeconnecttutor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUjJCe0IHhbImBvCcYyfY26FA_bHCAvao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -29,6 +29,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String _connectionStatus = 'unKnown';
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -59,77 +61,87 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               key: _scaffoldKey,
               backgroundColor: kBackgroundColor,
               body: SafeArea(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15.0, horizontal: 10),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          TextFormField(
-                            controller: searchController,
-                            style: const TextStyle(fontSize: 14),
-                            decoration: const InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12.0)),
-                                  borderSide:
-                                      BorderSide(color: primaryColor, width: 1),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12.0)),
-                                  borderSide:
-                                      BorderSide(color: primaryColor, width: 1),
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 15),
-                                hintText: 'Search',
-                                suffixIcon: Icon(
-                                  CupertinoIcons.search,
-                                  size: 28,
-                                )),
-                            keyboardType: TextInputType.text,
-                            // onChanged: (value) {
-                            //   onSearchTextChanged(value);
-                            // },
-                            // onChanged: onSearchTextChanged,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          requestController.isLoading
-                              ? Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : requestController.tutorRequestList!.isEmpty
-                                  ? Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              1.5,
-                                      child: Center(
-                                          child: Text("No request data found")),
-                                    )
-                                  : ListView.separated(
-                                      shrinkWrap: true,
-                                      itemCount: requestController
-                                          .tutorRequestList!.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return itemData(
-                                            requestController
-                                                .tutorRequestList![index],
-                                            requestController);
-                                      },
-                                      separatorBuilder: (context, index) {
-                                        return Divider();
-                                      },
-                                    ),
-                        ],
+                child: RefreshIndicator(
+                  key: _refreshIndicatorKey,
+                  onRefresh: () async {
+                    if (_connectionStatus != AppConstants.connectivityCheck) {
+                      Get.find<RequestController>().getTutorRequestList(
+                          Get.find<AuthController>().getUserToken());
+                    }
+                  },
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 10),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TextFormField(
+                              controller: searchController,
+                              style: const TextStyle(fontSize: 14),
+                              decoration: const InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12.0)),
+                                    borderSide: BorderSide(
+                                        color: primaryColor, width: 1),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12.0)),
+                                    borderSide: BorderSide(
+                                        color: primaryColor, width: 1),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 15),
+                                  hintText: 'Search',
+                                  suffixIcon: Icon(
+                                    CupertinoIcons.search,
+                                    size: 28,
+                                  )),
+                              keyboardType: TextInputType.text,
+                              // onChanged: (value) {
+                              //   onSearchTextChanged(value);
+                              // },
+                              // onChanged: onSearchTextChanged,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            requestController.isLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : requestController.tutorRequestList!.isEmpty
+                                    ? Container(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.5,
+                                        child: Center(
+                                            child:
+                                                Text("No request data found")),
+                                      )
+                                    : ListView.separated(
+                                        shrinkWrap: true,
+                                        itemCount: requestController
+                                            .tutorRequestList!.length,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return itemData(
+                                              requestController
+                                                  .tutorRequestList![index],
+                                              requestController);
+                                        },
+                                        separatorBuilder: (context, index) {
+                                          return Divider();
+                                        },
+                                      ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -167,12 +179,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                   ])),
-              InkWell(
-                onTap: () {},
-                child: Icon(
-                  Icons.phone,
-                ),
-              )
             ],
           ),
           SizedBox(

@@ -119,6 +119,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         backgroundColor: kBackgroundColor,
         body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             HomeScreen(),
             const AcceptListScreen(),

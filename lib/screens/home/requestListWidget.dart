@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../constant/colorsConstant.dart';
+import '../../constant/route_helper.dart';
 import '../../model/tutorRequestModel.dart';
 
 class RequestListWidget extends StatefulWidget {
@@ -29,10 +32,10 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                       children: <TextSpan>[
-                    TextSpan(
+                    const TextSpan(
                       text: 'Student name : ',
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
                       text: widget.model.studentName,
@@ -42,7 +45,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                   ])),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 3,
           ),
           RichText(
@@ -52,10 +55,9 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Student Address : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: widget.model.studentAddress,
@@ -73,10 +75,9 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Subject : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: widget.model.courseName,
@@ -94,10 +95,9 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Date & Time : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: '${widget.model.date} ${widget.model.time}',
@@ -115,10 +115,9 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Day & Shift : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: '${widget.model.day} ${widget.model.shift}',
@@ -130,26 +129,55 @@ class _RequestListWidgetState extends State<RequestListWidget> {
             height: 3,
           ),
           RichText(
-              text: TextSpan(
-                  style: const TextStyle(
+              text: const TextSpan(
+                  style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
                 TextSpan(
                   text: 'Status :  ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: 'Completed',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 ),
               ])),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MaterialButton(
+                elevation: 0,
+                color: kYellowColor,
+                onPressed: () {
+                  Get.toNamed(RouteHelper.getSessionDetailsScreenRoute(
+                      widget.model.id!));
+                },
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(10),
+                  // side: const BorderSide(color: kRedColor),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'View',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

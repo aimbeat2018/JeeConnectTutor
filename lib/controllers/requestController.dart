@@ -116,12 +116,12 @@ class RequestController extends GetxController implements GetxService {
   }
 
   Future<UpdateProfileResponseModel?> acceptRequest(
-      String id, String token) async {
+      String id, String token, String studentId) async {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo
-        .acceptRequest(CommonRequestModel(id: id, authToken: token));
+    Response response = await requestRepo.acceptRequest(CommonRequestModel(
+        scheduleId: id, authToken: token, studentId: studentId));
 
     if (response.statusCode == 200) {
       // if (response.body['status'] == 200) {

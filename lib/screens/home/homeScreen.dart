@@ -50,8 +50,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  void getRequestList() {}
-
   @override
   Widget build(BuildContext context) {
     return _connectionStatus == AppConstants.connectivityCheck
@@ -296,7 +294,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 elevation: 0,
                 color: Colors.green,
                 onPressed: () {
-                  acceptRequest(model.id!, requestController);
+                  acceptRequest(
+                      model.scheduleId!, requestController, model.userId!);
                 },
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 shape: RoundedRectangleBorder(
@@ -351,9 +350,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  void acceptRequest(String id, RequestController requestController) {
+  void acceptRequest(
+      String id, RequestController requestController, String studentId) {
     requestController
-        .acceptRequest(id, Get.find<AuthController>().getUserToken())
+        .acceptRequest(id, Get.find<AuthController>().getUserToken(), studentId)
         .then((model) async {
       if (model!.status != 403) {
         showCustomSnackBar(model.message!);

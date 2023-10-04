@@ -1,6 +1,8 @@
 class CommonRequestModel {
   String? id;
   String? authToken;
+  String? scheduleId;
+  String? studentId;
   String? fromDate;
   String? toDate;
   String? otp;
@@ -16,6 +18,8 @@ class CommonRequestModel {
       this.toDate,
       this.otp,
       this.startTime,
+      this.scheduleId,
+      this.studentId,
       this.endTime,
       this.rating,
       this.review});
@@ -25,6 +29,8 @@ class CommonRequestModel {
     authToken = json['auth_token'];
     fromDate = json['from_date'];
     toDate = json['to_date'];
+    scheduleId = json['schedule_id'];
+    studentId = json['student_id'];
     otp = json['otp'];
     startTime = json['start_time'];
     endTime = json['end_time'];
@@ -42,6 +48,8 @@ class CommonRequestModel {
     data['end_time'] = endTime;
     data['rating'] = rating;
     data['review'] = review;
+    data['schedule_id'] = scheduleId;
+    data['student_id'] = studentId;
     return data;
   }
 }

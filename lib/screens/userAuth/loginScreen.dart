@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
@@ -305,18 +306,24 @@ class LoginScreenState extends State<LoginScreen> {
           });
   }
 
-  void login(String? mobile, String? password, AuthController authController) {
+  Future<void> login(
+      String? mobile, String? password, AuthController authController) async {
     authController
-        .loginUser(phone: mobile, password: password)
+        .loginUser(
+            phone: mobile,
+            password: password,
+            deviceToken: await FirebaseMessaging.instance.getToken())
         .then((model) async {
       if (model!.validity == 1) {
         if (model.profileUpdated == "1") {
           Get.offNamed(RouteHelper.getUpdateProfileScreenRoute(
               model.token!, model.userId!, "add"));
         } else if (model.profileUpdated == "2") {
-          GlobalFunctions.showErrorDialog(
-              "Your profile is in process please wait or login after some time",
-              context);
+          // GlobalFunctions.showErrorDialog(
+          //     "Your profile is in process please wait or login after some time",
+          //     context);
+
+          Get.offNamed(RouteHelper.getMainScreenRoute());
         } else if (model.profileUpdated == "3") {
           Get.offNamed(RouteHelper.getMainScreenRoute());
         } else if (model.profileUpdated == "4") {

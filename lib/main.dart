@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/get_di.dart' as di;
 import 'package:jeeconnecttutor/constant/route_helper.dart';
@@ -24,6 +25,13 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(myForgroundMessageHandler);
   runApp(const MyApp());
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()!
+      .requestPermission();
 }
 
 class MyApp extends StatelessWidget {

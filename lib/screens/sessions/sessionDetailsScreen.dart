@@ -319,7 +319,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                             ),
                           ),
                           if (requestController.sessionDetailsModel!.status ==
-                                  "4" &&
+                                  "5" &&
                               requestController
                                       .sessionDetailsModel!.insReviewStatus !=
                                   "1")

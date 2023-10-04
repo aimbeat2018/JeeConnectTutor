@@ -52,7 +52,13 @@ class AuthController extends GetxController implements GetxService {
 
       if (responseData['validity'] == 1) {
         loginModel = LoginModel.fromJson(json.decode(response.body));
-        if (loginModel!.profileUpdated == "3") {
+        // if (loginModel!.profileUpdated == "3") {
+        //   authRepo.saveUserToken(loginModel!.token!);
+        //   authRepo.saveUserId(loginModel!.userId!.toString());
+        // }
+
+        // for testing only
+        if (loginModel!.profileUpdated == "2") {
           authRepo.saveUserToken(loginModel!.token!);
           authRepo.saveUserId(loginModel!.userId!.toString());
         }

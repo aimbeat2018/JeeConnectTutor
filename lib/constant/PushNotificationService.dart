@@ -173,13 +173,13 @@ class PushNotificationService {
       String title, String msg, String type) async {
     var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
       '1',
-      'foozo_rider',
-      channelDescription: 'foozo_rider',
+      'jeeconnect_tutor',
+      channelDescription: 'jeeconnect_tutor',
       importance: Importance.max,
       priority: Priority.high,
       ticker: 'ticker',
       playSound: true,
-      icon: "@mipmap/ic_launcher",
+      // icon: "@mipmap/ic_launcher",
       sound: RawResourceAndroidNotificationSound('notification'),
     );
     const DarwinNotificationDetails darwinNotificationDetails =

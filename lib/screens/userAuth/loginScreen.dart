@@ -100,7 +100,7 @@ class LoginScreenState extends State<LoginScreen> {
                                             .titleLarge!
                                             .copyWith(color: Colors.black),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 30,
                                       ),
                                       Column(
@@ -112,23 +112,23 @@ class LoginScreenState extends State<LoginScreen> {
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(15.0),
-                                                borderSide: BorderSide(
+                                                borderSide: const BorderSide(
                                                   color: kYellowColor,
                                                 ),
                                               ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(15.0),
-                                                borderSide: BorderSide(
+                                                borderSide: const BorderSide(
                                                   color: kRedColor,
                                                   // width: 1.0,
                                                 ),
                                               ),
-                                              border: OutlineInputBorder(
+                                              border: const OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(20))),
-                                              contentPadding: EdgeInsets.only(
+                                              contentPadding: const EdgeInsets.only(
                                                   top: 12,
                                                   bottom: 12,
                                                   left: 15),
@@ -141,45 +141,62 @@ class LoginScreenState extends State<LoginScreen> {
                                                       color: Colors.black),
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 20,
                                           ),
                                           TextFormField(
-                                            obscureText: true,
+                                            focusNode: _focusNodes[1],
                                             controller: _passwordController,
                                             decoration: InputDecoration(
+                                              suffixIcon: IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    hidePassword = !hidePassword;
+                                                  });
+                                                },
+                                                color: kPrimaryColor,
+                                                icon: Icon(hidePassword
+                                                    ? Icons.visibility_off_outlined
+                                                    : Icons.visibility_outlined),
+                                              ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                borderSide: BorderSide(
+                                                BorderRadius.circular(15.0),
+                                                borderSide: const BorderSide(
                                                   color: kYellowColor,
                                                 ),
                                               ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                borderSide: BorderSide(
+                                                BorderRadius.circular(15.0),
+                                                borderSide: const BorderSide(
                                                   color: kRedColor,
                                                   // width: 1.0,
                                                 ),
                                               ),
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20))),
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 12,
-                                                  bottom: 12,
-                                                  left: 15),
+                                              border: const OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(20))),
+                                              contentPadding: const EdgeInsets.only(
+                                                  top: 12, bottom: 12, left: 15),
                                               labelText: TextConstant.password,
                                               labelStyle: Theme.of(context)
                                                   .textTheme
                                                   .titleMedium!
-                                                  .copyWith(
-                                                      color: Colors.black),
+                                                  .copyWith(color: Colors.black),
                                             ),
+                                            onSaved: (String? value) {
+                                              // This optional block of code can be used to run
+                                              // code when the user saves the form.
+                                            },validator: (input) => input!.length < 3
+                                              ? "Password should be more than 3 characters"
+                                              : null,
+                                            obscureText: hidePassword,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           Align(
@@ -193,11 +210,11 @@ class LoginScreenState extends State<LoginScreen> {
                                                       color: Colors.blueAccent),
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 15,
                                           ),
                                           authController.isLoading
-                                              ? Center(
+                                              ? const Center(
                                                   child:
                                                       CircularProgressIndicator(),
                                                 )
@@ -256,7 +273,7 @@ class LoginScreenState extends State<LoginScreen> {
                                                 height: 0.5,
                                                 color: Colors.grey.shade800),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 20,
                                           ),
                                           InkWell(
@@ -277,8 +294,8 @@ class LoginScreenState extends State<LoginScreen> {
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
+                                          const Padding(
+                                            padding: EdgeInsets.only(
                                                 left: 100,
                                                 top: 5,
                                                 right: 100,

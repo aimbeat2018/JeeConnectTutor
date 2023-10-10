@@ -5,6 +5,8 @@ const BASE_URL =
     'https://jeeconnect.com/jeeconnectadmin/'; // Example: const BASE_URL = 'http://192.168.0.119/academy-demo';
 
 // list of colors that we use in our app
+
+const kPrimaryColor = Color(0xFF366cc6);
 const kBackgroundColor = Color(0xFFFEF2E3);
 const kComplimentaryBackgroundColor = Color(0xFF7BA4FF);
 const kDarkButtonBg = Color(0xFF273546);

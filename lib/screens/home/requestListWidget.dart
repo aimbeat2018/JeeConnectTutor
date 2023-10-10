@@ -18,6 +18,184 @@ class _RequestListWidgetState extends State<RequestListWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                              padding: const EdgeInsets.all(2),
+                              child: Card(
+                                color: Colors.white,
+                                elevation: 10,
+                                child: ListTile(
+                                  onTap: (){
+                                    // Navigator.of(context).push(MaterialPageRoute(
+                                    //   builder: (context) => const TodaysSessionScreen(),
+                                    // ));
+
+                                  },
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Tutor Name',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                              Text(
+                                                widget.model.studentName!,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Subject',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                              Text(
+                                                widget.model.courseName!,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Session Date',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                              Text(
+                                                widget.model.date!,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Session Time',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                              Text(
+                                                widget.model.time!,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.all(2.0),
+                                        //   child: Row(
+                                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        //     children: [
+                                        //       Text(
+                                        //         'Session No',
+                                        //         textAlign: TextAlign.left,
+                                        //         style: TextStyle(
+                                        //             color: Colors.blue,
+                                        //             fontSize: 14,
+                                        //             fontWeight: FontWeight.normal),
+                                        //       ),
+                                        //       Text(
+                                        //         '35',
+                                        //         textAlign: TextAlign.right,
+                                        //         style: TextStyle(
+                                        //             color: Colors.blue,
+                                        //             fontSize: 14,
+                                        //             fontWeight: FontWeight.normal),
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Session Type',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                              Text(
+                                                'Online',
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                ),
+                              )),
+                        ],
+                      ),
+                    );
+
+
+
+    /*Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,6 +358,6 @@ class _RequestListWidgetState extends State<RequestListWidget> {
           )
         ],
       ),
-    );
+    );*/
   }
 }

@@ -14,16 +14,16 @@ import '../../constant/app_constants.dart';
 import '../../constant/internetConnectivity.dart';
 import '../../constant/no_internet_screen.dart';
 
-class CompletedScreen extends StatefulWidget {
-  static const String name = 'home';
+class CompletedSessionsScreen extends StatefulWidget {
+  static const String name = 'completedSessionsScreen';
 
-  const CompletedScreen({super.key});
+  const CompletedSessionsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => CompletedScreenState();
+  State<StatefulWidget> createState() => CompletedSessionsScreenState();
 }
 
-class CompletedScreenState extends State<CompletedScreen>
+class CompletedSessionsScreenState extends State<CompletedSessionsScreen>
     with TickerProviderStateMixin {
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -55,7 +55,15 @@ class CompletedScreenState extends State<CompletedScreen>
         : GetBuilder<RequestController>(builder: (requestController) {
             return Scaffold(
               key: _scaffoldKey,
-              backgroundColor: kBackgroundColor,
+              backgroundColor: kBackgroundColor,  appBar: AppBar(
+              backgroundColor: kYellowColor,
+              centerTitle: true,
+              title: Text(
+                'History',
+                style: const TextStyle(
+                    color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+              ),
+            ),
               body: SafeArea(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -66,7 +74,7 @@ class CompletedScreenState extends State<CompletedScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          TextFormField(
+                          /*TextFormField(
                             controller: searchController,
                             style: const TextStyle(fontSize: 14),
                             decoration: const InputDecoration(
@@ -97,7 +105,7 @@ class CompletedScreenState extends State<CompletedScreen>
                           ),
                           SizedBox(
                             height: 20,
-                          ),
+                          ),*/
                           requestController.isLoading
                               ? Center(
                                   child: CircularProgressIndicator(),

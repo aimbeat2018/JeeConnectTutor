@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
-import 'package:jeeconnecttutor/screens/home/acceptListScreen.dart';
-import 'package:jeeconnecttutor/screens/home/completedScreen.dart';
 import 'package:jeeconnecttutor/screens/home/homeScreen.dart';
+import 'package:jeeconnecttutor/screens/schedule/acceptedSessionsListingScreen.dart';
+import 'package:moony_nav_bar/moony_nav_bar.dart';
 
-import '../../constant/route_helper.dart';
-import '../../controllers/authController.dart';
+import '../userAuth/profileScreen.dart';
 
 void main() {
   runApp(MainScreen());
@@ -20,6 +19,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  final Widget _screen1 = HomeScreen();
+  final Widget _screen2 = const AcceptedSessionsListingScreen();
+  final Widget _screen3 = HomeScreen();
+  final Widget _screen4 = const ProfileScreen();
+  int selectedIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -27,106 +33,77 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
+    return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: kYellowColor,
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-          bottom: const TabBar(
-            indicatorColor: Colors.white,
-            tabs: [
-              Tab(
-                text: 'Pending',
-              ),
-              Tab(
-                text: 'Accepted',
-              ),
-              Tab(
-                text: 'Completed',
-              ),
-            ],
-          ),
-          title: Text(
-            'Jeeconnect'.toUpperCase(),
-            style: const TextStyle(
-                color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0.0),
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed(RouteHelper.getProfileScreenRoute());
-                },
-                child: const Icon(
-                  Icons.person,
-                  // size: 20,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: InkWell(
-                onTap: () {
-                  showDialog(
-                      builder: (ctxt) {
-                        return AlertDialog(
-                          title: const Text(
-                            'Logout',
-                            style: TextStyle(color: kYellowColor),
-                          ),
-                          content: const Text('Do you Really want to logout?'),
-                          actions: [
-                            // The "Yes" button
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(ctxt).pop();
-                                },
-                                child: const Text(
-                                  'Cancel',
-                                  style: TextStyle(
-                                      color: kYellowColor,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                            TextButton(
-                                onPressed: () {
-                                  // Close the dialog
-                                  Navigator.of(ctxt).pop();
-                                  Get.find<AuthController>().clearSharedData();
-
-                                  Get.offAllNamed(RouteHelper.getLoginRoute());
-                                },
-                                child: const Text(
-                                  'Logout',
-                                  style: TextStyle(
-                                      color: kYellowColor,
-                                      fontWeight: FontWeight.bold),
-                                ))
-                          ],
-                        );
-                      },
-                      context: context);
-                },
-                child: const Icon(
-                  Icons.logout,
-                  // size: 20,
-                ),
-              ),
-            ),
-          ],
-        ),
         backgroundColor: kBackgroundColor,
-        body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            HomeScreen(),
-            const AcceptListScreen(),
-            const CompletedScreen(),
+        body: getBody(),
+        bottomNavigationBar:   MoonyNavigationBar(
+          items: <NavigationBarItem>[
+            NavigationBarItem(
+                icon: Icons.home_outlined,
+                activeIcon: Icons.home_rounded,
+                color: Colors.white,
+                indicatorColor: Colors.white,
+                onTap: () {
+                  onTapHandler(0);
+                }),
+            NavigationBarItem(
+                icon: Icons.calendar_month_outlined,
+                activeIcon: Icons.calendar_month,
+                color: Colors.white,
+                indicatorColor: Colors.white,
+                onTap: () {
+                  onTapHandler(1);
+                }),
+            NavigationBarItem(
+                icon: Icons.chat_outlined,
+                activeIcon: Icons.chat,
+                color: Colors.white,
+                indicatorColor: Colors.white,
+                onTap: () {
+                  onTapHandler(2);
+                }),
+            NavigationBarItem(
+                icon: Icons.person_outline,
+                activeIcon: Icons.person,
+                color: Colors.white,
+                indicatorColor: Colors.white,
+                onTap: () {
+                  onTapHandler(3);
+                })
           ],
+          style: MoonyNavStyle(
+            activeColor: Colors.white,
+            indicatorPosition: IndicatorPosition.BOTTOM,
+            indicatorType: IndicatorType.LINE,
+            backgroundColor: kYellowColor,
+            indicatorColor: kComplimentaryBackgroundColor,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+          ),
         ),
       ),
     );
+  }
+
+
+  Widget getBody() {
+    if (this.selectedIndex == 0) {
+      return this._screen1;
+    } else if (this.selectedIndex == 1) {
+      return this._screen2;
+    } else if (this.selectedIndex == 2) {
+      return this._screen3;
+    } else {
+      return this._screen4;
+    }
+  }
+
+  void onTapHandler(int index) {
+    this.setState(() {
+      this.selectedIndex = index;
+    });
   }
 }

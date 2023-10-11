@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/controllers/courseController.dart';
+import 'package:jeeconnecttutor/controllers/paymentController.dart';
 import 'package:jeeconnecttutor/controllers/requestController.dart';
 import 'package:jeeconnecttutor/repository/courseRepo.dart';
+import 'package:jeeconnecttutor/repository/paymentRepo.dart';
 import 'package:jeeconnecttutor/repository/requestRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +27,8 @@ Future<void> init() async {
       () => CourseRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   Get.lazyPut(
       () => RequestRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
+ Get.lazyPut(
+      () => PaymentRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   // Get.lazyPut(() =>
   //     AttendanceRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   // Get.lazyPut(
@@ -41,6 +45,7 @@ Future<void> init() async {
   // // Controller
   Get.lazyPut(() => AuthController(authRepo: Get.find()));
   Get.lazyPut(() => CourseController(courseRepo: Get.find()));
+  Get.lazyPut(() => PaymentController(paymentRepo: Get.find()));
   Get.lazyPut(() => RequestController(requestRepo: Get.find()));
   // Get.lazyPut(() => AttendanceController(attendanceRepo: Get.find()));
   // Get.lazyPut(() => SalonController(salonRepo: Get.find()));

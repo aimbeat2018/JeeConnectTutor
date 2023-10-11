@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:jeeconnecttutor/constant/app_constants.dart';
+import 'package:jeeconnecttutor/model/commonResponseModel.dart';
 import 'package:jeeconnecttutor/model/otpModel.dart';
 import 'package:jeeconnecttutor/model/profileViewModel.dart';
 import 'package:jeeconnecttutor/model/registerModel.dart';
@@ -34,12 +35,12 @@ class AuthController extends GetxController implements GetxService {
   bool get isLoading => _isLoading!;
 
   Future<LoginModel?> loginUser(
-      {String? phone, String? password, String? deviceToken}) async {
+      {String? phone, String? password,  String? role, String? deviceToken}) async {
     _isLoading = true;
     update();
 
     var url =
-        '${AppConstants.baseUrl}${AppConstants.login}?email=${phone!}&password=${password!}';
+        '${AppConstants.baseUrl}${AppConstants.login}?email=${phone!}&password=${password!}&role=${role!}';
 
     try {
       final response = await http.get(
@@ -151,6 +152,32 @@ class AuthController extends GetxController implements GetxService {
     return updateProfileResponseModel;
   }
 
+  Future<String> changePassword(
+      CommonResponseModel model, String userId, String token) async {
+    _isLoading = true;
+
+    Response response = await authRepo.updatePassword(model);
+
+
+
+
+    if (response.statusCode == 200) {
+      if (response.body['status'] == 200) {
+        updateProfileResponseModel =
+            UpdateProfileResponseModel.fromJson(response.body);
+        authRepo.saveUserToken(token);
+        authRepo.saveUserId(userId);
+      } else {
+        updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
+      }
+    } else {
+      updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
+    }
+    _isLoading = false;
+    update();
+    return updateProfileResponseModel;
+  }
+
   Future<ProfileViewModel?> getProfile(String token) async {
     _isLoading = true;
     // update();
@@ -182,6 +209,8 @@ class AuthController extends GetxController implements GetxService {
     update();
     return profileViewModel;
   }
+
+
 
   bool isLoggedIn() {
     return authRepo.isLoggedIn();

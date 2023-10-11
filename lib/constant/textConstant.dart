@@ -16,6 +16,7 @@ class TextConstant {
   static String selectNearbyAreaKm = "Select Nearby Area Km 2-5";
   static String noc = "NOC";
   static String aadhaarCard = "Aadhaar Card";
+  static String changepassword = "Change password";
   static String panNO = "Pan No";
   static String enterChargePerHour = "Enter charges per hour";
   static String bankName = "Bank Name";

@@ -8,6 +8,7 @@ class AppConstants {
   static const String categoryWiseCourse = 'category_wise_course';
   static const String subCategoryWiseCourse = 'sub_category_wise_course';
   static const String updateProfile = 'update_instructor_profile';
+  static const String updatePassword = 'forgot_password';
   static const String getProfile = 'instructor_profile';
   static const String instructorRequestList = 'instructor_course_list';
   static const String instructorAcceptedRequestList = 'accept_session_list';
@@ -53,6 +54,8 @@ class AppConstants {
   static const String getEmployeeCampaignList = 'get/employee/campaign/list';
   static const String getEmployeeCampaignResponse = 'get/campaign/answers/list';
   static const String getEmployeeList = 'get/employee/team/members';
+  static const String instructorSessionsCompleteCount = 'instructor_complete_count';
+  static const String requestPayment = 'request_payment';
 
   // Shared Key
   static const String token = 'token';

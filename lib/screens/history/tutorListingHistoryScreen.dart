@@ -114,7 +114,7 @@ class TutorListingScreenState extends State<TutorListingScreen>
                                                                      fontWeight: FontWeight.normal),
                                                                ),
                                                                Text(
-                                                                 'Pranjal Deshmukh',
+                                                                 '',
                                                                  textAlign: TextAlign.left,
                                                                  style: TextStyle(
                                                                      color: Colors.blue,

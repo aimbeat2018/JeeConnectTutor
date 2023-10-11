@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
 import '../constant/app_constants.dart';
+import '../model/commonResponseModel.dart';
 
 class AuthRepo {
   final ApiClient apiClient;
@@ -48,6 +49,10 @@ class AuthRepo {
   Future<Response> updateProfile(UpdateProfileModel? model) async {
     return await apiClient.postBodyData(
         AppConstants.updateProfile, jsonEncode(model!.toJson()));
+  }
+  Future<Response> updatePassword(CommonResponseModel? model) async {
+    return await apiClient.postBodyData(
+        AppConstants.updatePassword, jsonEncode(model!.toJson()));
   }
 
   Future<Response> resetPassword({String? phone, String? password}) async {

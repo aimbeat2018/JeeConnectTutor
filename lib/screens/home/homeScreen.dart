@@ -226,9 +226,16 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             icon: Icons.school,
             label: 'Your Course',
           ),
-          const SidebarXItem(
+           SidebarXItem(
             icon: Icons.currency_rupee,
             label: 'Payment',
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(
+                builder: (context) =>
+                const PaymentScreen(),
+              ));
+            },
           ),
           const SidebarXItem(
             icon: Icons.lock,

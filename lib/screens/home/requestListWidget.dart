@@ -44,7 +44,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Tutor Name',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
@@ -55,7 +55,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                               Text(
                                                 widget.model.studentName!,
                                                 textAlign: TextAlign.left,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.blue,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.normal),
@@ -68,7 +68,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Subject',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
@@ -79,7 +79,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                               Text(
                                                 widget.model.courseName!,
                                                 textAlign: TextAlign.left,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.blue,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.normal),
@@ -92,7 +92,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Session Date',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
@@ -103,7 +103,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                               Text(
                                                 widget.model.date!,
                                                 textAlign: TextAlign.left,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.blue,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.normal),
@@ -116,7 +116,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Session Time',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
@@ -127,7 +127,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                               Text(
                                                 widget.model.time!,
                                                 textAlign: TextAlign.left,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.blue,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.normal),
@@ -159,8 +159,8 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                         //     ],
                                         //   ),
                                         // ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(1.0),
+                                        const Padding(
+                                          padding: EdgeInsets.all(1.0),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [

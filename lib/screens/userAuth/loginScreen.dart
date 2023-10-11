@@ -329,6 +329,7 @@ class LoginScreenState extends State<LoginScreen> {
         .loginUser(
             phone: mobile,
             password: password,
+            role: "student",
             deviceToken: await FirebaseMessaging.instance.getToken())
         .then((model) async {
       if (model!.validity == 1) {

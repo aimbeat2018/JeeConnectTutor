@@ -47,6 +47,7 @@ class TextConstant {
   static String your_course = "Your Course";
   static String payment = "Payment";
   static String refer_earn = "Refer & Earn";
+  static String referralCode = "Referral Code";
   static String help = "Help";
   static String logout = "LogOut";
   static String categories = "CATEGORIES";

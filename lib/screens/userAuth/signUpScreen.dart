@@ -31,6 +31,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _pincodeController = TextEditingController();
+  final _refferalCodeController = TextEditingController();
 
   String _connectionStatus = 'unKnown';
   final Connectivity _connectivity = Connectivity();
@@ -430,6 +431,43 @@ class SignUpScreenState extends State<SignUpScreen> {
                                         const SizedBox(
                                           height: 20,
                                         ),
+                                        TextFormField(
+                                          controller: _refferalCodeController,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                              borderSide: const BorderSide(
+                                                color: kYellowColor,
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                              borderSide: const BorderSide(
+                                                color: kRedColor,
+                                                // width: 1.0,
+                                              ),
+                                            ),
+                                            border: const OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20))),
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    top: 12,
+                                                    bottom: 12,
+                                                    left: 15),
+                                            labelText: TextConstant.referralCode,
+                                            labelStyle: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!
+                                                .copyWith(color: Colors.black),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
                                         authController.isLoading
                                             ? const Center(
                                                 child:
@@ -476,7 +514,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                           .text.length !=
                                                       6) {
                                                     showCustomSnackBar(
-                                                        ("Enter valid pincode"));
+                                                        ("Enter valid pin code"));
                                                   } else {
                                                     sendOtp(authController);
                                                   }
@@ -527,14 +565,27 @@ class SignUpScreenState extends State<SignUpScreen> {
         .sendRegisterOtp(phone: _mobileController.text)
         .then((model) async {
       if (model!.status == 200) {
-        Get.toNamed(RouteHelper.getOtpScreenRoute(
-            _nameController.text,
-            _emailController.text,
-            _mobileController.text,
-            _passwordController.text,
-            _confirmPasswordController.text,
-            _pincodeController.text,
-            model.otp.toString()));
+        if(_refferalCodeController.text.isEmpty) {
+          Get.toNamed(RouteHelper.getOtpScreenRoute(
+              _nameController.text,
+              _emailController.text,
+              _mobileController.text,
+              _passwordController.text,
+              _confirmPasswordController.text,
+              _pincodeController.text,
+              model.otp.toString(),
+              ""));
+        }else if(_refferalCodeController.text.isNotEmpty||_refferalCodeController.text.trim()=="") {
+          Get.toNamed(RouteHelper.getOtpScreenRoute(
+              _nameController.text,
+              _emailController.text,
+              _mobileController.text,
+              _passwordController.text,
+              _confirmPasswordController.text,
+              _pincodeController.text,
+              model.otp.toString(),
+              _refferalCodeController.text));
+        }
       } else {
         showCustomSnackBar('Mobile number already exists');
       }

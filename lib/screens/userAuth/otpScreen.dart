@@ -29,6 +29,7 @@ class OtpScreen extends StatefulWidget {
   final String? confirmPassword;
   final String? pincode;
   final String? otp;
+  final String? refferalCode;
 
   const OtpScreen(
       {super.key,
@@ -38,7 +39,8 @@ class OtpScreen extends StatefulWidget {
       this.password,
       this.confirmPassword,
       this.pincode,
-      this.otp});
+      this.otp,
+      this.refferalCode});
 
   @override
   State<StatefulWidget> createState() => OtpScreenState();
@@ -245,6 +247,7 @@ class OtpScreenState extends State<OtpScreen> {
   }
 
   void registerUser(AuthController authController) {
+
     authController
         .registerUser(
             name: widget.name,
@@ -252,7 +255,8 @@ class OtpScreenState extends State<OtpScreen> {
             email: widget.email,
             password: widget.password,
             confirmPassword: widget.confirmPassword,
-            phone: widget.phone)
+            phone: widget.phone,
+            referralCode: widget.refferalCode)
         .then((model) async {
       if (model!.status == 200) {
         showCustomSnackBar('Registration successful', isError: false);

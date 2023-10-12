@@ -10,6 +10,9 @@ class AppConstants {
   static const String updateProfile = 'update_instructor_profile';
   static const String updatePassword = 'forgot_password';
   static const String getProfile = 'instructor_profile';
+  static const String banner = 'banner';
+  static const String dynamic_cantent = 'dynamic_cantent';
+  static const String logout = 'logout';
   static const String instructorRequestList = 'instructor_course_list';
   static const String instructorAcceptedRequestList = 'accept_session_list';
   static const String instructorCompletedRequestList = 'complete_session_list';
@@ -61,7 +64,13 @@ class AppConstants {
   static const String token = 'token';
   static const String topic = 'topic';
   static const String userId = 'userId';
+  static const String userUniqueId = 'userUniqueId';
+  static const String userImage = 'userImage';
+  static const String referral_code = 'referral_code';
+  static const String referral_stud = 'referral_stud';
+  static const String userName = 'userName';
   static const String userRole = 'userRole';
+  static const String userMobile = 'userMobile';
   static const String CART_LIST = 'cart_list';
 
   static String connectivityCheck = "ConnectivityResult.none";

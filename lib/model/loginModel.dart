@@ -6,6 +6,9 @@ class LoginModel {
   String? uniqueCode;
   String? role;
   String? profileUpdated;
+  String? referral_code;
+  String? referral_stud;
+  String? image;
   int? validity;
   String? token;
 
@@ -17,6 +20,9 @@ class LoginModel {
       this.profileUpdated,
       this.uniqueCode,
       this.role,
+      this.referral_code,
+      this.referral_stud,
+      this.image,
       this.validity,
       this.token});
 
@@ -29,6 +35,9 @@ class LoginModel {
     uniqueCode = json['unique_code'];
     role = json['role'];
     validity = json['validity'];
+    referral_code = json['referral_code'];
+    referral_stud = json['referral_stud'];
+    image = json['image'];
     token = json['token'];
   }
 
@@ -42,6 +51,9 @@ class LoginModel {
     data['unique_code'] = uniqueCode;
     data['role'] = role;
     data['validity'] = validity;
+    data['referral_code'] = referral_code;
+    data['referral_stud'] = referral_stud;
+    data['image'] = image;
     data['token'] = token;
     return data;
   }

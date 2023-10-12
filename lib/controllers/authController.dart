@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:jeeconnecttutor/constant/app_constants.dart';
+import 'package:jeeconnecttutor/model/commonAuthTokenRequestModel.dart';
 import 'package:jeeconnecttutor/model/commonResponseModel.dart';
 import 'package:jeeconnecttutor/model/otpModel.dart';
 import 'package:jeeconnecttutor/model/profileViewModel.dart';
@@ -11,6 +13,7 @@ import 'package:jeeconnecttutor/model/updateProfileModel.dart';
 import 'package:jeeconnecttutor/model/updateProfileResponseModel.dart';
 
 import '../model/loginModel.dart';
+import '../model/termsPrivacyHelpDynamicContentResponseModel.dart';
 import '../repository/authRepo.dart';
 
 class AuthController extends GetxController implements GetxService {
@@ -25,6 +28,11 @@ class AuthController extends GetxController implements GetxService {
   ProfileViewModel? profileViewModel;
 
   UpdateProfileResponseModel? updateProfileResponseModel;
+  CommonResponseModel? commonResponseModel;
+  TermsPrivacyHelpDynamicContentResponseModel?
+      termsPrivacyHelpDynamicContentResponseModel;
+
+  List bannerList = [];
 
   OtpModel? otpModel;
 
@@ -35,7 +43,10 @@ class AuthController extends GetxController implements GetxService {
   bool get isLoading => _isLoading!;
 
   Future<LoginModel?> loginUser(
-      {String? phone, String? password,  String? role, String? deviceToken}) async {
+      {String? phone,
+      String? password,
+      String? role,
+      String? deviceToken}) async {
     _isLoading = true;
     update();
 
@@ -53,6 +64,14 @@ class AuthController extends GetxController implements GetxService {
 
       if (responseData['validity'] == 1) {
         loginModel = LoginModel.fromJson(json.decode(response.body));
+
+        authRepo.saveUserMobile(loginModel!.phone!);
+        authRepo.saveUserName(loginModel!.name!);
+        authRepo.saveUserImage(loginModel!.image!);
+        authRepo.savereferral_code(loginModel!.referral_code!);
+        authRepo.savereferral_stud(loginModel!.referral_stud!);
+        authRepo.saveUserUniqueId(loginModel!.uniqueCode!);
+
         // if (loginModel!.profileUpdated == "3") {
         //   authRepo.saveUserToken(loginModel!.token!);
         //   authRepo.saveUserId(loginModel!.userId!.toString());
@@ -81,7 +100,8 @@ class AuthController extends GetxController implements GetxService {
       String? password,
       String? confirmPassword,
       String? pincode,
-      String? deviceToken}) async {
+      String? deviceToken,
+      String? referralCode}) async {
     _isLoading = true;
     update();
 
@@ -92,11 +112,14 @@ class AuthController extends GetxController implements GetxService {
         password: password,
         confirmPassword: confirmPassword,
         pincode: pincode,
-        deviceToken: deviceToken);
+        deviceToken: deviceToken,
+        referralCode: referralCode);
 
     if (response.statusCode == 200) {
       if (response.body['status'] == 200) {
         registerModel = RegisterModel.fromJson(response.body);
+
+        authRepo.saveUserMobile(registerModel!.data!.phone!);
       } else {
         registerModel = RegisterModel(status: 403);
       }
@@ -152,21 +175,16 @@ class AuthController extends GetxController implements GetxService {
     return updateProfileResponseModel;
   }
 
-  Future<String> changePassword(
-      CommonResponseModel model, String userId, String token) async {
+  Future<UpdateProfileResponseModel?> changePassword(
+      String mobile, String password) async {
     _isLoading = true;
 
-    Response response = await authRepo.updatePassword(model);
-
-
-
+    Response response = await authRepo.updatePassword(mobile, password);
 
     if (response.statusCode == 200) {
       if (response.body['status'] == 200) {
         updateProfileResponseModel =
             UpdateProfileResponseModel.fromJson(response.body);
-        authRepo.saveUserToken(token);
-        authRepo.saveUserId(userId);
       } else {
         updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
       }
@@ -210,8 +228,77 @@ class AuthController extends GetxController implements GetxService {
     return profileViewModel;
   }
 
+  Future<List> getBanners() async {
+    String? token = authRepo.getUserToken();
+    var url = '${AppConstants.baseUrl}${AppConstants.banner}?auth_token=$token';
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      );
+      final responseData = json.decode(response.body);
 
+      if (responseData == 'Unauthorized') {
+        throw const HttpException('Auth Failed');
+      }
 
+      bannerList = json.decode(response.body);
+
+      return bannerList;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<TermsPrivacyHelpDynamicContentResponseModel?> dynamicContent() async {
+    var url = '${AppConstants.baseUrl}${AppConstants.dynamic_cantent}';
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      );
+        termsPrivacyHelpDynamicContentResponseModel =
+            TermsPrivacyHelpDynamicContentResponseModel.fromJson(
+                json.decode(response.body));
+      _isLoading = false;
+      return termsPrivacyHelpDynamicContentResponseModel;
+    } catch (error) {
+      termsPrivacyHelpDynamicContentResponseModel;
+      rethrow;
+    }
+  }
+
+  Future<CommonResponseModel?> logoutUser() async {
+    _isLoading = true;
+    CommonAuthTokenRequestModel authRequestModel= CommonAuthTokenRequestModel();
+    authRequestModel.authToken=authRepo.getUserToken();;
+
+    var url = '${AppConstants.baseUrl}${AppConstants.logout}';
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: jsonEncode(authRequestModel.toJson()),
+      );
+
+      if (response.statusCode == 200) {
+        commonResponseModel =
+            CommonResponseModel.fromJson(json.decode(response.body));
+      }
+
+      _isLoading = false;
+      return commonResponseModel;
+    } catch (error) {
+      commonResponseModel;
+      rethrow;
+    }
+  }
   bool isLoggedIn() {
     return authRepo.isLoggedIn();
   }
@@ -222,6 +309,22 @@ class AuthController extends GetxController implements GetxService {
 
   String getUserToken() {
     return authRepo.getUserToken();
+  }
+
+  String getUserUniqueId() {
+    return authRepo.getUserUniqueId();
+  }
+
+  String getUserImage() {
+    return authRepo.getUserImage();
+  }
+
+  String getUserName() {
+    return authRepo.getUserName();
+  }
+
+  String getUserMobile() {
+    return authRepo.getUserMobile();
   }
 
   bool clearSharedData() {

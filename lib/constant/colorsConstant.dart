@@ -14,6 +14,7 @@ const kSecondaryColor = Color(0xFF808080);
 const kSelectItemColor = Color(0xFF000000);
 const kRedColor = Color(0xFF303293);
 const kYellowColor = Color(0xFFFDB209);
+const kYellowDimColor = Color(0xFFB6AFA7);
 const kBlueColor = Color(0xFF68B0FF);
 const kGreenColor = Color(0xFF43CB65);
 const kGreenPurchaseColor = Color(0xFF2BD0A8);

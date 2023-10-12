@@ -1,24 +1,28 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
+import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
+import 'package:jeeconnecttutor/model/commonResponseModel.dart';
 import 'package:jeeconnecttutor/screens/courses/categoriesListingScreen.dart';
 import 'package:jeeconnecttutor/screens/history/tutorListingHistoryScreen.dart';
+import 'package:jeeconnecttutor/screens/other/termsAndConditionScreen.dart';
 import 'package:jeeconnecttutor/screens/payment/paymentScreen.dart';
 import 'package:jeeconnecttutor/screens/schedule/acceptedSessionsListingScreen.dart';
 import 'package:jeeconnecttutor/screens/sessions/sessionRequestsScreen.dart';
+import 'package:jeeconnecttutor/screens/userAuth/updatePasswordScreen.dart';
 import 'package:sidebarx/sidebarx.dart';
 
+import '../../constant/internetConnectivity.dart';
+import '../../controllers/authController.dart';
+import '../other/HelpScreen.dart';
 import '../userAuth/profileScreen.dart';
 import 'completedScreen.dart';
 
-final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-];
+final List<String> imgList = [];
 
 const primaryColor = kStarColor;
 const canvasColor = kLiveClassColor;
@@ -38,33 +42,6 @@ final List<Widget> imageSliders = imgList
                 child: Stack(
                   children: <Widget>[
                     Image.network(item, fit: BoxFit.cover, width: 1000.0),
-                    // Positioned(
-                    //   bottom: 0.0,
-                    //   left: 0.0,
-                    //   right: 0.0,
-                    //   child: Container(
-                    //     decoration: BoxDecoration(
-                    //       gradient: LinearGradient(
-                    //         colors: [
-                    //           Color.fromARGB(200, 0, 0, 0),
-                    //           Color.fromARGB(0, 0, 0, 0)
-                    //         ],
-                    //         begin: Alignment.bottomCenter,
-                    //         end: Alignment.topCenter,
-                    //       ),
-                    //     ),
-                    //     padding: EdgeInsets.symmetric(
-                    //         vertical: 10.0, horizontal: 20.0),
-                    //     child: Text(
-                    //       'No. ${imgList.indexOf(item)} image',
-                    //       style: TextStyle(
-                    //         color: Colors.white,
-                    //         fontSize: 14.0,
-                    //         fontWeight: FontWeight.bold,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 )),
           ),
@@ -83,13 +60,28 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
+  CommonResponseModel? commonResponseModel;
   String username = "";
   final TextEditingController _textSearchEditingController =
       TextEditingController();
 
+  String _connectionStatus = 'unKnown';
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   @override
   void initState() {
     super.initState();
+    CheckInternet.initConnectivity().then((value) => setState(() {
+          _connectionStatus = value;
+        }));
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      CheckInternet.updateConnectionStatus(result).then((value) => setState(() {
+            _connectionStatus = value;
+          }));
+    });
+    getBanners();
   }
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
@@ -152,6 +144,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
+                  Navigator.pop(context);
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const ProfileScreen(),
                   ));
@@ -185,18 +178,18 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: Column(
                           children: [
                             Text(
-                              username,
+                        Get.find<AuthController>().getUserName(),
                               textAlign: TextAlign.left,
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(
-                                  top: 8.0, right: 2, left: 12),
+                             Padding(
+                              padding:
+                                  EdgeInsets.only(top: 8.0, right: 2, left: 12),
                               child: Text(
-                                'User Id - Pranjal2002',
+                                'User Id - ${Get.find<AuthController>().getUserUniqueId()}',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -219,39 +212,80 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             icon: Icons.home,
             label: 'Home',
             onTap: () {
-              debugPrint('Home');
+              Navigator.pop(context);
             },
           ),
-          const SidebarXItem(
-            icon: Icons.school,
-            label: 'Your Course',
-          ),
-           SidebarXItem(
+          // const SidebarXItem(
+          //   icon: Icons.school,
+          //   label: 'Your Course',
+          // ),
+          SidebarXItem(
             icon: Icons.currency_rupee,
             label: 'Payment',
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(
-                builder: (context) =>
-                const PaymentScreen(),
+              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const PaymentScreen(),
               ));
             },
           ),
-          const SidebarXItem(
+          SidebarXItem(
             icon: Icons.lock,
             label: 'Change Password',
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const UpdatePasswordScreen(),
+              ));
+            },
           ),
-          const SidebarXItem(
+          SidebarXItem(
             icon: Icons.money,
             label: 'Refer & Earn',
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
-          const SidebarXItem(
+          SidebarXItem(
             icon: Icons.help,
             label: 'Help',
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HelpScreen(),
+                  ));
+            },
           ),
-          const SidebarXItem(
+          SidebarXItem(
             icon: Icons.power_settings_new_outlined,
             label: 'Logout',
+            onTap: () {
+              Navigator.pop(context);
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Logout'),
+                  content: const Text('Do you really like to logout?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        logout();
+                        Get.find<AuthController>().clearSharedData();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -266,7 +300,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           },
         ),
         title: Text(
-          'Hello, ' + username + '',
+          'Hello, ' + Get.find<AuthController>().getUserName() + '',
           style: const TextStyle(
               color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
         ),
@@ -286,76 +320,69 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   value: 'scheduleContent',
                   child: Text(
                     'Schedule Content',
-                    style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'testPapers',
                   child: Text(
                     'Test Papers',
-                    style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'history',
                   child: Text(
                     'History',
-                    style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'Terms&Conditions',
                   child: Text(
                     'Terms & Conditions',
-                    style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 )
               ];
             },
             color: Colors.white,
             onSelected: (String value) async {
-              /* if (value == "extraSessions") {
               if (value == "scheduleContent") {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ExtraSessionsScreen(),
-                      builder: (context) => ScheduleListingScreen(),
-                    ));
-              } else if (value == "testPapers") {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => TutorListingScreen(),
-                //     ));
-              } else if (value == "history") {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TutorListingScreen(),
-                    ));
-              } else if (value == "scheduleContent") {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TodaysSessionScreen(),
-                  builder: (context) => TutorListingScreen(),
+                  builder: (context) => const AcceptedSessionsListingScreen(),
                 ));
-              } else if (value == "uploadYourTestPaper") {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => ScheduleListingScreen(),
-                // ));
-              } else if (value == "newUpdate") {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => ScheduleListingScreen(),
-                // ));
-              } else if (value == "Terms&Conditions") {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => ScheduleListingScreen(),
-                // ));
-              }*/
+              }
+              /*else if (value == "testPapers") {
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => TutorListingScreen(),
+    //     ));
+    } */
+              else if (value == "history") {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CompletedSessionsScreen(),
+                ));
+              }
+              /*else if (value == "scheduleContent") {
+    Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => TodaysSessionScreen(),
+    builder: (context) => TutorListingScreen(),
+    ));
+    } else if (value == "uploadYourTestPaper") {
+    // Navigator.of(context).push(MaterialPageRoute(
+    //   builder: (context) => ScheduleListingScreen(),
+    // ));
+    } else if (value == "newUpdate") {
+    // Navigator.of(context).push(MaterialPageRoute(
+    //   builder: (context) => ScheduleListingScreen(),
+    // ));*/
+              else if (value == "Terms&Conditions") {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TermsAndConditionScreen(),
+                ));
+              }
               // }
             },
           ),
@@ -373,6 +400,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   CarouselSlider(
                     options: CarouselOptions(
                       aspectRatio: 2.0,
+                      viewportFraction: 0.8,
                       enlargeCenterPage: true,
                       scrollDirection: Axis.horizontal,
                       autoPlay: true,
@@ -428,16 +456,21 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     //   builder: (context) =>
                                     //       const CategoryListingScreen(),
                                     // ));
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CategoryListingScreen(),
-                                    ));
+                                    // Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) =>
+                                    //       const CategoryListingScreen(),
+                                    // ));
                                   },
                                   child: Column(
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -468,16 +501,21 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     //   builder: (context) =>
                                     //       const CategoryListingScreen(),
                                     // ));
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CategoryListingScreen(),
-                                    ));
+                                    // Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) =>
+                                    //       const CategoryListingScreen(),
+                                    // ));
                                   },
                                   child: Column(
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -508,16 +546,21 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     //   builder: (context) =>
                                     //       const CategoryListingScreen(),
                                     // ));
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CategoryListingScreen(),
-                                    ));
+                                    // Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) =>
+                                    //       const CategoryListingScreen(),
+                                    // ));
                                   },
                                   child: Column(
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -556,16 +599,21 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     //   builder: (context) =>
                                     //       const CategoryListingScreen(),
                                     // ));
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CategoryListingScreen(),
-                                    ));
+                                    // Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) =>
+                                    //       const CategoryListingScreen(),
+                                    // ));
                                   },
                                   child: Column(
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -598,16 +646,21 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     //   builder: (context) =>
                                     //       const CategoryListingScreen(),
                                     // ));
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CategoryListingScreen(),
-                                    ));
+                                    // Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) =>
+                                    //       const CategoryListingScreen(),
+                                    // ));
                                   },
                                   child: Column(
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -640,16 +693,21 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     //   builder: (context) =>
                                     //       const CategoryListingScreen(),
                                     // ));
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CategoryListingScreen(),
-                                    ));
+                                    // Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) =>
+                                    //       const CategoryListingScreen(),
+                                    // ));
                                   },
                                   child: Column(
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -687,13 +745,19 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => SessionRequestsScreen(),
+                                      builder: (context) =>
+                                          SessionRequestsScreen(),
                                     ));
                                   },
                                   child: Column(
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -731,6 +795,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -758,11 +827,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //   builder: (context) =>
-                                    //       const TutorListingScreen(),
-                                    // ));
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) =>
@@ -773,6 +837,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -818,6 +887,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          //set border radius more than 50% of height and width to make circle
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
@@ -860,5 +934,22 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  getBanners() async {
+    List bannerData = await Get.find<AuthController>().getBanners();
+
+    for (int i = 0; i < bannerData.length; i++) {
+      imgList.add(bannerData[i]["banner_image"]);
+    }
+  }
+
+  logout() async {
+    commonResponseModel = await Get.find<AuthController>().logoutUser();
+    if (commonResponseModel!.status == 401) {
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (r) => false);
+    } else {
+      showCustomSnackBar('Something went wrong!', isError: true);
+    }
   }
 }

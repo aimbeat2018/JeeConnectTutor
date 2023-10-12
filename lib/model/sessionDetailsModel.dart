@@ -30,7 +30,7 @@ class SessionDetailsModel {
   String? studentAddress;
   String? instructorName;
   String? instructorMobile;
-  Null? instructorLocation;
+  String? instructorLocation;
 
   SessionDetailsModel(
       {this.id,

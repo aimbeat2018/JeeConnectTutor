@@ -9,7 +9,6 @@ import 'package:jeeconnecttutor/model/completedSessionsListResponseModel.dart';
 import 'package:jeeconnecttutor/repository/paymentRepo.dart';
 
 import '../constant/app_constants.dart';
-import '../repository/paymentRepo.dart';
 
 class PaymentController extends GetxController implements GetxService {
   final PaymentRepo paymentRepo;
@@ -65,7 +64,7 @@ class PaymentController extends GetxController implements GetxService {
     data.forEach((element) {
       value.add(CompletedSessionsListResponseModel.fromJson(element));
     });
-    return value ?? List<CompletedSessionsListResponseModel>.empty();
+    return List<CompletedSessionsListResponseModel>.empty();
   }
 
 

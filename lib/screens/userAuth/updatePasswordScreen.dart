@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
@@ -7,9 +9,11 @@ import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
 import 'package:jeeconnecttutor/repository/authRepo.dart';
 import 'package:provider/provider.dart';
 
+import '../../constant/app_constants.dart';
 import '../../constant/globalFunction.dart';
 import '../../constant/textConstant.dart';
 import '../../controllers/authController.dart';
+import '../../model/updateProfileResponseModel.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
   static const String routeName = '/updatePassword';
@@ -23,11 +27,16 @@ class UpdatePasswordScreen extends StatefulWidget {
 class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   GlobalKey<FormState> updatePasswordFormKey = GlobalKey<FormState>();
   bool _isLoading = false;
-
+  UpdateProfileResponseModel? updateProfileResponseModel;
   bool hidePassword = true;
   bool hideReEnterPassword = true;
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  String _connectionStatus = 'unKnown';
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
@@ -212,7 +221,7 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                             .toString() ==
                                             _confirmPasswordController.text
                                                 .toString()) {
-                                          _changePassword(Get.find<AuthController>().getUserToken(),
+                                          _changePassword(Get.find<AuthController>().getUserMobile(),
                                               _passwordController.text);
                                         }else{
                                           GlobalFunctions.showErrorDialog("Both passwords didn't match", context);
@@ -269,32 +278,20 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     return null;
   }
 
-  _changePassword(String? mobile, String password) async {
-    if (updatePasswordFormKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-      try {
-        await Provider.of<AuthController>(context, listen: false)
-            .changePassword(mobile, password);
+  Future<void> _changePassword(String mobile, String password) async {
+    if (_connectionStatus != AppConstants.connectivityCheck) {
+      updateProfileResponseModel= await Get.find<AuthController>()
+          .changePassword(mobile, password);
+      if(updateProfileResponseModel!.status==200){
         Navigator.pop(context);
+
         showCustomSnackBar(
             'Password changed successfully!');
-      } on HttpException {
-        var errorMsg = 'Auth failed';
-        GlobalFunctions.showErrorDialog(errorMsg, context);
-      } catch (error) {
-        print(error);
-        String errorMsg = error.toString();
+      }else{
+        showCustomSnackBar(
+            'Something went wrong!', isError: true);
 
-        GlobalFunctions.showErrorDialog(errorMsg, context);
       }
-      setState(() {
-        _isLoading = false;
-      });
-    } else {
-      GlobalFunctions.showErrorDialog(
-          "Enter valid login credentials!", context);
     }
   }
 }

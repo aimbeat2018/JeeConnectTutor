@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
 import '../constant/app_constants.dart';
-import '../model/commonResponseModel.dart';
 
 class AuthRepo {
   final ApiClient apiClient;
@@ -29,7 +28,8 @@ class AuthRepo {
       String? password,
       String? confirmPassword,
       String? pincode,
-      String? deviceToken}) async {
+      String? deviceToken,
+      String? referralCode}) async {
     return await apiClient.postData(AppConstants.registerInstructor, {
       "name": name,
       "email": email,
@@ -37,6 +37,7 @@ class AuthRepo {
       "password": password,
       "confirm_password": confirmPassword,
       "pincode": pincode,
+      "referral_stud": referralCode
     });
   }
 
@@ -50,9 +51,9 @@ class AuthRepo {
     return await apiClient.postBodyData(
         AppConstants.updateProfile, jsonEncode(model!.toJson()));
   }
-  Future<Response> updatePassword(CommonResponseModel? model) async {
-    return await apiClient.postBodyData(
-        AppConstants.updatePassword, jsonEncode(model!.toJson()));
+  Future<Response> updatePassword(String mobile, String password) async {
+    return await apiClient.postData(
+        AppConstants.updatePassword, {"phone": mobile, "password": password});
   }
 
   Future<Response> resetPassword({String? phone, String? password}) async {
@@ -76,10 +77,8 @@ class AuthRepo {
         // _deviceToken = await FirebaseMessaging.instance.getToken();
       } catch (e) {}
     }
-    if (_deviceToken != null) {
-      print('--------Device Token---------- $_deviceToken');
-    }
-    return _deviceToken;
+    print('--------Device Token---------- $_deviceToken');
+      return _deviceToken;
   }
 
   // for  user token
@@ -93,12 +92,57 @@ class AuthRepo {
     return await sharedPreferences.setString(AppConstants.userRole, role);
   }
 
+  Future<bool> saveUserMobile(String userMobile) async {
+    return await sharedPreferences.setString(AppConstants.userMobile, userMobile);
+  }
+
+  Future<bool> saveUserUniqueId(String userUniqueId) async {
+    return await sharedPreferences.setString(AppConstants.userUniqueId, userUniqueId);
+  }
+
+  Future<bool> saveUserName(String userName) async {
+    return await sharedPreferences.setString(AppConstants.userName, userName);
+  }
+
   Future<bool> saveUserId(String userId) async {
     return await sharedPreferences.setString(AppConstants.userId, userId);
   }
 
+  Future<bool> saveUserImage(String userImage) async {
+    return await sharedPreferences.setString(AppConstants.userImage, userImage);
+  }
+
+  Future<bool> savereferral_code(String referral_code) async {
+    return await sharedPreferences.setString(AppConstants.referral_code, referral_code);
+  }
+
+  Future<bool> savereferral_stud(String referral_stud) async {
+    return await sharedPreferences.setString(AppConstants.referral_stud, referral_stud);
+  }
+
   String getUserToken() {
     return sharedPreferences.getString(AppConstants.token) ?? "";
+  }
+
+  String getUserUniqueId() {
+    return sharedPreferences.getString(AppConstants.userUniqueId) ?? "";
+  }
+
+
+  String getUserImage() {
+    return sharedPreferences.getString(AppConstants.userImage) ?? "";
+  }
+
+  String getreferral_code() {
+    return sharedPreferences.getString(AppConstants.referral_code) ?? "";
+  }
+
+  String getreferral_stud() {
+    return sharedPreferences.getString(AppConstants.referral_stud) ?? "";
+  }
+
+  String getUserName() {
+    return sharedPreferences.getString(AppConstants.userName) ?? "";
   }
 
   String getUserRole() {
@@ -107,6 +151,10 @@ class AuthRepo {
 
   String getUserId() {
     return sharedPreferences.getString(AppConstants.userId) ?? "";
+  }
+
+  String getUserMobile() {
+    return sharedPreferences.getString(AppConstants.userMobile) ?? "";
   }
 
   bool isLoggedIn() {

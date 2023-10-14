@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:jeeconnecttutor/constant/app_constants.dart';
+import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
 import 'package:jeeconnecttutor/model/commonAuthTokenRequestModel.dart';
 import 'package:jeeconnecttutor/model/commonResponseModel.dart';
 import 'package:jeeconnecttutor/model/otpModel.dart';
@@ -100,7 +101,6 @@ class AuthController extends GetxController implements GetxService {
       String? password,
       String? confirmPassword,
       String? pincode,
-      String? deviceToken,
       String? referralCode}) async {
     _isLoading = true;
     update();
@@ -112,8 +112,7 @@ class AuthController extends GetxController implements GetxService {
         password: password,
         confirmPassword: confirmPassword,
         pincode: pincode,
-        deviceToken: deviceToken,
-        referralCode: referralCode);
+        referral_Code: referralCode ?? "");
 
     if (response.statusCode == 200) {
       if (response.body['status'] == 200) {
@@ -140,6 +139,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       if (response.body['status'] == 200) {
         otpModel = OtpModel.fromJson(response.body);
+        showCustomSnackBar("Your otp to proceed - ${otpModel!.otp}", isError: false);
       } else {
         otpModel = OtpModel(status: 403);
       }

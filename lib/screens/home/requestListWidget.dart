@@ -183,6 +183,37 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                             ],
                                           ),
                                         ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            MaterialButton(
+                                              elevation: 0,
+                                              color: kYellowColor,
+                                              onPressed: () {
+                                                Get.toNamed(RouteHelper.getSessionDetailsScreenRoute(
+                                                    widget.model.id!));
+                                              },
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadiusDirectional.circular(10),
+                                                // side: const BorderSide(color: kRedColor),
+                                              ),
+                                              child: const Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'View',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       ],
                                     ),
                                   ),

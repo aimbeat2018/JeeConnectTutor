@@ -24,6 +24,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
   bool hidePassword = true;
+  bool hideConfirmPassword = true;
   bool _isLoading = false;
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -34,6 +35,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   final _refferalCodeController = TextEditingController();
 
   String _connectionStatus = 'unKnown';
+  String _referralcode = "";
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
@@ -289,29 +291,32 @@ class SignUpScreenState extends State<SignUpScreen> {
                                           height: 20,
                                         ),
                                         TextFormField(
-                                          obscureText: true,
                                           controller: _passwordController,
                                           decoration: InputDecoration(
-                                            // suffixIcon: Icon(
-                                            //   Icons.lock,
-                                            //   size: 20,
-                                            //   color:
-                                            //       FocusScope.of(context).isFirstFocus
-                                            //           ? kYellowColor
-                                            //           : kRedColor,
-                                            // ),
+                                            suffixIcon: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  hidePassword = !hidePassword;
+                                                });
+                                              },
+                                              color: kPrimaryColor,
+                                              icon: Icon(hidePassword
+                                                  ? Icons.visibility_off_outlined
+                                                  : Icons.visibility_outlined),
+                                            ),
                                             // hintText: 'What do people call you?',
                                             // isDense: true,
+
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                               borderSide: const BorderSide(
                                                 color: kYellowColor,
                                               ),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                               borderSide: const BorderSide(
                                                 color: kRedColor,
                                                 // width: 1.0,
@@ -320,11 +325,8 @@ class SignUpScreenState extends State<SignUpScreen> {
                                             border: const OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(20))),
-                                            contentPadding:
-                                                const EdgeInsets.only(
-                                                    top: 12,
-                                                    bottom: 12,
-                                                    left: 15),
+                                            contentPadding: const EdgeInsets.only(
+                                                top: 12, bottom: 12, left: 15),
                                             labelText: TextConstant.password,
                                             labelStyle: Theme.of(context)
                                                 .textTheme
@@ -334,42 +336,42 @@ class SignUpScreenState extends State<SignUpScreen> {
                                           onSaved: (String? value) {
                                             // This optional block of code can be used to run
                                             // code when the user saves the form.
-                                          },
-                                          validator: (String? value) {
-                                            return (value != null &&
-                                                    value.contains('@'))
-                                                ? 'Do not use the @ char.'
-                                                : null;
-                                          },
+                                          },validator: (input) => input!.length < 3
+                                            ? "Password should be more than 3 characters"
+                                            : null,
+                                          obscureText: hidePassword,
                                         ),
                                         const SizedBox(
                                           height: 20,
                                         ),
                                         TextFormField(
-                                          obscureText: true,
                                           controller:
                                               _confirmPasswordController,
                                           decoration: InputDecoration(
-                                            // suffixIcon: Icon(
-                                            //   Icons.lock,
-                                            //   size: 20,
-                                            //   color:
-                                            //       FocusScope.of(context).isFirstFocus
-                                            //           ? kYellowColor
-                                            //           : kRedColor,
-                                            // ),
+                                            suffixIcon: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  hideConfirmPassword = !hideConfirmPassword;
+                                                });
+                                              },
+                                              color: kPrimaryColor,
+                                              icon: Icon(hideConfirmPassword
+                                                  ? Icons.visibility_off_outlined
+                                                  : Icons.visibility_outlined),
+                                            ),
                                             // hintText: 'What do people call you?',
                                             // isDense: true,
+
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                               borderSide: const BorderSide(
                                                 color: kYellowColor,
                                               ),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                               borderSide: const BorderSide(
                                                 color: kRedColor,
                                                 // width: 1.0,
@@ -378,18 +380,21 @@ class SignUpScreenState extends State<SignUpScreen> {
                                             border: const OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(20))),
-                                            contentPadding:
-                                                const EdgeInsets.only(
-                                                    top: 12,
-                                                    bottom: 12,
-                                                    left: 15),
-                                            labelText:
-                                                TextConstant.confirmPassword,
+                                            contentPadding: const EdgeInsets.only(
+                                                top: 12, bottom: 12, left: 15),
+                                            labelText: TextConstant.confirmPassword,
                                             labelStyle: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium!
                                                 .copyWith(color: Colors.black),
                                           ),
+                                          onSaved: (String? value) {
+                                            // This optional block of code can be used to run
+                                            // code when the user saves the form.
+                                          },validator: (input) => input!.length < 3
+                                            ? "Password should be more than 3 characters"
+                                            : null,
+                                          obscureText: hideConfirmPassword,
                                         ),
                                         const SizedBox(
                                           height: 20,
@@ -464,6 +469,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                 .titleMedium!
                                                 .copyWith(color: Colors.black),
                                           ),
+                                          onChanged: (value) {
+                                            _referralcode= value;
+                                          },
                                         ),
                                         const SizedBox(
                                           height: 20,
@@ -584,8 +592,9 @@ class SignUpScreenState extends State<SignUpScreen> {
               _confirmPasswordController.text,
               _pincodeController.text,
               model.otp.toString(),
-              _refferalCodeController.text));
+              _referralcode));
         }
+
       } else {
         showCustomSnackBar('Mobile number already exists');
       }

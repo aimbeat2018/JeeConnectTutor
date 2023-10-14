@@ -58,7 +58,7 @@ class HelpScreenState extends State<HelpScreen>
           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: email == "" || email == null || phone == "" || phone == null ||
               address == "" || address == null ?
-          Center(child: const CircularProgressIndicator()) :
+          const Center(child: CircularProgressIndicator()) :
           Card(
             elevation: 10,
             color: CupertinoColors.lightBackgroundGray,
@@ -67,10 +67,10 @@ class HelpScreenState extends State<HelpScreen>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                     child: Text(
                       "Contact number : ${phone!}\n\nEmail Address : ${email!}\n\nAddress : ${address!}",
-                      style: TextStyle(color: Colors.black,
+                      style: const TextStyle(color: Colors.black,
                           fontSize: 15,
                           fontWeight: FontWeight.w400),)
 
@@ -113,6 +113,7 @@ class HelpScreenState extends State<HelpScreen>
     phone = termsPrivacyHelpDynamicContentResponseModel!.phone!;
     email = termsPrivacyHelpDynamicContentResponseModel!.email!;
     address = termsPrivacyHelpDynamicContentResponseModel!.address!;
+    setState(() {    });
   }
 
 }

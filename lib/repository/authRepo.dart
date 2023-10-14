@@ -28,8 +28,7 @@ class AuthRepo {
       String? password,
       String? confirmPassword,
       String? pincode,
-      String? deviceToken,
-      String? referralCode}) async {
+      String? referral_Code}) async {
     return await apiClient.postData(AppConstants.registerInstructor, {
       "name": name,
       "email": email,
@@ -37,7 +36,7 @@ class AuthRepo {
       "password": password,
       "confirm_password": confirmPassword,
       "pincode": pincode,
-      "referral_stud": referralCode
+      "referral_stud": referral_Code
     });
   }
 

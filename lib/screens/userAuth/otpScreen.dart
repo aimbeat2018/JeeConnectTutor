@@ -256,7 +256,7 @@ class OtpScreenState extends State<OtpScreen> {
             password: widget.password,
             confirmPassword: widget.confirmPassword,
             phone: widget.phone,
-            referralCode: widget.refferalCode)
+        referralCode: widget.refferalCode)
         .then((model) async {
       if (model!.status == 200) {
         showCustomSnackBar('Registration successful', isError: false);

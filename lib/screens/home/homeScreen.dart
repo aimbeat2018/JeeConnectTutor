@@ -151,7 +151,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 },
                 child: Row(
                   children: [
-                    const SizedBox(
+                    /* const SizedBox(
                       height: 60,
                       child: Padding(
                         padding: EdgeInsets.only(left: 10, top: 10),
@@ -169,29 +169,36 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             //     .userProfileData!.imageUrl!),
                             ),
                       ),
-                    ),
+                    ),*/
                     SizedBox(
                       height: 60,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             right: 2.0, top: 10, bottom: 0, left: 0),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                        Get.find<AuthController>().getUserName(),
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Text(
+                                Get.find<AuthController>()
+                                    .getUserName()
+                                    .toUpperCase(),
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                             Padding(
-                              padding:
-                                  EdgeInsets.only(top: 8.0, right: 2, left: 12),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8.0, right: 2, left: 12),
                               child: Text(
                                 'User Id - ${Get.find<AuthController>().getUserUniqueId()}',
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),

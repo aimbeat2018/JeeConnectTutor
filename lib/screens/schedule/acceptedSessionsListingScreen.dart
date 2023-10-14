@@ -169,7 +169,7 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
       //   builder: (context) => const SubjectListingScreen(),
       // )),
         child: SizedBox(
-          height: 200,
+          height: 232,
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: SizedBox(
@@ -364,6 +364,65 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
                                         .white,
                                   ),
                                 ),*/
+                                SizedBox(height: 5,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    MaterialButton(
+                                      elevation: 0,
+                                      color: Colors.grey,
+                                      onPressed: () {
+                                        Get.toNamed(
+                                            RouteHelper.getSessionDetailsScreenRoute(model.id!));
+                                      },
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadiusDirectional.circular(10),
+                                        // side: const BorderSide(color: kRedColor),
+                                      ),
+                                      child: const Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'View',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    if (model.status == "1")
+                                      MaterialButton(
+                                        elevation: 0,
+                                        color: kDarkGreyColor,
+                                        onPressed: () {
+                                          cancelRequest(model.id!, requestController);
+                                        },
+                                        padding:
+                                        const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadiusDirectional.circular(10),
+                                          // side: const BorderSide(color: kRedColor),
+                                        ),
+                                        child: const Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                  ],
+                                )
                               ],
                             ),
                           ],

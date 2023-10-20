@@ -169,7 +169,7 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
       //   builder: (context) => const SubjectListingScreen(),
       // )),
         child: SizedBox(
-          height: 232,
+          height: 255,
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: SizedBox(

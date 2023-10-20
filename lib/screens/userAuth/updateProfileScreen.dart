@@ -162,6 +162,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                           horizontal: 20.0, vertical: 15),
                       child: Center(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             MaterialButton(
                               elevation: 0,
@@ -215,6 +217,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                   ? Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+
                                       children: [
                                         const SizedBox(
                                           height: 10,
@@ -270,7 +274,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                                                       .normal,
                                                             ),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 3,
                                                           ),
                                                           Text(
@@ -304,7 +308,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                                         ],
                                                       ),
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       width: 10,
                                                     ),
                                                     InkWell(
@@ -314,7 +318,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                                               .removeAt(index);
                                                         });
                                                       },
-                                                      child: Icon(
+                                                      child: const Icon(
                                                         Icons.delete,
                                                         color: Colors.red,
                                                       ),
@@ -324,17 +328,19 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                               );
                                             },
                                             separatorBuilder: (context, index) {
-                                              return Divider();
+                                              return const Divider();
                                             },
                                           ),
                                         ),
                                       ],
                                     )
-                                  : SizedBox(),
+                                  : const SizedBox(),
                             ),
                             const SizedBox(
                               height: 20,
                             ),
+                            const Text('Experience', textAlign: TextAlign.start,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 14, color: Colors.black),),
+                            const SizedBox(height: 5,),
                             TextFormField(
                               focusNode: _focusNodes[0],
                               controller: _experienceController,
@@ -345,6 +351,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                             const SizedBox(
                               height: 20,
                             ),
+                            const Text('Location', style: TextStyle(fontWeight: FontWeight.normal,fontSize: 14, color: Colors.black),),
+                            const SizedBox(height: 5,),
                             TextFormField(
                               focusNode: _focusNodes[1],
                               controller: _tutorLocationController,
@@ -356,6 +364,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                             const SizedBox(
                               height: 20,
                             ),
+                            const Text('Pin Code', style: TextStyle(fontWeight: FontWeight.normal,fontSize: 14, color: Colors.black),),
+                            const SizedBox(height: 5,),
                             TextFormField(
                               focusNode: _focusNodes[2],
                               controller: _tutorPincodeController,
@@ -384,6 +394,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                             const SizedBox(
                               height: 20,
                             ),
+                            const Text('NOC', style: TextStyle(fontWeight: FontWeight.normal,fontSize: 14, color: Colors.black),),
+                            const SizedBox(height: 5,),
                             TextFormField(
                               focusNode: _focusNodes[3],
                               controller: _nocController,
@@ -394,6 +406,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                             const SizedBox(
                               height: 20,
                             ),
+                            const Text('KYC Details', style: TextStyle(fontWeight: FontWeight.normal,fontSize: 14, color: Colors.black),),
+                            const SizedBox(height: 5,),
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
@@ -408,6 +422,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                             const SizedBox(
                               height: 10,
                             ),
+                            const Text('Aadhaar Number', style: TextStyle(fontWeight: FontWeight.normal,fontSize: 14, color: Colors.black),),
+                            const SizedBox(height: 5,),
                             TextFormField(
                               focusNode: _focusNodes[4],
                               controller: _aadhaarController,
@@ -418,6 +434,8 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                             const SizedBox(
                               height: 20,
                             ),
+                            const Text('Pan Number', style: TextStyle(fontWeight: FontWeight.normal,fontSize: 14, color: Colors.black),),
+                            const SizedBox(height: 5,),
                             TextFormField(
                               focusNode: _focusNodes[5],
                               controller: _panNoController,

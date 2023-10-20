@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/controllers/authController.dart';
+import 'package:jeeconnecttutor/screens/userAuth/updatePasswordScreen.dart';
 
 import '../../constant/app_constants.dart';
 import '../../constant/internetConnectivity.dart';
@@ -337,7 +338,12 @@ class ProfileScreenState extends State<ProfileScreen>
                                         MaterialButton(
                                           elevation: 0,
                                           color: kYellowColor,
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) => const UpdatePasswordScreen(),
+                                            ));
+                                          },
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 5, vertical: 15),
                                           shape: RoundedRectangleBorder(

@@ -14,12 +14,6 @@ import '../../constant/no_internet_screen.dart';
 import '../../constant/route_helper.dart';
 import '../../controllers/authController.dart';
 
-Color accentPurpleColor = Color(0xFF6A53A1);
-Color primaryColor = Color(0xFF121212);
-Color accentPinkColor = Color(0xFFF99BBD);
-Color accentDarkGreenColor = Color(0xFF115C49);
-Color accentYellowColor = Color(0xFFFFB612);
-Color accentOrangeColor = Color(0xFFEA7A3B);
 
 class OtpScreen extends StatefulWidget {
   final String? name;
@@ -28,6 +22,7 @@ class OtpScreen extends StatefulWidget {
   final String? password;
   final String? confirmPassword;
   final String? pincode;
+  final String? roleId;
   final String? otp;
   final String? refferalCode;
 
@@ -39,6 +34,7 @@ class OtpScreen extends StatefulWidget {
       this.password,
       this.confirmPassword,
       this.pincode,
+      this.roleId,
       this.otp,
       this.refferalCode});
 
@@ -137,7 +133,6 @@ class OtpScreenState extends State<OtpScreen> {
                                 OtpTextField(
                                   numberOfFields: numberOfFields,
                                   borderColor: Colors.white,
-
                                   focusedBorderColor: primaryColor,
                                   clearText: clearText,
                                   showFieldAsBox: true,
@@ -256,6 +251,7 @@ class OtpScreenState extends State<OtpScreen> {
             password: widget.password,
             confirmPassword: widget.confirmPassword,
             phone: widget.phone,
+        roleId: widget.roleId,
         referralCode: widget.refferalCode)
         .then((model) async {
       if (model!.status == 200) {

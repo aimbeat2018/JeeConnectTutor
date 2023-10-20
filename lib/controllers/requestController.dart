@@ -229,6 +229,12 @@ class RequestController extends GetxController implements GetxService {
     } else {
       model = UpdateProfileResponseModel(status: 403);
     }
+
+
+
+
+
+
     _isLoading = false;
     update();
     return model;

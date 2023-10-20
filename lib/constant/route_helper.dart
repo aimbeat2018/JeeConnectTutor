@@ -43,10 +43,11 @@ class RouteHelper {
     String password,
     String confirm_password,
     String pincode,
+    String roleId,
   String otp,
     String refferalCode
   ) =>
-      '$otpScreen?name=$name&email=$email&phone=$phone&password=$password&confirm_password=$confirm_password&pincode=$pincode&otp=$otp&referral_stud=$refferalCode';
+      '$otpScreen?name=$name&email=$email&phone=$phone&password=$password&confirm_password=$confirm_password&pincode=$pincode&role_id=$roleId&otp=$otp&referral_stud=$refferalCode';
 
   static String getPasswordChangedScreenRoute(String email, String image) =>
       '$passwordChangedScreen?email=$email&image=$image';
@@ -70,6 +71,8 @@ class RouteHelper {
         name: sessionDetails,
         page: () => getRoute(SessionDetailsScreen(id: Get.parameters['id']!))),
     GetPage(
+      /*      '$otpScreen?name=$name&email=$email&phone=$phone&password=$password&confirm_password=$confirm_password&pincode=$pincode&role_id=$roleId&otp=$otp&referral_stud=$refferalCode';
+*/
         name: otpScreen,
         page: () => OtpScreen(
             name: Get.parameters['name'],
@@ -77,9 +80,10 @@ class RouteHelper {
             phone: Get.parameters['phone'],
             password: Get.parameters['password'],
             confirmPassword: Get.parameters['confirm_password'],
-            otp: Get.parameters['otp'],
             pincode: Get.parameters['pincode'],
-            refferalCode: Get.parameters['refferalCode'])),
+            roleId: Get.parameters['role_id'],
+            otp: Get.parameters['otp'],
+            refferalCode: Get.parameters['referral_stud'])),
 
     // GetPage(
     //     name: passwordScreen,

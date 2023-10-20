@@ -101,6 +101,7 @@ class AuthController extends GetxController implements GetxService {
       String? password,
       String? confirmPassword,
       String? pincode,
+      String? roleId,
       String? referralCode}) async {
     _isLoading = true;
     update();
@@ -112,6 +113,7 @@ class AuthController extends GetxController implements GetxService {
         password: password,
         confirmPassword: confirmPassword,
         pincode: pincode,
+        role_Id: roleId,
         referral_Code: referralCode ?? "");
 
     if (response.statusCode == 200) {

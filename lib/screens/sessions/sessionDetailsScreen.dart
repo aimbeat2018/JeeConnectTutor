@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
 import 'package:jeeconnecttutor/constant/globalFunction.dart';
@@ -533,6 +534,12 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                       startSession(
                                                           requestController
                                                               .sessionDetailsModel!
+                                                              .date!,
+                                                          requestController
+                                                              .sessionDetailsModel!
+                                                              .time!,
+                                                          requestController
+                                                              .sessionDetailsModel!
                                                               .id!,
                                                           _otpPinFieldController
                                                               .currentState!
@@ -705,21 +712,71 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
           });
   }
 
-  void startSession(
-      String id, String otp, RequestController requestController) {
-    String currentTime = GlobalFunctions.getCurrentTime();
-    requestController
-        .startSession(
-            id, Get.find<AuthController>().getUserToken(), otp, currentTime)
-        .then((model) async {
-      if (model!.status != 403) {
-        showCustomSnackBar(model.message!, isError: false);
-        requestController.sessionDetailsModel!.status = "3";
-        setState(() {});
-      } else {
-        showCustomSnackBar(model.message!);
+  void startSession(String sessionDate, String time, String id, String otp,
+      RequestController requestController) {
+    debugPrint(sessionDate);
+    DateTime newDateTime =
+        DateFormat('yyyy-MM-dd HH:mm').parse(sessionDate + " " +time);
+
+    DateTime valEnd = DateTime.parse(sessionDate);
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String valEnddateformatted = formatter.format(valEnd);
+
+    DateTime date = DateTime.now();
+    final DateFormat formatterdate = DateFormat('yyyy-MM-dd');
+    final String formatted = formatterdate.format(date);
+    bool valDate = (formatted==valEnddateformatted);
+
+    if (valDate) {
+      DateFormat dateFormat = DateFormat.Hm();// this is the format like(5:08 PM)
+      DateTime now =  DateTime.now();// current time
+      DateTime open = dateFormat.parse(time); // time is dynamic value database
+      open = DateTime(now.year, now.month, now.day, open.hour, open.minute);
+
+      bool valTimeBool;
+      if(now.isAfter(open)){
+        valTimeBool=true;
+      }else{
+        valTimeBool=false;
       }
-    });
+      if (valTimeBool) {
+        String currentTime = GlobalFunctions.getCurrentTime();
+        requestController
+            .startSession(
+                id, Get.find<AuthController>().getUserToken(), otp, currentTime)
+            .then((model) async {
+          if (model!.status != 403) {
+            showCustomSnackBar(model.message!, isError: false);
+            requestController.sessionDetailsModel!.status = "3";
+            setState(() {});
+          } else {
+            showCustomSnackBar(model.message!);
+          }
+        });
+      } else {
+        showCustomSnackBar(
+            "You can only start this session on the assigned time!",
+            isError: true);
+      }
+    } else {
+      showCustomSnackBar(
+          "You can only start this session on the assigned date!",
+          isError: true);
+    }
+  }
+
+  getTime(startTime, endTime) {
+    bool result = false;
+    int startTimeInt = (startTime.hour * 60 + startTime.minute) * 60;
+    int EndTimeInt = (endTime.hour * 60 + endTime.minute) * 60;
+    int dif = EndTimeInt - startTimeInt;
+
+    if (EndTimeInt == startTimeInt) {
+      result = true;
+    } else {
+      result = false;
+    }
+    return result;
   }
 
   void endSession(String id, RequestController requestController) {

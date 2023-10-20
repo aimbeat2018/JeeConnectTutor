@@ -225,8 +225,10 @@ class SignUpScreenState extends State<SignUpScreen> {
                                           },
                                           validator: (String? value) {
                                             return (value != null &&
-                                                    value == "")
-                                                ? 'Enter mobile'
+                                                    value == "" &&
+                                                    !value.contains("@")&&
+                                                    !value.contains("."))
+                                                ? 'Enter valid email'
                                                 : null;
                                           },
                                         ),
@@ -282,8 +284,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                                           },
                                           validator: (String? value) {
                                             return (value != null &&
-                                                    value == "")
-                                                ? 'Enter mobile'
+                                                    value == "" &&
+                                                    value.length!=10)
+                                                ? 'Enter valid mobile'
                                                 : null;
                                           },
                                         ),
@@ -573,27 +576,16 @@ class SignUpScreenState extends State<SignUpScreen> {
         .sendRegisterOtp(phone: _mobileController.text)
         .then((model) async {
       if (model!.status == 200) {
-        if(_refferalCodeController.text.isEmpty) {
-          Get.toNamed(RouteHelper.getOtpScreenRoute(
+         Get.toNamed(RouteHelper.getOtpScreenRoute(
               _nameController.text,
               _emailController.text,
               _mobileController.text,
               _passwordController.text,
               _confirmPasswordController.text,
               _pincodeController.text,
-              model.otp.toString(),
-              ""));
-        }else if(_refferalCodeController.text.isNotEmpty||_refferalCodeController.text.trim()=="") {
-          Get.toNamed(RouteHelper.getOtpScreenRoute(
-              _nameController.text,
-              _emailController.text,
-              _mobileController.text,
-              _passwordController.text,
-              _confirmPasswordController.text,
-              _pincodeController.text,
+             "1",
               model.otp.toString(),
               _referralcode));
-        }
 
       } else {
         showCustomSnackBar('Mobile number already exists');

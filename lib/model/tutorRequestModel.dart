@@ -19,6 +19,7 @@ class TutorRequestModel {
   String? studentName;
   String? studentPhone;
   String? studentAddress;
+  int? noOfSession;
 
   TutorRequestModel(
       {this.id,
@@ -40,7 +41,8 @@ class TutorRequestModel {
       this.courseName,
       this.studentName,
       this.studentPhone,
-      this.studentAddress});
+      this.studentAddress,
+      this.noOfSession});
 
   TutorRequestModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -63,6 +65,7 @@ class TutorRequestModel {
     studentName = json['student_name'];
     studentPhone = json['student_phone'];
     studentAddress = json['student_address'];
+    noOfSession = json['no_of_session'];
   }
 
   Map<String, dynamic> toJson() {
@@ -87,6 +90,7 @@ class TutorRequestModel {
     data['student_name'] = this.studentName;
     data['student_phone'] = this.studentPhone;
     data['student_address'] = this.studentAddress;
+    data['no_of_session'] = this.noOfSession;
     return data;
   }
 }

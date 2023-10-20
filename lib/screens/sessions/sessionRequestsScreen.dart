@@ -283,6 +283,27 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen> with Ticke
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
                     TextSpan(
+                      text: 'Number of sessions :  ',
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: '${model.noOfSession}',
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  ])),
+          const SizedBox(
+            height: 3,
+          ),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  children: <TextSpan>[
+                    TextSpan(
                       text: 'Status :  ',
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold),

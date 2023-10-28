@@ -14,7 +14,6 @@ import '../../constant/no_internet_screen.dart';
 import '../../constant/route_helper.dart';
 import '../../controllers/authController.dart';
 
-
 class OtpScreen extends StatefulWidget {
   final String? name;
   final String? email;
@@ -242,7 +241,6 @@ class OtpScreenState extends State<OtpScreen> {
   }
 
   void registerUser(AuthController authController) {
-
     authController
         .registerUser(
             name: widget.name,
@@ -251,12 +249,28 @@ class OtpScreenState extends State<OtpScreen> {
             password: widget.password,
             confirmPassword: widget.confirmPassword,
             phone: widget.phone,
-        roleId: widget.roleId,
-        referralCode: widget.refferalCode)
+            roleId: widget.roleId,
+            referralCode: widget.refferalCode)
         .then((model) async {
       if (model!.status == 200) {
-        showCustomSnackBar('Registration successful', isError: false);
-        Get.offNamed(RouteHelper.getLoginRoute());
+        showDialog<String>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Add Your Details'),
+            content: const Text(
+                'Registration successful!, Please login and update your kyc and other details for verification!'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Get.offNamed(RouteHelper.getLoginRoute());
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
       } else {
         showCustomSnackBar('Error while registration');
       }

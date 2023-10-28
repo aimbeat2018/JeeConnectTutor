@@ -330,7 +330,7 @@ class LoginScreenState extends State<LoginScreen> {
         .loginUser(
             phone: mobile,
             password: password,
-            role: "student",
+            role: "tutor",
             deviceToken: await FirebaseMessaging.instance.getToken())
         .then((model) async {
       if (model!.validity == 1) {
@@ -342,14 +342,44 @@ class LoginScreenState extends State<LoginScreen> {
           // GlobalFunctions.showErrorDialog(
           //     "Your profile is in process please wait or login after some time",
           //     context);
-
-          Get.offNamed(RouteHelper.getMainScreenRoute());
+          showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Account Verification Pending '),
+              content: const Text('You are not eligible to login\n\nOur team is verifying your details,\n we\'ll contact you once verified'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+          // Get.offNamed(RouteHelper.getMainScreenRoute());
         } else if (model.profileUpdated == "3") {
           Get.offNamed(RouteHelper.getMainScreenRoute());
         } else if (model.profileUpdated == "4") {
           GlobalFunctions.showErrorDialog(
               "Your profile is rejected please contact to customer care number",
               context);
+        }else if (model.profileUpdated == "5") {
+          showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Account Verification'),
+              content: const Text('You are not eligible to login\n\nOur team is verifying your details,\n we\'ll contact you once verified'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
         }
       } else {
         showCustomSnackBar('Enter valid details');

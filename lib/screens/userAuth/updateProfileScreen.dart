@@ -625,7 +625,24 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
         .updateProfile(model, widget.userId, widget.token)
         .then((model) async {
       if (model!.status == 200) {
-        Get.toNamed(RouteHelper.getMainScreenRoute());
+        showDialog<String>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Account Verification'),
+            content: const Text('Thank you! for giving your details, We\'ll verify and contact you in two to three days'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+
+                  Get.offNamed(RouteHelper.getLoginRoute());
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
       } else {
         showCustomSnackBar(model.message!);
       }

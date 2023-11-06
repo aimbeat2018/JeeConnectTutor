@@ -1,6 +1,7 @@
 class TextConstant {
   static String getStarted = "Get Started";
   static String login = "Log In";
+  static String share = "Share";
   static String student = "Student";
   static String parents = "Parent's";
   static String sign_in = "Sign In";

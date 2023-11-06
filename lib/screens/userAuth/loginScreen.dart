@@ -13,6 +13,7 @@ import '../../constant/custom_snackbar.dart';
 import '../../constant/internetConnectivity.dart';
 import '../../constant/no_internet_screen.dart';
 import '../../constant/route_helper.dart';
+import '../../constant/shared_pref_helper.dart';
 import '../../controllers/authController.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -359,6 +360,9 @@ class LoginScreenState extends State<LoginScreen> {
           );
           // Get.offNamed(RouteHelper.getMainScreenRoute());
         } else if (model.profileUpdated == "3") {
+          await SharedPreferenceHelper().setUserId(model.userId!.toString());
+          await SharedPreferenceHelper().setAuthToken(model.token!);
+          await SharedPreferenceHelper().setName(model.name!.toString());
           Get.offNamed(RouteHelper.getMainScreenRoute());
         } else if (model.profileUpdated == "4") {
           GlobalFunctions.showErrorDialog(

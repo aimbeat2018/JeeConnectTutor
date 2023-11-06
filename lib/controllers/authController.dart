@@ -73,10 +73,10 @@ class AuthController extends GetxController implements GetxService {
         authRepo.savereferral_stud(loginModel!.referral_stud!);
         authRepo.saveUserUniqueId(loginModel!.uniqueCode!);
 
-        // if (loginModel!.profileUpdated == "3") {
-        //   authRepo.saveUserToken(loginModel!.token!);
-        //   authRepo.saveUserId(loginModel!.userId!.toString());
-        // }
+        if (loginModel!.profileUpdated == "3") {
+          authRepo.saveUserToken(loginModel!.token!);
+          authRepo.saveUserId(loginModel!.userId!.toString());
+        }
 
         // for testing only
         if (loginModel!.profileUpdated == "2") {

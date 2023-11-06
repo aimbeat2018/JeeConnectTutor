@@ -14,9 +14,12 @@ import 'package:jeeconnecttutor/screens/payment/paymentScreen.dart';
 import 'package:jeeconnecttutor/screens/schedule/acceptedSessionsListingScreen.dart';
 import 'package:jeeconnecttutor/screens/sessions/sessionRequestsScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/updatePasswordScreen.dart';
+import 'package:share/share.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../../constant/internetConnectivity.dart';
+import '../../constant/shared_pref_helper.dart';
+import '../../constant/textConstant.dart';
 import '../../controllers/authController.dart';
 import '../other/HelpScreen.dart';
 import '../userAuth/profileScreen.dart';
@@ -33,7 +36,7 @@ const actionColor = Colors.black;
 
 final divider = Divider(color: Colors.black.withOpacity(0.5), height: 1);
 
-final List<Widget> imageSliders = imgList
+List<Widget> imageSliders = imgList
     .map((item) => Container(
           child: Container(
             margin: const EdgeInsets.all(5.0),
@@ -62,6 +65,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   CommonResponseModel? commonResponseModel;
   String username = "";
+  String userId = "";
+
   final TextEditingController _textSearchEditingController =
       TextEditingController();
 
@@ -71,7 +76,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    super.initState();
+
     CheckInternet.initConnectivity().then((value) => setState(() {
           _connectionStatus = value;
         }));
@@ -82,6 +87,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           }));
     });
     getBanners();
+
+    super.initState();
   }
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
@@ -250,7 +257,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             icon: Icons.money,
             label: 'Refer & Earn',
             onTap: () {
-              Navigator.pop(context);
+              _referAndEarn(context);
             },
           ),
           SidebarXItem(
@@ -312,14 +319,14 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-            tooltip: 'Notifications',
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.notifications,
+          //     color: Colors.white,
+          //   ),
+          //   tooltip: 'Notifications',
+          //   onPressed: () {},
+          // ),
           PopupMenuButton(
             itemBuilder: (context) {
               return [
@@ -420,7 +427,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       children: [
                         Column(
                           children: [
-                            Padding(
+                           /* Padding(
                               padding: const EdgeInsets.only(
                                 left: 40.0,
                                 right: 40.0,
@@ -452,8 +459,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   ),
                                 ],
                               ),
-                            ),
-                            Row(
+                            ),*/
+                           /* Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 GestureDetector(
@@ -741,10 +748,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ],
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
+                            ),*/
+                            // const SizedBox(
+                            //   height: 15,
+                            // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -944,11 +951,31 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   getBanners() async {
+    userId = (await SharedPreferenceHelper().getUniqueCode())!;
+
     List bannerData = await Get.find<AuthController>().getBanners();
 
     for (int i = 0; i < bannerData.length; i++) {
       imgList.add(bannerData[i]["banner_image"]);
     }
+
+     imageSliders = imgList
+        .map((item) => Container(
+      child: Container(
+        margin: const EdgeInsets.all(5.0),
+        child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            child: Stack(
+              children: <Widget>[
+                Image.network(item, fit: BoxFit.cover, width: 1000.0),
+              ],
+            )),
+      ),
+    ))
+        .toList();
+
+    setState(() {});
+
   }
 
   logout() async {
@@ -958,5 +985,109 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     } else {
       showCustomSnackBar('Something went wrong!', isError: true);
     }
+  }
+
+
+
+  void _referAndEarn(context) async {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+        builder: (BuildContext bc) {
+          return Container(
+            alignment: Alignment.center,
+            child: Wrap(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('Refer & Earn',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: kPrimaryColor, fontSize:18, fontWeight: FontWeight.bold),),
+                      SizedBox(height: 2,),
+                      const Divider(height: 2,
+                        thickness: 2,
+                        endIndent: 140,
+                        indent: 140,
+                        color: kPrimaryColor,),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        child: Image.asset('assets/images/refer_and_earn.png',
+                            height: 120),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Text('Hey ${username},  We\'re having an awesome offers.\nIf you refer a friend, you\'ll both get a coins for your next purchase!\nUse the code - ${userId} while registration.',
+                          style: const TextStyle(color: Colors.deepOrange,fontSize: 16, fontWeight: FontWeight.w700),
+                          textAlign: TextAlign.center,),
+                      ),
+                      SizedBox(height: 15,),
+                      RichText(
+                          text: TextSpan(
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                              children: <TextSpan>[
+                                const TextSpan(
+                                  text: 'Your referral code : ',
+                                  style: TextStyle(
+                                      fontSize: 14, fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text: userId,
+                                  style: const TextStyle(
+                                      fontSize: 14, fontWeight: FontWeight.w500),
+                                ),
+                              ])),
+                      SizedBox(height: 20,),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
+                            foregroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
+                            textStyle: MaterialStateProperty.all<TextStyle>(
+                              const TextStyle(fontSize: 16),
+                            ),
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            ),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            Share.share(
+                                'Hey, I would like to suggest JeeConnect App for you!\nUse my referral code -$userId while registration to avail coins');
+                          },
+                          child: Text(
+                            TextConstant.share,
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
+                          )),
+                      SizedBox(height: 20,),
+
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        }
+    );
+
+
   }
 }

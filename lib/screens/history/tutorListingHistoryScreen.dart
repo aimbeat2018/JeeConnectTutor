@@ -25,7 +25,6 @@ class TutorListingScreenState extends State<TutorListingScreen>
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: kBackgroundColor,

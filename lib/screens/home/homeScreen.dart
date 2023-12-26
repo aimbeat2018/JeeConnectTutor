@@ -8,6 +8,7 @@ import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
 import 'package:jeeconnecttutor/model/commonResponseModel.dart';
 import 'package:jeeconnecttutor/screens/courses/categoriesListingScreen.dart';
+import 'package:jeeconnecttutor/screens/groupStudy/categoriesScreen.dart';
 import 'package:jeeconnecttutor/screens/history/tutorListingHistoryScreen.dart';
 import 'package:jeeconnecttutor/screens/other/termsAndConditionScreen.dart';
 import 'package:jeeconnecttutor/screens/payment/paymentScreen.dart';
@@ -240,6 +241,16 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               Navigator.pop(context);
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const PaymentScreen(),
+              ));
+            },
+          ),
+          SidebarXItem(
+            icon: Icons.group,
+            label: 'Group Study',
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CategoriesScreen(),
               ));
             },
           ),

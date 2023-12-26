@@ -3,4 +3,4 @@ jeeconnecttutor/android/app
 jeeconnecttutor.jks
 password - jeeconnect123
 
-alias jeeconnecttutor
+alias jeeconnect

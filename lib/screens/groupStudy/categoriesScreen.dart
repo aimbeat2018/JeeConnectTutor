@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jeeconnecttutor/screens/groupStudy/completedPackageHistoryListScreen.dart';
 import 'package:jeeconnecttutor/screens/groupStudy/ongoingPackageListScreen.dart';
-import 'package:jeeconnecttutor/screens/groupStudy/packageDetailsScreen.dart';
 import 'package:jeeconnecttutor/screens/groupStudy/packageRequestsListScreen.dart';
 
 import '../../constant/colorsConstant.dart';
@@ -32,7 +31,7 @@ class CategoriesScreenState extends State<CategoriesScreen> with TickerProviderS
         backgroundColor: kYellowColor,
       ),
       body: SingleChildScrollView(
-        child: Padding(padding: EdgeInsets.all(15),
+        child: Padding(padding: EdgeInsets.symmetric(horizontal: 15, vertical: 35),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

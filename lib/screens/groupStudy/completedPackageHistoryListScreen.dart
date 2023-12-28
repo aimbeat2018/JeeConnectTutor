@@ -1,9 +1,6 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:get/get.dart';
-import 'package:jeeconnecttutor/screens/groupStudy/packageDetailsScreen.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../constant/colorsConstant.dart';
@@ -21,8 +18,6 @@ class CompletedPackagesHistoryListScreen extends StatefulWidget {
 class CompletedPackagesHistoryListScreenState
     extends State<CompletedPackagesHistoryListScreen>
     with TickerProviderStateMixin {
-  List<String> _subjects = ['A', 'B', 'C', 'D'];
-  List<String> _chapters = ['E', 'F', 'G', 'H'];
   String? selectedSubjects;
   String? selectedChapters;
 
@@ -43,7 +38,6 @@ class CompletedPackagesHistoryListScreenState
     super.initState();
   }
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +60,7 @@ class CompletedPackagesHistoryListScreenState
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
-                      fontWeight: FontWeight.normal),
+                      fontWeight: FontWeight.w700),
                 ),
               ),
               const SizedBox(
@@ -96,7 +90,7 @@ class CompletedPackagesHistoryListScreenState
                                         child: Text(
                                       'BASIC - 7th std',
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black87),
                                     )),
@@ -129,7 +123,7 @@ class CompletedPackagesHistoryListScreenState
                                                           color: Colors.blueAccent,
                                                           fontSize: 16,
                                                           fontWeight:
-                                                              FontWeight.bold),
+                                                              FontWeight.w900),
                                                     ),
                                                   ),
                                                   SizedBox(
@@ -146,17 +140,20 @@ class CompletedPackagesHistoryListScreenState
                                                               BorderRadius.all(
                                                                   Radius.circular(
                                                                       15)),
-                                                          color: Colors.black45,
+                                                          color: Colors.black38,
                                                           border: Border.all()),
                                                       child:
-                                                          LinearProgressIndicator(
+                                                          Padding(
+                                                            padding: const EdgeInsets.all(1),
+                                                            child: LinearProgressIndicator(
                                                         color: kGreenColor,
                                                         backgroundColor:
-                                                            kGreenDimColor,
+                                                              kGreenDimColor,
                                                         value: controller.value,
                                                         semanticsLabel:
-                                                            'Linear progress indicator',
+                                                              'Linear progress indicator',
                                                       ),
+                                                          ),
                                                     ),
                                                   ),
                                                   SizedBox(
@@ -188,7 +185,7 @@ class CompletedPackagesHistoryListScreenState
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.symmetric(
-                                                  horizontal: 15, vertical: 5.0),
+                                                  horizontal: 15, vertical: 0.0),
                                               child: ListView.builder(
                                                 shrinkWrap: true,
                                                 itemCount: 5,
@@ -237,7 +234,7 @@ class CompletedPackagesHistoryListScreenState
                                                               ),
                                                               const Text(
                                                                 'Chapter 1 : The Tiny Desert',
-                                                                maxLines: 3,
+                                                                maxLines: 2,
                                                                 style: TextStyle(
                                                                     color:
                                                                         kTextLowBlackColor,
@@ -262,7 +259,7 @@ class CompletedPackagesHistoryListScreenState
                                         );
                                       }),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 15,
                                   ),
                                   Padding(
                                     padding:
@@ -278,12 +275,18 @@ class CompletedPackagesHistoryListScreenState
                                               fontSize: 15,
                                               fontWeight: FontWeight.w700),
                                         ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
                                         Text(
                                           'No. of Sessions : 15' /*.toUpperCase()*/,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 15,
                                               fontWeight: FontWeight.w700),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
                                         ),
                                         Text(
                                           'Batch Starts from : DD/MM/YYYY' /*.toUpperCase()*/,
@@ -347,7 +350,7 @@ class CompletedPackagesHistoryListScreenState
                                               fontWeight: FontWeight.w700),
                                         ),
                                         SizedBox(
-                                          height: 5,
+                                          height: 15,
                                         ),
                                         Html(
                                           data: 'Notebook\nPen\nMobile',
@@ -451,87 +454,90 @@ class CompletedPackagesHistoryListScreenState
                                 'assets/images/blueCard.png',
                                 fit: BoxFit.fitWidth,
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 10.0, top: 5.0),
-                                        child: Text(
-                                          '7th Std',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: kYellowColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w900),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 10.0, top: 5.0),
+                                          child: Text(
+                                            '7th Std',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                color: kYellowColor,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w900),
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            right: 10.0, top: 5.0),
-                                        child: Text(
-                                          'BASIC',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w900),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right: 10.0, top: 5.0),
+                                          child: Text(
+                                            'BASIC',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w900),
+                                          ),
                                         ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 3),
+                                      child: Text(
+                                        'No. of Subjects : 02',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 2),
-                                    child: Text(
-                                      'No. of Subjects : 02',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 2),
-                                    child: Text(
-                                      'No. of Sessions : 15',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 3),
+                                      child: Text(
+                                        'No. of Sessions : 15',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 2),
-                                    child: Text(
-                                      'Course Duration : 10 Months',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 3),
+                                      child: Text(
+                                        'Course Duration : 10 Months',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 2),
-                                    child: Text(
-                                      'Start from DD/MM/YYYY',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w900),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 3),
+                                      child: Text(
+                                        'Start from DD/MM/YYYY',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w900),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               )
                             ],
                           ),

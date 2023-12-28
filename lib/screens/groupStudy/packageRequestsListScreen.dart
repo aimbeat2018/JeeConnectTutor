@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:jeeconnecttutor/screens/groupStudy/packageDetailsScreen.dart';
 import 'package:readmore/readmore.dart';
 
@@ -24,7 +23,6 @@ class PackageRequestListScreenState
     super.initState();
   }
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +39,6 @@ class PackageRequestListScreenState
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 10,
-              ),
               Center(
                 child: Text(
                   'Package Requests',
@@ -51,7 +46,7 @@ class PackageRequestListScreenState
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
-                      fontWeight: FontWeight.normal),
+                      fontWeight: FontWeight.w700),
                 ),
               ),
               const SizedBox(
@@ -94,13 +89,13 @@ class PackageRequestListScreenState
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets.only(left: 10.0, bottom: 25.0),
+                                                padding: EdgeInsets.only(left: 15.0, bottom: 25.0),
                                                 child: Text(
                                                   '7th Std',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       color: kYellowColor,
-                                                      fontSize: 16,
+                                                      fontSize: 18,
                                                       fontWeight: FontWeight.w900),
                                                 ),
                                               ),
@@ -206,7 +201,7 @@ class PackageRequestListScreenState
                                             color: kBlueDarkColor),
                                       ),
                                     ),
-
+SizedBox(height: 10,),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
@@ -247,7 +242,7 @@ class PackageRequestListScreenState
                                       ],
                                     ),
                                     const SizedBox(
-                                      height: 5,
+                                      height: 15,
                                     )
                                   ],
                                 )),

@@ -1,6 +1,11 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+
+import 'colorsConstant.dart';
 
 class GlobalFunctions {
   static InputDecoration getInputDecoration(String hintext) {
@@ -197,7 +202,6 @@ class GlobalFunctions {
     );
   }
 
-/*
 
   static String getCurrentDate() {
     var now = DateTime.now();
@@ -206,7 +210,7 @@ class GlobalFunctions {
     return formattedDate;
   }
 
-  static void showErrorDialog(String message, BuildContext context) {
+  /*static void showErrorDialog(String message, BuildContext context) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -222,7 +226,7 @@ class GlobalFunctions {
         ],
       ),
     );
-  }
+  }*/
 
   static void showSuccessToast(String message) {
     Fluttertoast.showToast(
@@ -265,12 +269,12 @@ class GlobalFunctions {
     DateTime date = DateTime.parse(dateString);
     DateFormat formatter = DateFormat('dd MMM yyyy hh:mm a');
     return formatter.format(date);
-  }*/
-  static String formatDate(String dateString) {
+  }
+ /* static String formatDate(String dateString) {
     DateTime date = DateTime.parse(dateString);
     DateFormat formatter = DateFormat('dd MMMM yyyy');
     return formatter.format(date);
-  }
+  }*/
 
   static String getCurrentTime() {
     // DateTime date = DateTime.parse(dateString);

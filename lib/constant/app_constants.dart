@@ -1,7 +1,7 @@
 class AppConstants {
   // static const String BASE_URL = 'https://stackfood-admin.6amtech.com';
-  static const String baseUrl = 'https://jeeconnectadmin.jeeconnect.com/api/';
-  static const String login = 'login';
+  static const String baseUrl = 'https://jeeconnect.com/jeeconnect_backoffice/API/V131/';
+  static const String login = 'instructor_login';
   static const String registerInstructor = 'register_instructor';
   static const String sendOtp = 'verify_mobile_number';
   static const String categoryList = 'all_categories';

@@ -17,8 +17,8 @@ class AuthRepo {
 
   Future<Response> login(
       {String? phone, String? password, String? deviceToken}) async {
-    return await apiClient.getDataWithQuery(
-        AppConstants.login, {"email": phone, "password": password});
+    return await apiClient.postData(
+        AppConstants.login, {"mobile_no": phone, "password": password,"token":deviceToken});
   }
 
   Future<Response> register(

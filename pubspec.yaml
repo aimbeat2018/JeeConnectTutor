@@ -69,6 +69,7 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   readmore: ^2.1.0
   dropdown_button2: ^2.3.9
+  fluttertoast: ^8.2.4
 
 
 

@@ -49,6 +49,17 @@ const scaffoldBackgroundColor = kComplimentaryBackgroundColor;
 const accentCanvasColor = kYellowColor;
 const white = Colors.white;
 const actionColor = Colors.black;
+const gradient1 = Color(0xFF312FB4);
+const gradient1_1 = Color(0xFF3432BF);
+const gradient1_5 = Color(0xFF1D1C69);
+const gradient2 = Color(0xFF030308);
+const cgradient1 = Color(0xFF3000EE);
+const cgradient1_1 = Color(0xFF400BBB);
+const cgradient2 = Color(0xFF4909B4);
+const cgradient2_1 = Color(0xFF7A008D);
+const violet = Color(0xFFCF3FFF);
+const btnColor = Color(0xFF302FBD);
+
 
 const kDefaultInputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(12.0)),

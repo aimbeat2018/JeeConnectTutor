@@ -51,43 +51,13 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = true;
     update();
 
-    var url =
-        '${AppConstants.baseUrl}${AppConstants.login}?email=${phone!}&password=${password!}&role=${role!}';
-
-    try {
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      );
-      final responseData = json.decode(response.body);
-
-      if (responseData['validity'] == 1) {
-        loginModel = LoginModel.fromJson(json.decode(response.body));
-
-        authRepo.saveUserMobile(loginModel!.phone!);
-        authRepo.saveUserName(loginModel!.name!);
-        authRepo.saveUserImage(loginModel!.image!);
-        authRepo.savereferral_code(loginModel!.referral_code!);
-        authRepo.savereferral_stud(loginModel!.referral_stud!);
-        authRepo.saveUserUniqueId(loginModel!.uniqueCode!);
-
-        if (loginModel!.profileUpdated == "3") {
-          authRepo.saveUserToken(loginModel!.token!);
-          authRepo.saveUserId(loginModel!.userId!.toString());
-        }
-
-        // for testing only
-        if (loginModel!.profileUpdated == "2") {
-          authRepo.saveUserToken(loginModel!.token!);
-          authRepo.saveUserId(loginModel!.userId!.toString());
-        }
-      } else {
-        loginModel = LoginModel(validity: 0);
-      }
-    } catch (error) {
-      rethrow;
+    Response response=await authRepo.login(phone: phone,password: password,deviceToken: deviceToken);
+    if(response.statusCode==200){
+      loginModel=LoginModel.fromJson(response.body);
+      authRepo.saveUserMobile(loginModel!.mobileNo!);
+      authRepo.saveUserName(loginModel!.firstName!+loginModel!.lastName!);
+      authRepo.saveUserUniqueId(loginModel!.uniqueCode!);
+      authRepo.saveUserId(loginModel!.userId!.toString());
     }
     _isLoading = false;
     update();

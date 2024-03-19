@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/globalFunction.dart';
 import 'package:jeeconnecttutor/constant/textConstant.dart';
+import 'package:jeeconnecttutor/screens/userAuth/signUpScreen.dart';
 
 import '../../constant/app_constants.dart';
 import '../../constant/custom_snackbar.dart';
@@ -64,255 +65,278 @@ class LoginScreenState extends State<LoginScreen> {
               backgroundColor: kBackgroundColor,
               body: SafeArea(
                 child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30.0),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/bg_image_login.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: Stack(
                         children: [
-                          Text(
-                            TextConstant.login.toUpperCase(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(color: kRedColor),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    gradient1,
+                                    gradient2,
+                                  ],
+                                )),
+                            padding: const EdgeInsets.symmetric(vertical: 70.0),
+                            child: Image.asset(
+                              'assets/images/white_logo.png',
+                              height: 110,
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
-                          const SizedBox(height: 40),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 15),
-                            child: Card(
-                              elevation: 5,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 15),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        TextConstant.sign_in,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge!
-                                            .copyWith(color: Colors.black),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Column(
-                                        children: [
-                                          TextFormField(
-                                            focusNode: _focusNodes[0],
-                                            controller: _mobileController,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                borderSide: const BorderSide(
-                                                  color: kYellowColor,
-                                                ),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                borderSide: const BorderSide(
-                                                  color: kRedColor,
-                                                  // width: 1.0,
-                                                ),
-                                              ),
-                                              border: const OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20))),
-                                              contentPadding: const EdgeInsets.only(
-                                                  top: 12,
-                                                  bottom: 12,
-                                                  left: 15),
-                                              labelText:
-                                                  TextConstant.mobile_number,
-                                              labelStyle: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium!
-                                                  .copyWith(
-                                                      color: Colors.black),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          TextFormField(
-                                            focusNode: _focusNodes[1],
-                                            controller: _passwordController,
-                                            decoration: InputDecoration(
-                                              suffixIcon: IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    hidePassword = !hidePassword;
-                                                  });
-                                                },
-                                                color: kPrimaryColor,
-                                                icon: Icon(hidePassword
-                                                    ? Icons.visibility_off_outlined
-                                                    : Icons.visibility_outlined),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(15.0),
-                                                borderSide: const BorderSide(
-                                                  color: kYellowColor,
-                                                ),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(15.0),
-                                                borderSide: const BorderSide(
-                                                  color: kRedColor,
-                                                  // width: 1.0,
-                                                ),
-                                              ),
-                                              border: const OutlineInputBorder(
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(20))),
-                                              contentPadding: const EdgeInsets.only(
-                                                  top: 12, bottom: 12, left: 15),
-                                              labelText: TextConstant.password,
-                                              labelStyle: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium!
-                                                  .copyWith(color: Colors.black),
-                                            ),
-                                            onSaved: (String? value) {
-                                              // This optional block of code can be used to run
-                                              // code when the user saves the form.
-                                            },validator: (input) => input!.length < 3
-                                              ? "Password should be more than 3 characters"
-                                              : null,
-                                            obscureText: hidePassword,
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topRight,
-                                            child: Text(
-                                              TextConstant.forget_password,
+                          Positioned(
+                            top: 180,
+                            left: 0,
+                            right: 0,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 40),
+                                  child: Card(
+                                    elevation: 5,
+                                    color: Colors.white,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0, vertical: 15),
+                                      child: SizedBox(
+                                        width: MediaQuery.of(context).size.width,
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              TextConstant.sign_in,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .titleSmall!
-                                                  .copyWith(
-                                                      color: Colors.blueAccent),
+                                                  .titleLarge!
+                                                  .copyWith(color: Colors.black),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          authController.isLoading
-                                              ? const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                )
-                                              : InkWell(
-                                                  onTap: () {
-                                                    if (_mobileController
-                                                            .text.isEmpty ||
-                                                        _mobileController
-                                                                .text.length !=
-                                                            10) {
-                                                      showCustomSnackBar(
-                                                          TextConstant
-                                                              .mobile_number,
-                                                          isError: true);
-                                                    } else if (_passwordController
-                                                        .text.isEmpty) {
-                                                      showCustomSnackBar(
-                                                          TextConstant.password,
-                                                          isError: true);
-                                                    } else {
-                                                      login(
-                                                          _mobileController
-                                                              .text,
-                                                          _passwordController
-                                                              .text,
-                                                          authController);
-                                                    }
-
-                                                    // Navigator.of(context)
-                                                    //     .push(MaterialPageRoute(
-                                                    //   builder: (context) =>
-                                                    //       MainScreen(),
-                                                    // ));
-                                                  },
-                                                  child: Align(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      TextConstant.login,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleLarge!
-                                                          .copyWith(
-                                                              color: Colors
-                                                                  .redAccent),
+                                            const SizedBox(
+                                              height: 30,
+                                            ),
+                                            Form(
+                                                key: globalFormKey,
+                                                child: Column(
+                                                  children: [
+                                                    TextFormField(
+                                                        focusNode: _focusNodes[0],
+                                                        controller: _mobileController,
+                                                        keyboardType: TextInputType.phone,
+                                                        decoration: InputDecoration(
+                                                          // suffixIcon: Icon(
+                                                          //   Icons.phone,
+                                                          //   size: 20,
+                                                          //   color: _focusNodes[0].hasFocus
+                                                          //       ? kYellowColor
+                                                          //       : kBlueDarkColor,
+                                                          // ),
+                                                          // hintText: 'What do people call you?',
+                                                          // isDense: true,
+                                                          focusedBorder:
+                                                          OutlineInputBorder(
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                12.0),
+                                                          ),
+                                                          enabledBorder:
+                                                          OutlineInputBorder(
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                12.0),
+                                                          ),
+                                                          border:
+                                                          const OutlineInputBorder(
+                                                              borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      20))),
+                                                          contentPadding:
+                                                          const EdgeInsets.only(
+                                                              top: 4,
+                                                              bottom: 4,
+                                                              left: 15),
+                                                          labelText:
+                                                          TextConstant.mobile_number,
+                                                          labelStyle: Theme.of(context)
+                                                              .textTheme
+                                                              .titleSmall!
+                                                              .copyWith(
+                                                              color: Colors.grey),
+                                                        ),
+                                                        style: TextStyle(color: Colors.black),
+                                                        onSaved: (String? value) {
+                                                          // This optional block of code can be used to run
+                                                          // code when the user saves the form.
+                                                        },
+                                                        validator: validateMobile
                                                     ),
-                                                  ),
-                                                ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 100,
-                                                top: 5,
-                                                right: 100,
-                                                bottom: 5),
-                                            child: Divider(
-                                                thickness: 1,
-                                                height: 0.5,
-                                                color: Colors.grey.shade800),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              Get.toNamed(RouteHelper
-                                                  .getRegisterScreenRoute());
-                                            },
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                TextConstant.sign_up,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleLarge!
-                                                    .copyWith(
-                                                        color:
-                                                            Colors.redAccent),
-                                              ),
-                                            ),
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 100,
-                                                top: 5,
-                                                right: 100,
-                                                bottom: 5),
-                                            child: Divider(
-                                                thickness: 1,
-                                                height: 0.5,
-                                                color: Colors.purple),
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    TextFormField(
+                                                      focusNode: _focusNodes[1],
+                                                      controller: _passwordController,
+                                                      decoration: InputDecoration(
+                                                        suffixIcon: IconButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              hidePassword =
+                                                              !hidePassword;
+                                                            });
+                                                          },
+                                                          color: Colors.grey,
+                                                          icon: Icon(hidePassword
+                                                              ? Icons
+                                                              .visibility_off_outlined
+                                                              : Icons
+                                                              .visibility_outlined),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderRadius:
+                                                          BorderRadius.circular(12.0),
+                                                        ),
+                                                        enabledBorder: OutlineInputBorder(
+                                                          borderRadius:
+                                                          BorderRadius.circular(12.0),
+                                                        ),
+                                                        border: const OutlineInputBorder(
+                                                            borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(20))),
+                                                        contentPadding:
+                                                        const EdgeInsets.only(
+                                                            top: 8,
+                                                            bottom: 8,
+                                                            left: 15),
+                                                        labelText: TextConstant.password,
+                                                        labelStyle: Theme.of(context)
+                                                            .textTheme
+                                                            .titleSmall!
+                                                            .copyWith(color: Colors.grey),
+
+                                                      ),
+                                                      style: TextStyle(color: Colors.black),
+                                                      onSaved: (String? value) {
+                                                        // This optional block of code can be used to run
+                                                        // code when the user saves the form.
+                                                      },
+                                                      validator: (input) => input!
+                                                          .length <
+                                                          3
+                                                          ? "Password should be more than 3 characters"
+                                                          : null,
+                                                      obscureText: hidePassword,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                       /* Navigator.pushNamedAndRemoveUntil(
+                                                            context,
+                                                            MobileNumberForgetPasswordScreen
+                                                                .routeName,
+                                                                (r) => false);*/
+                                                      },
+                                                      child: Align(
+                                                        alignment: Alignment.topRight,
+                                                        child: Text(
+                                                          TextConstant.forget_password,
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .titleSmall!
+                                                              .copyWith(
+                                                              color: Colors.red),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    ElevatedButton(
+                                                      style: ButtonStyle(
+                                                        backgroundColor:
+                                                        MaterialStateProperty.all(
+                                                            Colors.black),
+                                                      ),
+                                                      onPressed: () {
+                                                        globalFormKey.currentState!
+                                                            .validate()
+                                                            ? login(
+                                                            _mobileController.text
+                                                                .toString(),
+                                                            _passwordController.text
+                                                                .toString(),authController)
+                                                            : GlobalFunctions
+                                                            .showWarningToast(
+                                                            "Enter Valid Credentials!");
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets.symmetric(
+                                                            horizontal: 30.0),
+                                                        child: Text(
+                                                          TextConstant.login,
+                                                          style: const TextStyle(
+                                                              color: Colors.white,
+                                                              fontWeight:
+                                                              FontWeight.bold),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 17.0),
+                                  child: Text(
+                                    "OR",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(color: Colors.black),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                    MaterialStateProperty.all(kPrimaryColor),
+                                  ),
+                                  onPressed: () {
+                                   Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) => const SignUpScreen()));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Text(
+                                      TextConstant.sign_up,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ],
@@ -331,63 +355,25 @@ class LoginScreenState extends State<LoginScreen> {
         .loginUser(
             phone: mobile,
             password: password,
-            role: "tutor",
+           // role: "tutor",
             deviceToken: await FirebaseMessaging.instance.getToken())
         .then((model) async {
-      if (model!.validity == 1) {
-        if (model.profileUpdated == "1") {
-          Get.offNamed(RouteHelper.getUpdateProfileScreenRoute(
-              model.token!, model.userId!, "add"));
-
-        } else if (model.profileUpdated == "2") {
-          // GlobalFunctions.showErrorDialog(
-          //     "Your profile is in process please wait or login after some time",
-          //     context);
-          showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text('Account Verification Pending '),
-              content: const Text('You are not eligible to login\n\nOur team is verifying your details,\n we\'ll contact you once verified'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-          // Get.offNamed(RouteHelper.getMainScreenRoute());
-        } else if (model.profileUpdated == "3") {
-          await SharedPreferenceHelper().setUserId(model.userId!.toString());
-          await SharedPreferenceHelper().setAuthToken(model.token!);
-          await SharedPreferenceHelper().setName(model.name!.toString());
-          Get.offNamed(RouteHelper.getMainScreenRoute());
-        } else if (model.profileUpdated == "4") {
-          GlobalFunctions.showErrorDialog(
-              "Your profile is rejected please contact to customer care number",
-              context);
-        }else if (model.profileUpdated == "5") {
-          showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text('Account Verification'),
-              content: const Text('You are not eligible to login\n\nOur team is verifying your details,\n we\'ll contact you once verified'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-        }
+      if (model!.status == "200") {
+        showCustomSnackBar(model!.msg!);
+        Get.offNamed(RouteHelper.getMainScreenRoute());
       } else {
         showCustomSnackBar('Enter valid details');
       }
     });
+  }
+  String? validateMobile(String? value) {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = RegExp(pattern);
+    if (value!.isEmpty) {
+      return 'Enter mobile number';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Enter valid mobile number';
+    }
+    return null;
   }
 }

@@ -41,7 +41,8 @@ class ApiClient extends GetxService {
   void updateHeader(String? token) {
     _mainHeaders = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $token',
+      'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
     };
   }
 

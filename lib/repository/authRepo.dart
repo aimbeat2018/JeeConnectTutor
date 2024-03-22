@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
 import '../constant/app_constants.dart';
+import '../model/request/gradeRequestModel.dart';
 
 class AuthRepo {
   final ApiClient apiClient;
@@ -46,6 +47,11 @@ class AuthRepo {
     return await apiClient.postData(AppConstants.sendOtp, {
       "phone": phone,
     });
+  }
+
+  Future<Response> subjectListingGradeWise(GradeRequestModel model) async {
+    return await apiClient.postBodyData(
+        AppConstants.gradeWisemultiplesubjectslist, jsonEncode(model.toJson()));
   }
 
   Future<Response> updateProfile(UpdateProfileModel? model) async {

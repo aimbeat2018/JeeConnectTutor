@@ -10,10 +10,14 @@ import 'package:jeeconnecttutor/model/commonResponseModel.dart';
 import 'package:jeeconnecttutor/model/otpModel.dart';
 import 'package:jeeconnecttutor/model/profileViewModel.dart';
 import 'package:jeeconnecttutor/model/registerModel.dart';
+import 'package:jeeconnecttutor/model/response/gradesModel.dart';
+import 'package:jeeconnecttutor/model/response/subjectResponseModel.dart';
 import 'package:jeeconnecttutor/model/updateProfileModel.dart';
 import 'package:jeeconnecttutor/model/updateProfileResponseModel.dart';
 
 import '../model/loginModel.dart';
+import '../model/request/gradeRequestModel.dart';
+import '../model/response/boardsModel.dart';
 import '../model/termsPrivacyHelpDynamicContentResponseModel.dart';
 import '../repository/authRepo.dart';
 
@@ -26,7 +30,10 @@ class AuthController extends GetxController implements GetxService {
 
   RegisterModel? registerModel;
 
+  SubjectResponseModel? subjectResponseModel;
   ProfileViewModel? profileViewModel;
+  BoardsModel? boardsModel;
+  GradesModel? gradesModel;
 
   UpdateProfileResponseModel? updateProfileResponseModel;
   CommonResponseModel? commonResponseModel;
@@ -199,6 +206,90 @@ class AuthController extends GetxController implements GetxService {
     update();
     return profileViewModel;
   }
+
+  Future<BoardsModel?> getBoards() async {
+    _isLoading = true;
+    // update();
+
+    // String token = courseRepo.getUserToken();
+
+    var url =
+        '${AppConstants.baseUrl}${AppConstants.boardlist}?course_id=1';
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
+        },
+      );
+      // final responseData = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        boardsModel =
+            BoardsModel.fromJson(json.decode(response.body));
+      } else {
+        boardsModel = BoardsModel();
+      }
+    } catch (error) {
+      rethrow;
+    }
+    _isLoading = false;
+    update();
+    return boardsModel;
+  }
+
+  Future<GradesModel?> getGrades(String boardId) async {
+    _isLoading = true;
+
+    var url =
+        '${AppConstants.baseUrl}${AppConstants.gradeslist}?board_id=${boardId}';
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        gradesModel =
+            GradesModel.fromJson(json.decode(response.body));
+      } else {
+        gradesModel = GradesModel();
+      }
+    } catch (error) {
+      rethrow;
+    }
+    _isLoading = false;
+    update();
+    return gradesModel;
+  }
+
+
+  Future<SubjectResponseModel?> subjectListingGradeWise(GradeRequestModel gradeRequestModel) async {
+    _isLoading = true;
+    update();
+
+    Response response = await authRepo.subjectListingGradeWise(gradeRequestModel);
+
+    if (response.statusCode == 200) {
+      // if (response.body['status'] == 200) {
+      subjectResponseModel = SubjectResponseModel.fromJson(response.body);
+      // } else {
+      //   model = UpdateProfileResponseModel(status: 403);
+      // }
+    } else {
+      subjectResponseModel = SubjectResponseModel(status: "403");
+    }
+    _isLoading = false;
+    update();
+    return subjectResponseModel;
+  }
+
 
   Future<List> getBanners() async {
     String? token = authRepo.getUserToken();

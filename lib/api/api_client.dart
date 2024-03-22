@@ -90,8 +90,9 @@ class ApiClient extends GetxService {
         Uri.parse(appBaseUrl + uri),
         body: body,
         headers: {
-          'Content-Type': 'application/json',
-          // 'Authorization': 'Bearer $token'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Bearer $token',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
         },
       ).timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(_response, uri);

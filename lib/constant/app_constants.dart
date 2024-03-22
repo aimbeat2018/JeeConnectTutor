@@ -1,8 +1,8 @@
 class AppConstants {
   // static const String BASE_URL = 'https://stackfood-admin.6amtech.com';
-  static const String baseUrl = 'https://jeeconnect.com/jeeconnect_backoffice/API/V131/';
-  static const String login = 'instructor_login';
-  static const String registerInstructor = 'register_instructor';
+  static const String baseUrl = 'https://jeeconnect.com/jeeconnect_backoffice/API/';
+  static const String login = 'V131/instructor_login';
+  static const String registerInstructor = 'V131/register_instructor';
   static const String sendOtp = 'verify_mobile_number';
   static const String categoryList = 'all_categories';
   static const String categoryWiseCourse = 'category_wise_course';
@@ -59,6 +59,10 @@ class AppConstants {
   static const String getEmployeeList = 'get/employee/team/members';
   static const String instructorSessionsCompleteCount = 'instructor_complete_count';
   static const String requestPayment = 'request_payment';
+
+  static const String boardlist = 'V130/boardlist';
+  static const String gradeslist = 'V130/gradeslist';
+  static const String gradeWisemultiplesubjectslist = 'V131/multiple_grade_by_subject';
 
   // Shared Key
   static const String token = 'token';

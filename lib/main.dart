@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
         ],
       ),
-      title: 'JeeConnect',
+      title: 'JeeConnect Tutor',
       supportedLocales: [Locale('en')],
       initialRoute: Get.find<AuthController>().isLoggedIn()
           ? RouteHelper.getMainScreenRoute()

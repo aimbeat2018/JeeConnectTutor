@@ -15,9 +15,12 @@ class RequestRepo {
 
   RequestRepo({required this.apiClient, required this.sharedPreferences});
 
-  Future<Response> acceptRequest(CommonRequestModel model) async {
-    return await apiClient.postBodyData(
-        AppConstants.acceptRequest, jsonEncode(model.toJson()));
+  Future<Response> acceptRequest({String? package_purchase_id,String? instructorid}) async {
+    return await apiClient.postData(
+        AppConstants.acceptRequest, {
+          'instructor_id':instructorid,
+      'package_purchase_id':package_purchase_id
+    });
   }
 
   Future<Response> declineRequest(CommonRequestModel model) async {
@@ -30,9 +33,9 @@ class RequestRepo {
         AppConstants.cancelRequest, jsonEncode(model.toJson()));
   }
 
-  Future<Response> startSession(CommonRequestModel model) async {
-    return await apiClient.postBodyData(
-        AppConstants.sessionStart, jsonEncode(model.toJson()));
+  Future<Response> startSession(String sessionid,String otp,String starttime) async {
+    return await apiClient.postData(
+        AppConstants.sessionStart, {'session_id':sessionid,'otp':otp,'start_time':starttime});
   }
 
   Future<Response> endSession(CommonRequestModel model) async {
@@ -49,6 +52,17 @@ class RequestRepo {
     return await apiClient.postBodyData(
         AppConstants.instructorAcceptedRequestList, jsonEncode(model.toJson()));
   }
+  Future<Response> pendingPackageList(String instructor_id,String flag) async {
+    return await apiClient.postData(AppConstants.pendingPackageList, {
+      "instructor_id":instructor_id,
+      "flag":flag
+    });
+  }
+  Future<Response> getpackageDetails({String? package_id}) async {
+    return await apiClient.postData(AppConstants.packageDetails, {
+      "package_id": package_id
+    });
+  }
 
   Future<Response> completedRequestList(CommonRequestModel model) async {
     return await apiClient.postBodyData(
@@ -56,9 +70,11 @@ class RequestRepo {
         jsonEncode(model.toJson()));
   }
 
-  Future<Response> sessionDetail(CommonRequestModel model) async {
-    return await apiClient.postBodyData(
-        AppConstants.sessionDetails, jsonEncode(model.toJson()));
+  Future<Response> sessionDetail(String id) async {
+    return await apiClient.postData(
+        AppConstants.sessionDetails,{
+          'session_id':id
+    });
   }
 
   // for  user token

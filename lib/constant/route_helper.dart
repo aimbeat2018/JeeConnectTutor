@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jeeconnecttutor/screens/groupStudy/packageDetailsScreen.dart';
 import 'package:jeeconnecttutor/screens/sessions/sessionDetailsScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/otpScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/profileScreen.dart';
@@ -20,6 +21,8 @@ class RouteHelper {
   static const String profileScreen = '/profileScreen';
   static const String sessionDetails = '/sessionDetails';
   static const String passwordChangedScreen = '/passwordChangedScreen';
+  static const String packageDetailsScreen = '/packageDetailsScreen';
+
 
   static String getLoginRoute() => login;
 
@@ -55,6 +58,10 @@ class RouteHelper {
   static String getPasswordScreenRoute(String image, String email) =>
       '$passwordScreen?image=$image&email=$email';
 
+  static String getPackageDetailsRoute(String packageid) =>
+      '$packageDetailsScreen?packageid=$packageid';
+
+
   static List<GetPage> routes = [
     GetPage(name: login, page: () => getRoute(const LoginScreen())),
     GetPage(name: mainScreen, page: () => getRoute(MainScreen())),
@@ -84,7 +91,10 @@ class RouteHelper {
             roleId: Get.parameters['role_id'],
             otp: Get.parameters['otp'],
             refferalCode: Get.parameters['referral_stud'])),
-
+    GetPage(
+        name: packageDetailsScreen,
+        page: () =>
+            PackageDetailScreen(packageid: Get.parameters['packageid'])),
     // GetPage(
     //     name: passwordScreen,
     //     page: () => PasswordScreen(
@@ -114,10 +124,7 @@ class RouteHelper {
     //     page: () => PayViaQRScreen(
     //           amount: Get.parameters['amount'],
     //         )),
-    // GetPage(
-    //     name: packageDetails,
-    //     page: () =>
-    //         PackageDetailsScreen(walletPackageModel: Get.parameters['id'])),
+
     // GetPage(name: signUp, page: () => SignUpScreen()),
     // GetPage(
     //     name: verification,

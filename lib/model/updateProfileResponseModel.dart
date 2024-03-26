@@ -1,6 +1,6 @@
 class UpdateProfileResponseModel {
   String? message;
-  int? status;
+  String? status;
   bool? validity;
 
   UpdateProfileResponseModel({this.message, this.status, this.validity});

@@ -7,6 +7,7 @@ import 'package:jeeconnecttutor/model/courseModel.dart';
 import 'package:jeeconnecttutor/model/tutorRequestModel.dart';
 
 import '../constant/app_constants.dart';
+import '../model/loginModel.dart';
 import '../model/sessionDetailsModel.dart';
 import '../model/updateProfileResponseModel.dart';
 import '../repository/requestRepo.dart';
@@ -19,6 +20,8 @@ class RequestController extends GetxController implements GetxService {
   List<TutorRequestModel>? tutorRequestList;
   List<TutorRequestModel>? acceptedTutorRequestList;
   List<TutorRequestModel>? completedTutorRequestList;
+
+  TutorRequestModel? tutorRequestModel;
 
   List<CourseModel>? courseModelList = [];
 
@@ -73,6 +76,34 @@ class RequestController extends GetxController implements GetxService {
     return value;
   }
 
+  Future<TutorRequestModel?> getSessionRequestList({String? userid,String? flag}) async{
+    _isLoading=true;
+    Response response=await requestRepo.pendingPackageList(userid!,flag!);
+    if(response.statusCode==200){
+      tutorRequestModel = TutorRequestModel.fromJson(response.body);
+    }
+    else{
+      tutorRequestModel=TutorRequestModel();
+    }
+    _isLoading = false;
+    update();
+    return tutorRequestModel;
+
+}
+  Future<TutorRequestModel?> getPackageDetails({String? packageid}) async{
+    _isLoading=true;
+    Response response=await requestRepo.getpackageDetails(package_id:packageid);
+    if(response.statusCode==200){
+      tutorRequestModel=TutorRequestModel.fromJson(response.body);
+    }
+    else{
+      tutorRequestModel=TutorRequestModel();
+    }
+    _isLoading=false;
+    update();
+    return tutorRequestModel;
+
+  }
   Future<List<TutorRequestModel>?> getAcceptedTutorRequestList(
       String token) async {
     _isLoading = true;
@@ -116,12 +147,12 @@ class RequestController extends GetxController implements GetxService {
   }
 
   Future<UpdateProfileResponseModel?> acceptRequest(
-      String id, String token, String studentId) async {
+      String packageid, String userid) async {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo.acceptRequest(CommonRequestModel(
-        scheduleId: id, authToken: token, studentId: studentId));
+    Response response = await requestRepo.acceptRequest(
+        package_purchase_id: packageid,instructorid: userid);
 
     if (response.statusCode == 200) {
       // if (response.body['status'] == 200) {
@@ -130,7 +161,7 @@ class RequestController extends GetxController implements GetxService {
       //   model = UpdateProfileResponseModel(status: 403);
       // }
     } else {
-      model = UpdateProfileResponseModel(status: 403);
+      model = UpdateProfileResponseModel(status: '403');
     }
     _isLoading = false;
     update();
@@ -152,7 +183,7 @@ class RequestController extends GetxController implements GetxService {
       //   model = UpdateProfileResponseModel(status: 403);
       // }
     } else {
-      model = UpdateProfileResponseModel(status: 403);
+      model = UpdateProfileResponseModel(status: '403');
     }
     _isLoading = false;
     update();
@@ -174,7 +205,7 @@ class RequestController extends GetxController implements GetxService {
       //   model = UpdateProfileResponseModel(status: 403);
       // }
     } else {
-      model = UpdateProfileResponseModel(status: 403);
+      model = UpdateProfileResponseModel(status: '403');
     }
     _isLoading = false;
     update();
@@ -186,16 +217,10 @@ class RequestController extends GetxController implements GetxService {
     // update();
 
     Response response = await requestRepo
-        .sessionDetail(CommonRequestModel(id: id, authToken: token));
+        .sessionDetail(id);
 
     if (response.statusCode == 200) {
-      // if (response.body['status'] == 200) {
-      List data = json.decode(response.bodyString!);
-      List<SessionDetailsModel> listData = toSessionList(data);
-
-      for (var sessionModel in listData) {
-        sessionDetailsModel = sessionModel;
-      }
+     sessionDetailsModel=SessionDetailsModel.fromJson(response.body);
     } else {
       sessionDetailsModel = SessionDetailsModel();
     }
@@ -213,27 +238,17 @@ class RequestController extends GetxController implements GetxService {
   }
 
   Future<UpdateProfileResponseModel?> startSession(
-      String id, String token, String otp, String? startTime) async {
+      String id, String token, String otp, String startTime) async {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo.startSession(CommonRequestModel(
-        id: id, authToken: token, otp: otp, startTime: startTime!));
+    Response response = await requestRepo.startSession(id,otp,startTime);
 
     if (response.statusCode == 200) {
-      // if (response.body['status'] == 200) {
       model = UpdateProfileResponseModel.fromJson(response.body);
-      // } else {
-      //   model = UpdateProfileResponseModel(status: 403);
-      // }
     } else {
-      model = UpdateProfileResponseModel(status: 403);
+      model = UpdateProfileResponseModel(status: '403');
     }
-
-
-
-
-
 
     _isLoading = false;
     update();
@@ -255,7 +270,7 @@ class RequestController extends GetxController implements GetxService {
       //   model = UpdateProfileResponseModel(status: 403);
       // }
     } else {
-      model = UpdateProfileResponseModel(status: 403);
+      model = UpdateProfileResponseModel(status: '403');
     }
     _isLoading = false;
     update();
@@ -277,7 +292,7 @@ class RequestController extends GetxController implements GetxService {
       //   model = UpdateProfileResponseModel(status: 403);
       // }
     } else {
-      model = UpdateProfileResponseModel(status: 403);
+      model = UpdateProfileResponseModel(status: '403');
     }
     _isLoading = false;
     update();

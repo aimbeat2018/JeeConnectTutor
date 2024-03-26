@@ -144,10 +144,10 @@ class AuthController extends GetxController implements GetxService {
         authRepo.saveUserToken(token);
         authRepo.saveUserId(userId);
       } else {
-        updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
+        updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
       }
     } else {
-      updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
+      updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
     }
     _isLoading = false;
     update();
@@ -165,10 +165,10 @@ class AuthController extends GetxController implements GetxService {
         updateProfileResponseModel =
             UpdateProfileResponseModel.fromJson(response.body);
       } else {
-        updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
+        updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
       }
     } else {
-      updateProfileResponseModel = UpdateProfileResponseModel(status: 403);
+      updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
     }
     _isLoading = false;
     update();

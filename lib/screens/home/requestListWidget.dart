@@ -53,7 +53,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                                     fontWeight: FontWeight.normal),
                                               ),
                                               Text(
-                                                widget.model.studentName!,
+                                                'widget.model.studentName!',
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
                                                     color: Colors.blue,
@@ -77,7 +77,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                                     fontWeight: FontWeight.normal),
                                               ),
                                               Text(
-                                                widget.model.courseName!,
+                                                'widget.model.courseName!',
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
                                                     color: Colors.blue,
@@ -101,7 +101,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                                     fontWeight: FontWeight.normal),
                                               ),
                                               Text(
-                                                widget.model.date!,
+                                                'widget.model.purchaseDate!',
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
                                                     color: Colors.blue,
@@ -125,7 +125,7 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                                     fontWeight: FontWeight.normal),
                                               ),
                                               Text(
-                                                widget.model.time!,
+                                                'widget.model.purchaseDate!',
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
                                                     color: Colors.blue,
@@ -190,8 +190,8 @@ class _RequestListWidgetState extends State<RequestListWidget> {
                                               elevation: 0,
                                               color: kYellowColor,
                                               onPressed: () {
-                                                Get.toNamed(RouteHelper.getSessionDetailsScreenRoute(
-                                                    widget.model.id!));
+                                                /*Get.toNamed(RouteHelper.getSessionDetailsScreenRoute(
+                                                    widget.model.packageId!));*/
                                               },
                                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                               shape: RoundedRectangleBorder(

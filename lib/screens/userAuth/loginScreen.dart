@@ -361,7 +361,11 @@ class LoginScreenState extends State<LoginScreen> {
       if (model!.status == "200") {
         showCustomSnackBar(model!.msg!);
         Get.offNamed(RouteHelper.getMainScreenRoute());
-      } else {
+      } else if (model!.status == "202") {
+        showCustomSnackBar(model!.msg!);
+      //  Get.offNamed(RouteHelper.getMainScreenRoute());
+      }
+      else {
         showCustomSnackBar('Enter valid details');
       }
     });

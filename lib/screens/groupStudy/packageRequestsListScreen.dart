@@ -61,7 +61,7 @@ class PackageRequestListScreenState
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              PackageDetailScreen(),
+                              PackageDetailScreen(packageid: '',),
                         ));
                       },
                       child: Center(

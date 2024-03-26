@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -195,7 +196,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: model.studentAddress,
+                      text: model.studentName,
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
@@ -237,7 +238,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: '${model.date} ${model.time}',
+                      text: '${model.purchaseDate} ${model.purchaseDate}',
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
@@ -258,7 +259,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: '${model.day} ${model.shift}',
+                      text: '${model.purchaseDate} ${model.purchaseDate}',
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
@@ -294,8 +295,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 elevation: 0,
                 color: Colors.green,
                 onPressed: () {
-                  acceptRequest(
-                      model.scheduleId!, requestController, model.userId!);
+                 */
+/* acceptRequest(
+                      model.scheduleId!, requestController, model.userId!);*//*
+
                 },
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 shape: RoundedRectangleBorder(
@@ -322,7 +325,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 elevation: 0,
                 color: Colors.red,
                 onPressed: () {
-                  declineRequest(model.id!, requestController);
+                  */
+/*declineRequest(model.id!, requestController);*//*
+
                 },
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 shape: RoundedRectangleBorder(
@@ -381,3 +386,4 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 }
+*/

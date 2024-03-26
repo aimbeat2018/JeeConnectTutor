@@ -3,6 +3,13 @@ class AppConstants {
   static const String baseUrl = 'https://jeeconnect.com/jeeconnect_backoffice/API/';
   static const String login = 'V131/instructor_login';
   static const String registerInstructor = 'V131/register_instructor';
+  static const String pendingPackageList = 'V131/pending_package_list';
+  static const String packageDetails = 'V131/package_details';
+  static const String acceptRequest = 'V131/request_accept';
+  static const String sessionDetails = 'V131/session_details_for_ins';
+  static const String sessionStart = 'V131/session_start';
+  static const String sessionEnd = 'V131/session_end';
+
   static const String sendOtp = 'verify_mobile_number';
   static const String categoryList = 'all_categories';
   static const String categoryWiseCourse = 'category_wise_course';
@@ -16,12 +23,8 @@ class AppConstants {
   static const String instructorRequestList = 'instructor_course_list';
   static const String instructorAcceptedRequestList = 'accept_session_list';
   static const String instructorCompletedRequestList = 'complete_session_list';
-  static const String acceptRequest = 'accept_request';
   static const String declineRequest = 'decline_request';
   static const String cancelRequest = 'cancel_request';
-  static const String sessionDetails = 'session_details';
-  static const String sessionStart = 'session_start';
-  static const String sessionEnd = 'session_end';
   static const String addReview = 'inst_review';
 
   static const String resetPassword = 'forget/password';

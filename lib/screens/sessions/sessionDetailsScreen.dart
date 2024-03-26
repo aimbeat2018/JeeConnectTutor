@@ -78,7 +78,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                 ),
               ),
               body: requestController.isDetailsLoading ||
-                      requestController.sessionDetailsModel == null
+                      requestController.sessionDetailsModel == null || requestController.sessionDetailsModel!.data!.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -86,7 +86,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                       child: Padding(
                         padding: const EdgeInsets.all(15),
                         child: Column(children: [
-                          if (requestController.sessionDetailsModel!.status! ==
+                          if (requestController.sessionDetailsModel!.data![0].status ==
                               "4")
                             Column(
                               children: [
@@ -102,12 +102,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                if (requestController.sessionDetailsModel!
-                                            .studReviewStatus ==
-                                        "0" &&
-                                    requestController.sessionDetailsModel!
-                                            .insReviewStatus ==
-                                        "1")
+                                if (requestController.sessionDetailsModel!.data![0].status=='1')
                                   Text(
                                     'Review from Student side is pending'
                                         .toUpperCase(),
@@ -184,9 +179,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     MainAxisAlignment.end,
                                                 children: [
                                                   Text(
-                                                    requestController
-                                                        .sessionDetailsModel!
-                                                        .studentName!,
+                                                    requestController.sessionDetailsModel!.data![0].studentName!,
                                                     textAlign: TextAlign.left,
                                                     style: const TextStyle(
                                                       fontSize: 14,
@@ -199,7 +192,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    'Location : ${requestController.sessionDetailsModel!.studentAddress!}',
+                                                    'Location : ${requestController.sessionDetailsModel!.data![0].studentAdd!}',
                                                     textAlign: TextAlign.start,
                                                     style: const TextStyle(
                                                       fontSize: 14,
@@ -212,7 +205,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     height: 15,
                                                   ),
                                                   Text(
-                                                    'Subject : ${requestController.sessionDetailsModel!.courseName!}',
+                                                    'Subject : ${requestController.sessionDetailsModel!.data![0].subject!}',
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                       fontSize: 16,
@@ -255,7 +248,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     height: 10,
                                                   ),
                                                   Text(
-                                                    'Date : ${GlobalFunctions.formatDate(requestController.sessionDetailsModel!.date!)}',
+                                                    'Date : ${requestController.sessionDetailsModel!.data![0].date!}',
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                       fontSize: 14,
@@ -268,7 +261,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    'Time : ${requestController.sessionDetailsModel!.time!}',
+                                                    'Time : ${requestController.sessionDetailsModel!.data![0].time!}',
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                       fontSize: 14,
@@ -319,11 +312,8 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                               ),
                             ),
                           ),
-                          if (requestController.sessionDetailsModel!.status ==
-                                  "5" &&
-                              requestController
-                                      .sessionDetailsModel!.insReviewStatus !=
-                                  "1")
+                          if (requestController.sessionDetailsModel!.data![0].status ==
+                                  "5" )
                             SizedBox(
                               child: Center(
                                 child: Padding(
@@ -418,9 +408,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     'Enter Review');
                                               } else {
                                                 addReview(
-                                                    requestController
-                                                        .sessionDetailsModel!
-                                                        .id!,
+                                                    requestController.sessionDetailsModel!.data![0].sessionId!,
                                                     requestController);
                                               }
                                             },
@@ -532,15 +520,9 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                           "Enter Valid OTP");
                                                     } else {
                                                       startSession(
-                                                          requestController
-                                                              .sessionDetailsModel!
-                                                              .date!,
-                                                          requestController
-                                                              .sessionDetailsModel!
-                                                              .time!,
-                                                          requestController
-                                                              .sessionDetailsModel!
-                                                              .id!,
+                                                          requestController.sessionDetailsModel!.data![0].date!,
+                                                          requestController.sessionDetailsModel!.data![0].time!,
+                                                          requestController.sessionDetailsModel!.data![0].sessionId!,
                                                           _otpPinFieldController
                                                               .currentState!
                                                               .text,
@@ -665,9 +647,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                                           .pop();
 
                                                                       endSession(
-                                                                          requestController
-                                                                              .sessionDetailsModel!
-                                                                              .id!,
+                                                                          requestController.sessionDetailsModel!.data![0].sessionId!,
                                                                           requestController);
                                                                     },
                                                                     child:

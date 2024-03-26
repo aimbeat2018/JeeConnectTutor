@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:jeeconnecttutor/constant/app_constants.dart';
 import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
 import 'package:jeeconnecttutor/model/commonAuthTokenRequestModel.dart';
@@ -72,29 +74,57 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<RegisterModel?> registerUser(
-      {String? name,
-      String? email,
+      {String? firstName,
+      String? lastName,
       String? phone,
+      String? email,
+      String? address,
       String? password,
-      String? confirmPassword,
       String? pincode,
-      String? roleId,
-      String? referralCode}) async {
+      String? adhar,
+      String? pan,
+      String? bankname,
+      String? holdername,
+      String? accountNo,
+      String? ifsc,
+      String? referralCode,
+      String? board,
+      String? grade,
+      String? subjects,
+      XFile? resume,
+      String? modeOfTeachingSelected}) async {
     _isLoading = true;
     update();
-
+    String firebaseToken = "";
+    FirebaseMessaging.instance
+        .getToken()
+        .then((value) async {
+      firebaseToken =
+          value.toString();
     Response response = await authRepo.register(
-        name: name,
-        email: email,
+        firstName: firstName,
+        lastName: lastName,
         phone: phone,
+        email: email,
+        address: address,
         password: password,
-        confirmPassword: confirmPassword,
         pincode: pincode,
-        role_Id: roleId,
-        referral_Code: referralCode ?? "");
+        adhar: adhar,
+        pan: pan,
+        bankname: bankname,
+        holdername: holdername,
+        accountNo: accountNo,
+        ifsc: ifsc,
+        referralCode: referralCode,
+        board: board,
+        grade: grade,
+        subjects: subjects,
+        resume: resume,
+        token: firebaseToken,
+        modeOfTeachingSelected: modeOfTeachingSelected);
 
     if (response.statusCode == 200) {
-      if (response.body['status'] == 200) {
+      if (response.body['status'] == "200") {
         registerModel = RegisterModel.fromJson(response.body);
 
         authRepo.saveUserMobile(registerModel!.data!.phone!);
@@ -104,6 +134,7 @@ class AuthController extends GetxController implements GetxService {
     } else {
       registerModel = RegisterModel(status: 403);
     }
+    });
     _isLoading = false;
     update();
     return registerModel;
@@ -116,14 +147,14 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.sendRegisterOtp(phone: phone);
 
     if (response.statusCode == 200) {
-      if (response.body['status'] == 200) {
+      if (response.body['status'] == "200") {
         otpModel = OtpModel.fromJson(response.body);
         showCustomSnackBar("Your otp to proceed - ${otpModel!.otp}", isError: false);
       } else {
-        otpModel = OtpModel(status: 403);
+        otpModel = OtpModel(status: "403");
       }
     } else {
-      otpModel = OtpModel(status: 403);
+      otpModel = OtpModel(status: "403");
     }
     _isLoading = false;
     update();

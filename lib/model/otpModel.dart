@@ -1,24 +1,21 @@
 class OtpModel {
-  int? otp;
+  String? otp;
   String? message;
-  int? status;
-  bool? validity;
+  String? status;
 
-  OtpModel({this.otp, this.message, this.status, this.validity});
+  OtpModel({this.otp, this.message, this.status});
 
   OtpModel.fromJson(Map<String, dynamic> json) {
     otp = json['otp'];
-    message = json['message'];
+    message = json['msg'];
     status = json['status'];
-    validity = json['validity'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['otp'] = this.otp;
-    data['message'] = this.message;
+    data['msg'] = this.message;
     data['status'] = this.status;
-    data['validity'] = this.validity;
     return data;
   }
 }

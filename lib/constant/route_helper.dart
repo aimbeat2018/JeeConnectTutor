@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/screens/groupStudy/packageDetailsScreen.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jeeconnecttutor/screens/sessions/sessionDetailsScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/otpScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/profileScreen.dart';
@@ -40,17 +41,32 @@ class RouteHelper {
       '$sessionDetails?id=$id';
 
   static String getOtpScreenRoute(
-    String name,
-    String email,
-    String phone,
-    String password,
-    String confirm_password,
-    String pincode,
-    String roleId,
-  String otp,
-    String refferalCode
-  ) =>
-      '$otpScreen?name=$name&email=$email&phone=$phone&password=$password&confirm_password=$confirm_password&pincode=$pincode&role_id=$roleId&otp=$otp&referral_stud=$refferalCode';
+          {String? firstName,
+          String? lastName,
+          String? phone,
+          String? email,
+          String? address,
+          String? password,
+          String? pincode,
+          String? adhar,
+          String? pan,
+          String? bankname,
+          String? accountNo,
+          String? ifsc,
+          String? referralCode,
+          String? board,
+          String? grade,
+          String? subjects,
+          String? otp,
+          String? modeOfTeachingSelected,
+          XFile? resume}) =>
+      '$otpScreen?firstName=$firstName&lastName=$lastName&phone=$phone&'
+          'email=$email&address=$address'
+          '&password=$password&pincode=$pincode&adhar=$adhar&'
+          'pan=$pan&bankname=$bankname'
+          '&accountNo=$accountNo&ifsc=$ifsc&referralCode=$referralCode&'
+          'board=$board&grade=$grade&otp=$otp'
+          '&subjects=$subjects&modeOfTeachingSelected=$modeOfTeachingSelected&resume=$resume';
 
   static String getPasswordChangedScreenRoute(String email, String image) =>
       '$passwordChangedScreen?email=$email&image=$image';
@@ -82,19 +98,27 @@ class RouteHelper {
 */
         name: otpScreen,
         page: () => OtpScreen(
-            name: Get.parameters['name'],
-            email: Get.parameters['email'],
-            phone: Get.parameters['phone'],
-            password: Get.parameters['password'],
-            confirmPassword: Get.parameters['confirm_password'],
-            pincode: Get.parameters['pincode'],
-            roleId: Get.parameters['role_id'],
-            otp: Get.parameters['otp'],
-            refferalCode: Get.parameters['referral_stud'])),
-    GetPage(
-        name: packageDetailsScreen,
-        page: () =>
-            PackageDetailScreen(packageid: Get.parameters['packageid'])),
+              firstName: Get.parameters['firstName'],
+              lastName: Get.parameters['lastName'],
+              phone: Get.parameters['phone'],
+              email: Get.parameters['email'],
+              address: Get.parameters['address'],
+              password: Get.parameters['password'],
+              pincode: Get.parameters['pincode'],
+              adhar: Get.parameters['adhar'],
+              pan: Get.parameters['pan'],
+              bankname: Get.parameters['bankname'],
+              holdername: Get.parameters['holdername'],
+              accountNo: Get.parameters['accountNo'],
+              ifsc: Get.parameters['ifsc'],
+              referralCode: Get.parameters['referralCode'],
+              board: Get.parameters['board'],
+              grade: Get.parameters['grade'],
+              subjects: Get.parameters['subjects'],
+              modeOfTeachingSelected: Get.parameters['modeOfTeachingSelected'],
+              otp: Get.parameters['otp'],
+            )),
+
     // GetPage(
     //     name: passwordScreen,
     //     page: () => PasswordScreen(

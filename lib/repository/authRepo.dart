@@ -23,29 +23,55 @@ class AuthRepo {
   }
 
   Future<Response> register(
-      {String? name,
-      String? email,
+      {String? firstName,
+      String? lastName,
       String? phone,
+      String? email,
+      String? address,
       String? password,
-      String? confirmPassword,
       String? pincode,
-      String? role_Id,
-      String? referral_Code}) async {
-    return await apiClient.postData(AppConstants.registerInstructor, {
-      "name": name,
-      "email": email,
-      "phone": phone,
-      "password": password,
-      "confirm_password": confirmPassword,
-      "pincode": pincode,
-      "role_id": role_Id,
-      "referral_stud": referral_Code
-    });
+      String? adhar,
+      String? pan,
+      String? bankname,
+      String? holdername,
+      String? accountNo,
+      String? ifsc,
+      String? referralCode,
+      String? board,
+      String? grade,
+      String? subjects,
+      String? token,
+      String? modeOfTeachingSelected,
+        XFile? resume}) async {
+
+    return await apiClient.postMultipartData(AppConstants.registerInstructor, {
+      "first_name": firstName!,
+      "last_name": lastName!,
+      "mobile_no": phone!,
+      "email": email!,
+      "address": address!,
+      "password": password!,
+      "pincode": pincode!,
+      "aadhar_no": adhar!,
+      "pan_no": pan!,
+      "bank_name": bankname!,
+      "account_holder_name": holdername!,
+      "account_no": accountNo!,
+      "ifsc_code": ifsc!,
+      "referralCode": referralCode!,
+      "board_id": board!,
+      "grade_id": grade!,
+      "subject_id": subjects!,
+      "tokan": token!,
+      "mode_of_teaching": modeOfTeachingSelected!
+    }, [
+      MultipartBody('resume', resume!)
+    ]);
   }
 
   Future<Response> sendRegisterOtp({String? phone}) async {
     return await apiClient.postData(AppConstants.sendOtp, {
-      "phone": phone,
+      "mobile_no": phone,
     });
   }
 

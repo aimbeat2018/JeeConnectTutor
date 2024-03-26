@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/globalFunction.dart';
@@ -14,6 +17,7 @@ import 'package:jeeconnecttutor/model/modeOfTeachingModel.dart';
 import 'package:jeeconnecttutor/model/request/gradeRequestModel.dart';
 import 'package:jeeconnecttutor/model/response/boardsModel.dart';
 import 'package:jeeconnecttutor/model/response/subjectResponseModel.dart';
+import 'package:jeeconnecttutor/screens/userAuth/otpScreen.dart';
 
 import '../../constant/app_constants.dart';
 import '../../constant/custom_snackbar.dart';
@@ -38,19 +42,13 @@ class SignUpScreenState extends State<SignUpScreen> {
   bool hidePassword = true;
   bool hideConfirmPassword = true;
   bool _isLoading = false;
-  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _mobileController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
   final _pincodeController = TextEditingController();
-  final _refferalCodeController = TextEditingController();
 
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  final _fatherNameController = TextEditingController();
-  final _motherNameController = TextEditingController();
-  final _dobController = TextEditingController();
   final _gradeController = TextEditingController();
   final _subjectsController = TextEditingController();
   final _boardController = TextEditingController();
@@ -64,7 +62,6 @@ class SignUpScreenState extends State<SignUpScreen> {
   final _referralCodeController = TextEditingController();
 
   String _connectionStatus = 'unKnown';
-  String _referralcode = "";
   BoardsModel? boardsModel = BoardsModel();
   GradesModel? gradesModel = GradesModel();
   SubjectResponseModel? subjectResponseModel;
@@ -73,7 +70,27 @@ class SignUpScreenState extends State<SignUpScreen> {
   List<String>? gradesIdList = [];
   List<String> subjectsList = [];
   List<String> subjectsGradeList = [];
-  List<ModeOfTeachingModel>? modeOfTeachingList;
+  List multipleSelected = [];
+  XFile? _pickedFile;
+
+  List checkListItems = [
+    {
+      "id": 1,
+      "value": false,
+      "title": "Online",
+    },
+    {
+      "id": 2,
+      "value": false,
+      "title": "Offline",
+    },
+    {
+      "id": 3,
+      "value": false,
+      "title": "Group Study",
+    },
+  ];
+
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final List<FocusNode> _focusNodes = [
@@ -97,7 +114,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   final bool isBoardSelected = true;
   final bool isGradeSelected = false;
   final bool isSubjectSelected = false;
-  GradeRequestModel? gradeRequestModel= GradeRequestModel();
+  GradeRequestModel? gradeRequestModel = GradeRequestModel();
 
   /// This is list of city which will pass to the drop down.
   final List<SelectedListItem> _listOfBoards = [];
@@ -116,6 +133,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             _connectionStatus = value;
           }));
     });
+
     getBoards();
   }
 
@@ -129,1787 +147,1901 @@ class SignUpScreenState extends State<SignUpScreen> {
               body: SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
-
                     children: [
                       Column(
                         children: [
                           SingleChildScrollView(
                             child: Column(
                               children: [
-                            Container(
-                            height: MediaQuery.of(context).size.height,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/bg_image_login.jpg",
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15.0, horizontal: 20),
-                                  child: Card(
-                                    color: Colors.white,
-                                    elevation: 5,
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(12))),
-                                    child: SingleChildScrollView(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 15),
-                                        child: SizedBox(
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                TextConstant.sign_up,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleLarge!
-                                                    .copyWith(color: Colors.black),
-                                              ),
-                                              const SizedBox(
-                                                height: 30,
-                                              ),
-                                              Form(
-                                                  key: globalFormKey,
-                                                  child: SingleChildScrollView(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.6,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[0],
-                                                                controller:
-                                                                _firstNameController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.phone,
-                                                                  //   size: 20,
-                                                                  //   color: _focusNodes[0].hasFocus
-                                                                  //       ? kYellowColor
-                                                                  //       : kBlueDarkColor,
-                                                                  // ),
-
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  isDense: true,
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'First Name',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          3)
-                                                                      ? 'Enter valid first name'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 20,
-                                                            ),
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.6,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[1],
-                                                                controller:
-                                                                _lastNameController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.lock,
-                                                                  //   size: 20,
-                                                                  //   color:
-                                                                  //       FocusScope.of(context).isFirstFocus
-                                                                  //           ? kYellowColor
-                                                                  //           : kBlueDarkColor,
-                                                                  // ),
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Last Name',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          3)
-                                                                      ? 'Enter valid last Name'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.6,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[2],
-                                                                controller:
-                                                                _mobileController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.phone,
-                                                                  //   size: 20,
-                                                                  //   color: _focusNodes[0].hasFocus
-                                                                  //       ? kYellowColor
-                                                                  //       : kBlueDarkColor,
-                                                                  // ),
-
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  isDense: true,
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Mobile No.',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                // validator: (String? value) {
-                                                                //   return (value != null &&
-                                                                //           value == "" &&
-                                                                //           value.length < 3)
-                                                                //       ? 'Enter valid father name'
-                                                                //       : null;
-                                                                // },
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 20,
-                                                            ),
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.6,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[3],
-                                                                controller:
-                                                                _emailController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Email',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                //   validator: (String? value) {
-                                                                //     return (value != null &&
-                                                                //             value == "" &&
-                                                                //             value.length < 3)
-                                                                //         ? 'Enter valid mother Name'
-                                                                //         : null;
-                                                                //   },
-                                                                // ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 8.0),
-                                                          child: TextFormField(
-                                                            focusNode:
-                                                            _focusNodes[4],
-                                                            controller:
-                                                            _addressController,
-                                                            minLines: 3,
-                                                            maxLines: 5,
-                                                            keyboardType:
-                                                            TextInputType
-                                                                .streetAddress,
-                                                            style: TextStyle(
-                                                                color:
-                                                                Colors.black),
-                                                            decoration:
-                                                            InputDecoration(
-                                                              // suffixIcon: Icon(
-                                                              //   Icons.lock,
-                                                              //   size: 20,
-                                                              //   color:
-                                                              //       FocusScope.of(context).isFirstFocus
-                                                              //           ? kYellowColor
-                                                              //           : kBlueDarkColor,
-                                                              // ),
-                                                              // hintText: 'What do people call you?',
-                                                              // isDense: true,
-                                                              focusedBorder:
-                                                              OutlineInputBorder(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    8.0),
-                                                                borderSide:
-                                                                const BorderSide(
-                                                                  color:
-                                                                  kYellowColor,
-                                                                ),
-                                                              ),
-                                                              enabledBorder:
-                                                              OutlineInputBorder(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    8.0),
-                                                                borderSide:
-                                                                const BorderSide(
-                                                                  color:
-                                                                  kBlueDarkColor,
-                                                                  // width: 1.0,
-                                                                ),
-                                                              ),
-                                                              border: const OutlineInputBorder(
-                                                                  borderRadius: BorderRadius
-                                                                      .all(Radius
-                                                                      .circular(
-                                                                      8))),
-                                                              contentPadding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 11,
-                                                                  bottom: 11,
-                                                                  left: 15),
-                                                              labelText:
-                                                              TextConstant
-                                                                  .address,
-                                                              labelStyle: Theme.of(
-                                                                  context)
-                                                                  .textTheme
-                                                                  .titleSmall!
-                                                                  .copyWith(
-                                                                  color: Colors
-                                                                      .black),
-                                                            ),
-                                                            onSaved:
-                                                                (String? value) {
-                                                              // This optional block of code can be used to run
-                                                              // code when the user saves the form.
-                                                            },
-                                                            validator:
-                                                                (String? value) {
-                                                              return (value !=
-                                                                  null &&
-                                                                  value == "" &&
-                                                                  value.length <
-                                                                      10)
-                                                                  ? 'Enter valid address'
-                                                                  : null;
-                                                            },
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[5],
-                                                                controller:
-                                                                _passwordController,
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  suffixIcon:
-                                                                  IconButton(
-                                                                    onPressed: () {
-                                                                      setState(() {
-                                                                        hidePassword =
-                                                                        !hidePassword;
-                                                                      });
-                                                                    },
-                                                                    color: Colors
-                                                                        .black,
-                                                                    icon: Icon(hidePassword
-                                                                        ? Icons
-                                                                        .visibility_off_outlined
-                                                                        : Icons
-                                                                        .visibility_outlined),
-                                                                  ),
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  TextConstant
-                                                                      .password,
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (input) =>
-                                                                input!.length <
-                                                                    3
-                                                                    ? "Password should be more than 3 characters"
-                                                                    : null,
-                                                                obscureText:
-                                                                hidePassword,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 20,
-                                                            ),
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  3.7,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[6],
-                                                                controller:
-                                                                _pincodeController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.lock,
-                                                                  //   size: 20,
-                                                                  //   color:
-                                                                  //       FocusScope.of(context).isFirstFocus
-                                                                  //           ? kYellowColor
-                                                                  //           : kBlueDarkColor,
-                                                                  // ),
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Pin Code',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          3)
-                                                                      ? 'Enter valid pincode'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.2,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[7],
-                                                                controller:
-                                                                _adharController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.lock,
-                                                                  //   size: 20,
-                                                                  //   color:
-                                                                  //       FocusScope.of(context).isFirstFocus
-                                                                  //           ? kYellowColor
-                                                                  //           : kBlueDarkColor,
-                                                                  // ),
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Aadhaar Card No.',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          12)
-                                                                      ? 'Aadhar Card No.'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 20,
-                                                            ),
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  3,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[8],
-                                                                controller:
-                                                                _panController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.lock,
-                                                                  //   size: 20,
-                                                                  //   color:
-                                                                  //       FocusScope.of(context).isFirstFocus
-                                                                  //           ? kYellowColor
-                                                                  //           : kBlueDarkColor,
-                                                                  // ),
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Pancard No.',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          10)
-                                                                      ? 'Enter valid pancard no.'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.55,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[9],
-                                                                controller:
-                                                                _banknameController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.lock,
-                                                                  //   size: 20,
-                                                                  //   color:
-                                                                  //       FocusScope.of(context).isFirstFocus
-                                                                  //           ? kYellowColor
-                                                                  //           : kBlueDarkColor,
-                                                                  // ),
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Enter Bank Name',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          12)
-                                                                      ? 'Bank Name'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.6,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[10],
-                                                                controller:
-                                                                _holdernameController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.lock,
-                                                                  //   size: 20,
-                                                                  //   color:
-                                                                  //       FocusScope.of(context).isFirstFocus
-                                                                  //           ? kYellowColor
-                                                                  //           : kBlueDarkColor,
-                                                                  // ),
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Account Holder Name',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          10)
-                                                                      ? 'Enter Account Holder Name'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.6,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[11],
-                                                                controller:
-                                                                _accountnoontroller,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.lock,
-                                                                  //   size: 20,
-                                                                  //   color:
-                                                                  //       FocusScope.of(context).isFirstFocus
-                                                                  //           ? kYellowColor
-                                                                  //           : kBlueDarkColor,
-                                                                  // ),
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'Account Number',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          12)
-                                                                      ? 'Enter Account Number'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                  context)
-                                                                  .size
-                                                                  .width /
-                                                                  2.6,
-                                                              child: TextFormField(
-                                                                focusNode:
-                                                                _focusNodes[12],
-                                                                controller:
-                                                                _ifscController,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  isDense: true,
-                                                                  // suffixIcon: Icon(
-                                                                  //   Icons.lock,
-                                                                  //   size: 20,
-                                                                  //   color:
-                                                                  //       FocusScope.of(context).isFirstFocus
-                                                                  //           ? kYellowColor
-                                                                  //           : kBlueDarkColor,
-                                                                  // ),
-                                                                  // hintText: 'What do people call you?',
-                                                                  // isDense: true,
-                                                                  focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kYellowColor,
-                                                                    ),
-                                                                  ),
-                                                                  enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        6.0),
-                                                                    borderSide:
-                                                                    const BorderSide(
-                                                                      color:
-                                                                      kBlueDarkColor,
-                                                                      // width: 1.0,
-                                                                    ),
-                                                                  ),
-                                                                  border: const OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              6))),
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 11,
-                                                                      bottom:
-                                                                      11,
-                                                                      left: 15),
-                                                                  labelText:
-                                                                  'IFSC Code',
-                                                                  labelStyle: Theme
-                                                                      .of(
-                                                                      context)
-                                                                      .textTheme
-                                                                      .titleSmall!
-                                                                      .copyWith(
-                                                                      color: Colors
-                                                                          .black),
-                                                                ),
-                                                                onSaved: (String?
-                                                                value) {
-                                                                  // This optional block of code can be used to run
-                                                                  // code when the user saves the form.
-                                                                },
-                                                                validator: (String?
-                                                                value) {
-                                                                  return (value !=
-                                                                      null &&
-                                                                      value ==
-                                                                          "" &&
-                                                                      value.length <
-                                                                          10)
-                                                                      ? 'Enter IFSC code'
-                                                                      : null;
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 10),
-                                                          child: TextFormField(
-                                                            focusNode:
-                                                            _focusNodes[12],
-                                                            controller:
-                                                            _referralCodeController,
-                                                            keyboardType:
-                                                            TextInputType.text,
-                                                            style: TextStyle(
-                                                                color:
-                                                                Colors.black),
-                                                            decoration:
-                                                            InputDecoration(
-                                                              isDense: true,
-                                                              // suffixIcon: Icon(
-                                                              //   Icons.lock,
-                                                              //   size: 20,
-                                                              //   color:
-                                                              //       FocusScope.of(context).isFirstFocus
-                                                              //           ? kYellowColor
-                                                              //           : kBlueDarkColor,
-                                                              // ),
-                                                              // hintText: 'What do people call you?',
-                                                              // isDense: true,
-                                                              focusedBorder:
-                                                              OutlineInputBorder(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    6.0),
-                                                                borderSide:
-                                                                const BorderSide(
-                                                                  color:
-                                                                  kYellowColor,
-                                                                ),
-                                                              ),
-                                                              enabledBorder:
-                                                              OutlineInputBorder(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    6.0),
-                                                                borderSide:
-                                                                const BorderSide(
-                                                                  color:
-                                                                  kBlueDarkColor,
-                                                                  // width: 1.0,
-                                                                ),
-                                                              ),
-                                                              border: const OutlineInputBorder(
-                                                                  borderRadius: BorderRadius
-                                                                      .all(Radius
-                                                                      .circular(
-                                                                      6))),
-                                                              contentPadding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 11,
-                                                                  bottom: 11,
-                                                                  left: 15),
-                                                              labelText:
-                                                              'Referral Code',
-                                                              labelStyle: Theme.of(
-                                                                  context)
-                                                                  .textTheme
-                                                                  .titleSmall!
-                                                                  .copyWith(
-                                                                  color: Colors
-                                                                      .black),
-                                                            ),
-                                                            onSaved:
-                                                                (String? value) {
-                                                              // This optional block of code can be used to run
-                                                              // code when the user saves the form.
-                                                            },
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 15.0),
-                                                          child: Column(
-                                                            crossAxisAlignment:
+                                Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        "assets/images/bg_image_login.jpg",
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15.0, horizontal: 20),
+                                    child: Card(
+                                      color: Colors.white,
+                                      elevation: 5,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12))),
+                                      child: SingleChildScrollView(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 15),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  TextConstant.sign_up,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleLarge!
+                                                      .copyWith(
+                                                          color: Colors.black),
+                                                ),
+                                                const SizedBox(
+                                                  height: 30,
+                                                ),
+                                                Form(
+                                                    key: globalFormKey,
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Column(
+                                                        crossAxisAlignment:
                                                             CrossAxisAlignment
-                                                                .start,
+                                                                .center,
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
                                                             children: [
-                                                              Text('Boards'),
-                                                              const SizedBox(
-                                                                height: 5.0,
-                                                              ),
-                                                              Container(
-                                                                height: 37,
-                                                                child: TextFormField(
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.6,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          0],
                                                                   controller:
-                                                                  _boardController,
-                                                                  cursorColor:
-                                                                  Colors.black,
+                                                                      _firstNameController,
                                                                   keyboardType:
-                                                                  TextInputType
-                                                                      .none,
-                                                                  onTap: () {
-                                                                    FocusScope.of(
-                                                                        context)
-                                                                        .unfocus();
-                                                                    onBoardTextFieldTap();
-                                                                  },
+                                                                      TextInputType
+                                                                          .name,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
                                                                   decoration:
-                                                                  InputDecoration(
-                                                                    filled: true,
-                                                                    fillColor: Colors
-                                                                        .black12,
-                                                                    contentPadding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        left: 8,
-                                                                        bottom: 0,
-                                                                        top: 0,
-                                                                        right:
-                                                                        15),
-                                                                    hintText:
-                                                                    'Select Board',
-                                                                    border:
-                                                                    const OutlineInputBorder(
-                                                                      borderSide:
-                                                                      BorderSide(
-                                                                        width: 0,
-                                                                        style:
-                                                                        BorderStyle
-                                                                            .none,
-                                                                      ),
+                                                                      InputDecoration(
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.phone,
+                                                                    //   size: 20,
+                                                                    //   color: _focusNodes[0].hasFocus
+                                                                    //       ? kYellowColor
+                                                                    //       : kBlueDarkColor,
+                                                                    // ),
+
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
                                                                       borderRadius:
-                                                                      BorderRadius
-                                                                          .all(
-                                                                        Radius
-                                                                            .circular(
-                                                                            8.0),
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
                                                                       ),
                                                                     ),
+                                                                    isDense:
+                                                                        true,
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'First Name',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
                                                                   ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                3)
+                                                                        ? 'Enter valid first name'
+                                                                        : null;
+                                                                  },
                                                                 ),
                                                               ),
                                                               const SizedBox(
-                                                                height: 15.0,
+                                                                height: 20,
                                                               ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 15.0),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                            children: [
-                                                              Text('Grades'),
-                                                              const SizedBox(
-                                                                height: 5.0,
-                                                              ),
-                                                              Container(
-                                                                height: 37,
-                                                                child: TextFormField(
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.6,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          1],
                                                                   controller:
-                                                                  _gradeController,
-                                                                  cursorColor:
-                                                                  Colors.black,
+                                                                      _lastNameController,
                                                                   keyboardType:
-                                                                  TextInputType
-                                                                      .none,
-                                                                  onTap: () {
-                                                                    FocusScope.of(
-                                                                        context)
-                                                                        .unfocus();
-                                                                    onGradeTextFieldTap();
-                                                                  },
+                                                                      TextInputType
+                                                                          .name,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
                                                                   decoration:
-                                                                  InputDecoration(
-                                                                    filled: true,
-                                                                    fillColor: Colors
-                                                                        .black12,
-                                                                    contentPadding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        left: 8,
-                                                                        bottom: 0,
-                                                                        top: 0,
-                                                                        right:
-                                                                        15),
-                                                                    hintText:
-                                                                    'Select Grades',
-                                                                    border:
-                                                                    const OutlineInputBorder(
-                                                                      borderSide:
-                                                                      BorderSide(
-                                                                        width: 0,
-                                                                        style:
-                                                                        BorderStyle
-                                                                            .none,
-                                                                      ),
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.lock,
+                                                                    //   size: 20,
+                                                                    //   color:
+                                                                    //       FocusScope.of(context).isFirstFocus
+                                                                    //           ? kYellowColor
+                                                                    //           : kBlueDarkColor,
+                                                                    // ),
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
                                                                       borderRadius:
-                                                                      BorderRadius
-                                                                          .all(
-                                                                        Radius
-                                                                            .circular(
-                                                                            8.0),
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
                                                                       ),
                                                                     ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Last Name',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
                                                                   ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                3)
+                                                                        ? 'Enter valid last Name'
+                                                                        : null;
+                                                                  },
                                                                 ),
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 15.0,
                                                               ),
                                                             ],
                                                           ),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 15.0),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
                                                             children: [
-                                                              Text('Subjects'),
-                                                              const SizedBox(
-                                                                height: 5.0,
-                                                              ),
-                                                              TextFormField(
-                                                                controller:
-                                                                _subjectsController,
-                                                                cursorColor:
-                                                                Colors.black,
-                                                                keyboardType:
-                                                                TextInputType
-                                                                    .none,
-                                                                onTap: () {
-                                                                  FocusScope.of(
-                                                                      context)
-                                                                      .unfocus();
-                                                                  onSubjectTextFieldTap();
-                                                                },
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  filled: true,
-                                                                  fillColor: Colors
-                                                                      .black12,
-                                                                  contentPadding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left: 8,
-                                                                      bottom: 0,
-                                                                      top: 0,
-                                                                      right:
-                                                                      15),
-                                                                  hintText:
-                                                                  'Select Subjects',
-                                                                  border:
-                                                                  const OutlineInputBorder(
-                                                                    borderSide:
-                                                                    BorderSide(
-                                                                      width: 0,
-                                                                      style:
-                                                                      BorderStyle
-                                                                          .none,
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.6,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          2],
+                                                                  controller:
+                                                                      _mobileController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .phone,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.phone,
+                                                                    //   size: 20,
+                                                                    //   color: _focusNodes[0].hasFocus
+                                                                    //       ? kYellowColor
+                                                                    //       : kBlueDarkColor,
+                                                                    // ),
+
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
                                                                     ),
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .all(
-                                                                      Radius
-                                                                          .circular(
-                                                                          8.0),
+                                                                    isDense:
+                                                                        true,
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
                                                                     ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Mobile No.',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
                                                                   ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  // validator: (String? value) {
+                                                                  //   return (value != null &&
+                                                                  //           value == "" &&
+                                                                  //           value.length < 3)
+                                                                  //       ? 'Enter valid father name'
+                                                                  //       : null;
+                                                                  // },
                                                                 ),
                                                               ),
                                                               const SizedBox(
-                                                                height: 15.0,
+                                                                height: 20,
+                                                              ),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.6,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          3],
+                                                                  controller:
+                                                                      _emailController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .name,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Email',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  //   validator: (String? value) {
+                                                                  //     return (value != null &&
+                                                                  //             value == "" &&
+                                                                  //             value.length < 3)
+                                                                  //         ? 'Enter valid mother Name'
+                                                                  //         : null;
+                                                                  //   },
+                                                                  // ),
+                                                                ),
                                                               ),
                                                             ],
                                                           ),
-                                                        ),
-                                                        Padding(
-                                                            padding:EdgeInsets.symmetric(horizontal: 15),
-                                                          child: ListView.builder(
-                                                            shrinkWrap: true,
-                                                            scrollDirection: Axis.horizontal,
-                                                            itemCount: modeOfTeachingList!.length,
-                                                            itemBuilder: (context, index) => CheckboxListTile(
-                                                              value: modeOfTeachingList![index].isChecked,
-                                                              onChanged: (value) {
-                                                                setState(() {
-                                                                    modeOfTeachingList![index].isChecked = value!;
-                                                                });
-                                                              },
-                                                              title: Text(
-                                                                modeOfTeachingList![index].title!,
-                                                                style: const TextStyle(color: Colors.black87),
-                                                              ),
-                                                            ),),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        Row(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                          children: [
-                                                            InkWell(
-                                                                onTap: () {
-                                                                  termsChecked =
-                                                                  !termsChecked;
-                                                                  setState(() {});
-                                                                },
-                                                                child: termsChecked
-                                                                    ? Icon(
-                                                                  Icons
-                                                                      .check_box,
-                                                                  color:
-                                                                  kPrimaryColor,
-                                                                  size: 22,
-                                                                )
-                                                                    : Icon(
-                                                                  Icons
-                                                                      .check_box_outline_blank,
-                                                                  color:
-                                                                  kPrimaryColor,
-                                                                  size: 22,
-                                                                )),
-                                                            InkWell(
-                                                              onTap: () {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder:
-                                                                            (context) =>
-                                                                            TermsAndConditionScreen()));
-                                                              },
-                                                              child: Padding(
-                                                                padding:
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Padding(
+                                                            padding:
                                                                 const EdgeInsets
-                                                                    .all(4.0),
-                                                                child: RichText(
-                                                                  textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                                  text: TextSpan(
-                                                                    // style: DefaultTextStyle.of(
-                                                                    //         context)
-                                                                    //     .style,
-                                                                    children: const <TextSpan>[
-                                                                      TextSpan(
-                                                                          text:
-                                                                          'Agree to ',
-                                                                          style: TextStyle(
-                                                                              color: Colors
-                                                                                  .black,
-                                                                              fontSize:
-                                                                              11)),
-                                                                      TextSpan(
-                                                                          text:
-                                                                          'Terms and Conditions',
-                                                                          style: TextStyle(
-                                                                              color: Colors
-                                                                                  .blue,
-                                                                              fontSize:
-                                                                              11)),
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        8.0),
+                                                            child:
+                                                                TextFormField(
+                                                              focusNode:
+                                                                  _focusNodes[
+                                                                      4],
+                                                              controller:
+                                                                  _addressController,
+                                                              minLines: 3,
+                                                              maxLines: 5,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .streetAddress,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .black),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                // suffixIcon: Icon(
+                                                                //   Icons.lock,
+                                                                //   size: 20,
+                                                                //   color:
+                                                                //       FocusScope.of(context).isFirstFocus
+                                                                //           ? kYellowColor
+                                                                //           : kBlueDarkColor,
+                                                                // ),
+                                                                // hintText: 'What do people call you?',
+                                                                // isDense: true,
+                                                                focusedBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                    color:
+                                                                        kYellowColor,
+                                                                  ),
+                                                                ),
+                                                                enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                    color:
+                                                                        kBlueDarkColor,
+                                                                    // width: 1.0,
+                                                                  ),
+                                                                ),
+                                                                border: const OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(8))),
+                                                                contentPadding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                labelText:
+                                                                    TextConstant
+                                                                        .address,
+                                                                labelStyle: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .titleSmall!
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .black),
+                                                              ),
+                                                              onSaved: (String?
+                                                                  value) {
+                                                                // This optional block of code can be used to run
+                                                                // code when the user saves the form.
+                                                              },
+                                                              validator:
+                                                                  (String?
+                                                                      value) {
+                                                                return (value != null &&
+                                                                        value ==
+                                                                            "" &&
+                                                                        value.length <
+                                                                            10)
+                                                                    ? 'Enter valid address'
+                                                                    : null;
+                                                              },
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          5],
+                                                                  controller:
+                                                                      _passwordController,
+                                                                  keyboardType: TextInputType
+                                                                      .text,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    suffixIcon:
+                                                                        IconButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        setState(
+                                                                            () {
+                                                                          hidePassword =
+                                                                              !hidePassword;
+                                                                        });
+                                                                      },
+                                                                      color: Colors
+                                                                          .black,
+                                                                      icon: Icon(hidePassword
+                                                                          ? Icons
+                                                                              .visibility_off_outlined
+                                                                          : Icons
+                                                                              .visibility_outlined),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        TextConstant
+                                                                            .password,
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator: (input) =>
+                                                                      input!.length <
+                                                                              3
+                                                                          ? "Password should be more than 3 characters"
+                                                                          : null,
+                                                                  obscureText:
+                                                                      hidePassword,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 20,
+                                                              ),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    3.7,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          6],
+                                                                  controller:
+                                                                      _pincodeController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                      inputFormatters: [
+                                                                        FilteringTextInputFormatter.digitsOnly,
+                                                                        LengthLimitingTextInputFormatter(6),
+                                                                      ],
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.lock,
+                                                                    //   size: 20,
+                                                                    //   color:
+                                                                    //       FocusScope.of(context).isFirstFocus
+                                                                    //           ? kYellowColor
+                                                                    //           : kBlueDarkColor,
+                                                                    // ),
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Pin Code',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                3)
+                                                                        ? 'Enter valid pincode'
+                                                                        : null;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.2,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          7],
+                                                                  controller:
+                                                                      _adharController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                      inputFormatters: [
+                                                                        FilteringTextInputFormatter.digitsOnly,
+                                                                        LengthLimitingTextInputFormatter(12),
+                                                                      ],
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.lock,
+                                                                    //   size: 20,
+                                                                    //   color:
+                                                                    //       FocusScope.of(context).isFirstFocus
+                                                                    //           ? kYellowColor
+                                                                    //           : kBlueDarkColor,
+                                                                    // ),
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Aadhaar Card No.',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                12)
+                                                                        ? 'Aadhar Card No.'
+                                                                        : null;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 20,
+                                                              ),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    3,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          8],
+                                                                  controller:
+                                                                      _panController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .text,
+                                                                      inputFormatters: [
+                                                                        LengthLimitingTextInputFormatter(10),
+                                                                      ],
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.lock,
+                                                                    //   size: 20,
+                                                                    //   color:
+                                                                    //       FocusScope.of(context).isFirstFocus
+                                                                    //           ? kYellowColor
+                                                                    //           : kBlueDarkColor,
+                                                                    // ),
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Pancard No.',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                10)
+                                                                        ? 'Enter valid pancard no.'
+                                                                        : null;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.55,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          9],
+                                                                  controller:
+                                                                      _banknameController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .name,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.lock,
+                                                                    //   size: 20,
+                                                                    //   color:
+                                                                    //       FocusScope.of(context).isFirstFocus
+                                                                    //           ? kYellowColor
+                                                                    //           : kBlueDarkColor,
+                                                                    // ),
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Enter Bank Name',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                12)
+                                                                        ? 'Bank Name'
+                                                                        : null;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.6,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          10],
+                                                                  controller:
+                                                                      _holdernameController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .name,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.lock,
+                                                                    //   size: 20,
+                                                                    //   color:
+                                                                    //       FocusScope.of(context).isFirstFocus
+                                                                    //           ? kYellowColor
+                                                                    //           : kBlueDarkColor,
+                                                                    // ),
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Account Holder Name',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                10)
+                                                                        ? 'Enter Account Holder Name'
+                                                                        : null;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.6,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          11],
+                                                                  controller:
+                                                                      _accountnoontroller,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.lock,
+                                                                    //   size: 20,
+                                                                    //   color:
+                                                                    //       FocusScope.of(context).isFirstFocus
+                                                                    //           ? kYellowColor
+                                                                    //           : kBlueDarkColor,
+                                                                    // ),
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'Account Number',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                12)
+                                                                        ? 'Enter Account Number'
+                                                                        : null;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2.6,
+                                                                child:
+                                                                    TextFormField(
+                                                                  focusNode:
+                                                                      _focusNodes[
+                                                                          12],
+                                                                  controller:
+                                                                      _ifscController,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .text,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    // suffixIcon: Icon(
+                                                                    //   Icons.lock,
+                                                                    //   size: 20,
+                                                                    //   color:
+                                                                    //       FocusScope.of(context).isFirstFocus
+                                                                    //           ? kYellowColor
+                                                                    //           : kBlueDarkColor,
+                                                                    // ),
+                                                                    // hintText: 'What do people call you?',
+                                                                    // isDense: true,
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kYellowColor,
+                                                                      ),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6.0),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                        // width: 1.0,
+                                                                      ),
+                                                                    ),
+                                                                    border: const OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(6))),
+                                                                    contentPadding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                    labelText:
+                                                                        'IFSC Code',
+                                                                    labelStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .titleSmall!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black),
+                                                                  ),
+                                                                  onSaved:
+                                                                      (String?
+                                                                          value) {
+                                                                    // This optional block of code can be used to run
+                                                                    // code when the user saves the form.
+                                                                  },
+                                                                  validator:
+                                                                      (String?
+                                                                          value) {
+                                                                    return (value != null &&
+                                                                            value ==
+                                                                                "" &&
+                                                                            value.length <
+                                                                                10)
+                                                                        ? 'Enter IFSC code'
+                                                                        : null;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        10),
+                                                            child:
+                                                                TextFormField(
+                                                              focusNode:
+                                                                  _focusNodes[
+                                                                      13],
+                                                              controller:
+                                                                  _referralCodeController,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .text,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .black),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                isDense: true,
+                                                                // suffixIcon: Icon(
+                                                                //   Icons.lock,
+                                                                //   size: 20,
+                                                                //   color:
+                                                                //       FocusScope.of(context).isFirstFocus
+                                                                //           ? kYellowColor
+                                                                //           : kBlueDarkColor,
+                                                                // ),
+                                                                // hintText: 'What do people call you?',
+                                                                // isDense: true,
+                                                                focusedBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              6.0),
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                    color:
+                                                                        kYellowColor,
+                                                                  ),
+                                                                ),
+                                                                enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              6.0),
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                    color:
+                                                                        kBlueDarkColor,
+                                                                    // width: 1.0,
+                                                                  ),
+                                                                ),
+                                                                border: const OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(6))),
+                                                                contentPadding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        top: 11,
+                                                                        bottom:
+                                                                            11,
+                                                                        left:
+                                                                            15),
+                                                                labelText:
+                                                                    'Referral Code',
+                                                                labelStyle: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .titleSmall!
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .black),
+                                                              ),
+                                                              onSaved: (String?
+                                                                  value) {
+                                                                // This optional block of code can be used to run
+                                                                // code when the user saves the form.
+                                                              },
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        15.0),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                const Text(
+                                                                    'Boards'),
+                                                                const SizedBox(
+                                                                  height: 5.0,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 37,
+                                                                  child:
+                                                                      TextFormField(
+                                                                    controller:
+                                                                        _boardController,
+                                                                    cursorColor:
+                                                                        Colors
+                                                                            .black,
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .none,
+                                                                    onTap: () {
+                                                                      FocusScope.of(
+                                                                              context)
+                                                                          .unfocus();
+                                                                      onBoardTextFieldTap();
+                                                                    },
+                                                                    decoration:
+                                                                        const InputDecoration(
+                                                                      filled:
+                                                                          true,
+                                                                      fillColor:
+                                                                          Colors
+                                                                              .black12,
+                                                                      contentPadding: EdgeInsets.only(
+                                                                          left:
+                                                                              8,
+                                                                          bottom:
+                                                                              0,
+                                                                          top:
+                                                                              0,
+                                                                          right:
+                                                                              15),
+                                                                      hintText:
+                                                                          'Select Board',
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          width:
+                                                                              0,
+                                                                          style:
+                                                                              BorderStyle.none,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              8.0),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 15.0,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        15.0),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                const Text(
+                                                                    'Grades'),
+                                                                const SizedBox(
+                                                                  height: 5.0,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 37,
+                                                                  child:
+                                                                      TextFormField(
+                                                                    controller:
+                                                                        _gradeController,
+                                                                    cursorColor:
+                                                                        Colors
+                                                                            .black,
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .none,
+                                                                    onTap: () {
+                                                                      FocusScope.of(
+                                                                              context)
+                                                                          .unfocus();
+                                                                      onGradeTextFieldTap();
+                                                                    },
+                                                                    decoration:
+                                                                        const InputDecoration(
+                                                                      filled:
+                                                                          true,
+                                                                      fillColor:
+                                                                          Colors
+                                                                              .black12,
+                                                                      contentPadding: EdgeInsets.only(
+                                                                          left:
+                                                                              8,
+                                                                          bottom:
+                                                                              0,
+                                                                          top:
+                                                                              0,
+                                                                          right:
+                                                                              15),
+                                                                      hintText:
+                                                                          'Select Grades',
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          width:
+                                                                              0,
+                                                                          style:
+                                                                              BorderStyle.none,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              8.0),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 15.0,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        15.0),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                const Text(
+                                                                    'Subjects'),
+                                                                const SizedBox(
+                                                                  height: 5.0,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 37,
+                                                                  child: TextFormField(
+                                                                    controller:
+                                                                        _subjectsController,
+                                                                    cursorColor:
+                                                                        Colors
+                                                                            .black,
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .none,
+                                                                    onTap: () {
+                                                                      FocusScope.of(
+                                                                              context)
+                                                                          .unfocus();
+                                                                      onSubjectTextFieldTap();
+                                                                    },
+                                                                    decoration:
+                                                                        const InputDecoration(
+                                                                      filled:
+                                                                          true,
+                                                                      fillColor:
+                                                                          Colors
+                                                                              .black12,
+                                                                      contentPadding: EdgeInsets.only(
+                                                                          left:
+                                                                          8,
+                                                                          bottom:
+                                                                          0,
+                                                                          top:
+                                                                          0,
+                                                                          right:
+                                                                          15),
+                                                                      hintText:
+                                                                          'Select Subjects',
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          width:
+                                                                              0,
+                                                                          style: BorderStyle
+                                                                              .none,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius
+                                                                                .all(
+                                                                          Radius.circular(
+                                                                              8.0),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 15.0,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Align(
+                                                              alignment: Alignment.centerLeft,
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                                                                child: const Text('Mode of Teaching'),
+                                                              )),
+                                                          const SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        15),
+                                                            child: Column(
+                                                              children: List.generate(
+                                                                checkListItems.length,
+                                                                    (index) => CheckboxListTile(
+                                                                  controlAffinity: ListTileControlAffinity.leading,
+                                                                  contentPadding: EdgeInsets.zero,
+                                                                  dense: true,
+                                                                  title: Text(
+                                                                    checkListItems[index]["title"],
+                                                                    style: const TextStyle(
+                                                                      fontSize: 16.0,
+                                                                      color: Colors.black,
+                                                                    ),
+                                                                  ),
+                                                                  value: checkListItems[index]["value"],
+                                                                  onChanged: (value) {
+                                                                    setState(() {
+                                                                      checkListItems[index]["value"] = value;
+                                                                      if (multipleSelected.contains(checkListItems[index])) {
+                                                                        multipleSelected.remove(checkListItems[index]);
+                                                                      } else {
+                                                                        multipleSelected.add(checkListItems[index]);
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Align(
+                                                              alignment: Alignment.centerLeft,
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                                                                child: const Text('Upload your resume'),
+                                                              )),
+                                                          const SizedBox(
+                                                            height: 5.0,
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                // pickImageCamera();
+
+                                                                openFiles();
+                                                              },
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors.white,
+                                                                    borderRadius: BorderRadius.circular(12),
+                                                                    border: Border.all(color: kPrimaryColor)),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.symmetric(
+                                                                                horizontal: 4.0),
+                                                                            child: Text(
+                                                                              _pickedFile == null
+                                                                                  ? 'Select Your resume'
+                                                                                  : _pickedFile!.name,
+                                                                              style: const TextStyle(
+                                                                                  color: Colors.black, fontSize: 14),
+                                                                            ),
+                                                                          )),
+                                                                      Icon(
+                                                                        Icons.picture_as_pdf,
+                                                                        color: Colors.grey.shade700,
+                                                                      )
                                                                     ],
                                                                   ),
                                                                 ),
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        ElevatedButton(
-                                                          style: ButtonStyle(
-                                                            backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all(Colors
-                                                                .black),
-                                                          ),
-                                                          onPressed: () {
-                                                            //_signup();
-                                                          },
-                                                          child: Padding(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                70.0),
-                                                            child: Text(
-                                                              TextConstant.sign_up,
-                                                              style: const TextStyle(
-                                                                  color:
-                                                                  Colors.white,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ))
-                                            ],
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              InkWell(
+                                                                  onTap: () {
+                                                                    termsChecked =
+                                                                        !termsChecked;
+                                                                    setState(
+                                                                        () {});
+                                                                  },
+                                                                  child: termsChecked
+                                                                      ? const Icon(
+                                                                          Icons
+                                                                              .check_box,
+                                                                          color:
+                                                                              kPrimaryColor,
+                                                                          size:
+                                                                              22,
+                                                                        )
+                                                                      : const Icon(
+                                                                          Icons
+                                                                              .check_box_outline_blank,
+                                                                          color:
+                                                                              kPrimaryColor,
+                                                                          size:
+                                                                              22,
+                                                                        )),
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              TermsAndConditionScreen()));
+                                                                },
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          4.0),
+                                                                  child:
+                                                                      RichText(
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    text:
+                                                                        const TextSpan(
+                                                                      // style: DefaultTextStyle.of(
+                                                                      //         context)
+                                                                      //     .style,
+                                                                      children: <TextSpan>[
+                                                                        TextSpan(
+                                                                            text:
+                                                                                'Agree to ',
+                                                                            style:
+                                                                                TextStyle(color: Colors.black, fontSize: 11)),
+                                                                        TextSpan(
+                                                                            text:
+                                                                                'Terms and Conditions',
+                                                                            style:
+                                                                                TextStyle(color: Colors.blue, fontSize: 11)),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          ElevatedButton(
+                                                            style: ButtonStyle(
+                                                              backgroundColor:
+                                                                  MaterialStateProperty
+                                                                      .all(Colors
+                                                                          .black),
+                                                            ),
+                                                            onPressed: () {
+                                                              sendOtp(authController);
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          70.0),
+                                                              child: Text(
+                                                                TextConstant
+                                                                    .sign_up,
+                                                                style: const TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ))
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-
-                            ),
                               ],
                             ),
                           ),
@@ -1924,20 +2056,57 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   void sendOtp(AuthController authController) {
+    String? modeOfTeaching;
+    modeOfTeaching = multipleSelected.join(", ");
     authController
         .sendRegisterOtp(phone: _mobileController.text)
         .then((model) async {
-      if (model!.status == 200) {
-        Get.toNamed(RouteHelper.getOtpScreenRoute(
-            _nameController.text,
-            _emailController.text,
-            _mobileController.text,
-            _passwordController.text,
-            _confirmPasswordController.text,
-            _pincodeController.text,
-            "1",
-            model.otp.toString(),
-            _referralcode));
+      if (model!.status == "200") {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+          OtpScreen(
+            firstName: _firstNameController.text,
+                lastName: _lastNameController.text,
+                email: _emailController.text,
+                phone: _mobileController.text,
+                password: _passwordController.text,
+                pincode: _pincodeController.text,
+                accountNo: _accountnoontroller.text,
+                subjects: _subjectsController.text,
+                pan: _panController.text,
+                ifsc: _ifscController.text,
+                board: _boardController.text,
+                bankname: _banknameController.text,
+                adhar: _adharController.text,
+                modeOfTeachingSelected: modeOfTeaching,
+                grade: _gradeController.text,
+                address: _addressController.text,
+                otp: model.otp,
+                referralCode: _referralCodeController.text,
+                resume: _pickedFile
+          ),
+        ));
+
+        // Get.toNamed(RouteHelper.getOtpScreenRoute(
+        //     firstName: _firstNameController.text,
+        //     lastName: _lastNameController.text,
+        //     email: _emailController.text,
+        //     phone: _mobileController.text,
+        //     password: _passwordController.text,
+        //     pincode: _pincodeController.text,
+        //     accountNo: _accountnoontroller.text,
+        //     subjects: _subjectsController.text,
+        //     pan: _panController.text,
+        //     ifsc: _ifscController.text,
+        //     board: _boardController.text,
+        //     bankname: _banknameController.text,
+        //     adhar: _adharController.text,
+        //     modeOfTeachingSelected: modeOfTeaching,
+        //     grade: _gradeController.text,
+        //     address: _addressController.text,
+        //     otp: model.otp,
+        //     referralCode: _referralCodeController.text,
+        //     resume: _pickedFile));
       } else {
         showCustomSnackBar('Mobile number already exists');
       }
@@ -1966,26 +2135,31 @@ class SignUpScreenState extends State<SignUpScreen> {
       _listOfGrades.clear();
       for (var item in gradesModel!.data!) {
         _listOfGrades.add(SelectedListItem(
-            name: item.gradeName!, value: item.gradeName!, id: item.gradeId, isSelected: false));
+            name: item.gradeName!,
+            value: item.gradeName!,
+            id: item.gradeId,
+            isSelected: false));
       }
       print(_listOfGrades);
       setState(() {});
     }
   }
 
-
   Future<void> subjectListing() async {
-    subjectResponseModel = await Get.find<AuthController>().subjectListingGradeWise(GradeRequestModel(gradeId: gradesIdList));
-      if (subjectResponseModel!.status == "success") {
-        _listOfSubjects.clear();
-        for (var item in subjectResponseModel!.data!) {
-          _listOfSubjects.add(SelectedListItem(
-              name: item.subjectName!+" - "+item.gradeName!, value: item.subjectName!+" - "+item.gradeName!, isSelected: false));
-        }
-        setState(() {});
-      } else {
-        showCustomSnackBar(subjectResponseModel!.status!);
+    subjectResponseModel = await Get.find<AuthController>()
+        .subjectListingGradeWise(GradeRequestModel(gradeId: gradesIdList));
+    if (subjectResponseModel!.status == "success") {
+      _listOfSubjects.clear();
+      for (var item in subjectResponseModel!.data!) {
+        _listOfSubjects.add(SelectedListItem(
+            name: item.subjectName! + " - " + item.gradeName!,
+            value: item.subjectName! + " - " + item.gradeName!,
+            isSelected: false));
       }
+      setState(() {});
+    } else {
+      showCustomSnackBar(subjectResponseModel!.status!);
+    }
   }
 
   void onBoardTextFieldTap() {
@@ -2013,7 +2187,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        data: _listOfBoards ?? [],
+        data: _listOfBoards,
         selectedItems: (List<dynamic> selectedList) {
           print(selectedList.indexed);
           List<String> list = [];
@@ -2058,7 +2232,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        data: _listOfGrades ?? [],
+        data: _listOfGrades,
         selectedItems: (List<dynamic> selectedList) {
           print(selectedList.indexed);
           gradesList = [];
@@ -2104,7 +2278,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        data: _listOfSubjects ?? [],
+        data: _listOfSubjects,
         selectedItems: (List<dynamic> selectedList) {
           print(selectedList.indexed);
           subjectsList = [];
@@ -2120,6 +2294,22 @@ class SignUpScreenState extends State<SignUpScreen> {
       ),
     ).showModal(context);
   }
+
+
+
+  void openFiles() async {
+    FilePickerResult? resultFile = await FilePicker.platform.pickFiles();
+    if (resultFile != null) {
+      PlatformFile file = resultFile.files.first;
+      _pickedFile = XFile(file!.path!);
+      print(file.name);
+      print(file.path);
+      setState(() {});
+    } else {
+      //not picket any file
+    }
+  }
+
 }
 /*
 

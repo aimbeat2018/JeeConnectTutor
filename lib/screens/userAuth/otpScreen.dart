@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/textConstant.dart';
 
@@ -15,27 +16,49 @@ import '../../constant/route_helper.dart';
 import '../../controllers/authController.dart';
 
 class OtpScreen extends StatefulWidget {
-  final String? name;
   final String? email;
   final String? phone;
   final String? password;
-  final String? confirmPassword;
   final String? pincode;
-  final String? roleId;
+  final String? firstName;
+  final String? lastName;
+  final String? grade;
+  final String? subjects;
+  final String? board;
+  final String? address;
+  final String? adhar;
+  final String? pan;
+  final String? bankname;
+  final String? holdername;
+  final String? accountNo;
+  final String? ifsc;
+  final String? referralCode;
   final String? otp;
-  final String? refferalCode;
+  final String? modeOfTeachingSelected;
+  final XFile? resume;
 
   const OtpScreen(
       {super.key,
-      this.name,
       this.email,
       this.phone,
       this.password,
-      this.confirmPassword,
       this.pincode,
-      this.roleId,
+      this.firstName,
+      this.lastName,
+      this.grade,
+      this.subjects,
+      this.board,
+      this.address,
+      this.adhar,
+      this.pan,
+      this.bankname,
+      this.holdername,
+      this.accountNo,
+      this.ifsc,
+      this.referralCode,
       this.otp,
-      this.refferalCode});
+  this.modeOfTeachingSelected,
+      this.resume});
 
   @override
   State<StatefulWidget> createState() => OtpScreenState();
@@ -47,7 +70,7 @@ class OtpScreenState extends State<OtpScreen> {
   bool _isLoading = false;
   late List<TextStyle?> otpTextStyles;
   late List<TextEditingController?> controls;
-  int numberOfFields = 6;
+  int numberOfFields = 4;
   bool clearText = false;
 
   String _connectionStatus = 'unKnown';
@@ -243,16 +266,28 @@ class OtpScreenState extends State<OtpScreen> {
   void registerUser(AuthController authController) {
     authController
         .registerUser(
-            name: widget.name,
-            pincode: widget.pincode,
-            email: widget.email,
-            password: widget.password,
-            confirmPassword: widget.confirmPassword,
-            phone: widget.phone,
-            roleId: widget.roleId,
-            referralCode: widget.refferalCode)
+            firstName: widget.firstName,
+            lastName: widget.lastName,
+        phone: widget.phone,
+        email: widget.email,
+        address: widget.address,
+        password: widget.password,
+        pincode: widget.pincode,
+        adhar: widget.adhar,
+        pan: widget.pan,
+        bankname: widget.bankname,
+      holdername: widget.holdername,
+        accountNo: widget.accountNo,
+        ifsc: widget.ifsc,
+        referralCode: widget.referralCode,
+        board: widget.board,
+        grade: widget.grade,
+        subjects: widget.subjects,
+      resume: widget.resume,
+        modeOfTeachingSelected: widget.modeOfTeachingSelected,
+    )
         .then((model) async {
-      if (model!.status == 200) {
+      if (model!.status == "200") {
         showDialog<String>(
           context: context,
           barrierDismissible: false,

@@ -2,15 +2,16 @@ class AppConstants {
   // static const String BASE_URL = 'https://stackfood-admin.6amtech.com';
   static const String baseUrl = 'https://jeeconnect.com/jeeconnect_backoffice/API/';
   static const String login = 'V131/instructor_login';
-  static const String registerInstructor = 'V131/register_instructor';
+//  static const String registerInstructor = 'V131/register_instructor';
   static const String pendingPackageList = 'V131/pending_package_list';
   static const String packageDetails = 'V131/package_details';
   static const String acceptRequest = 'V131/request_accept';
+
   static const String sessionDetails = 'V131/session_details_for_ins';
   static const String sessionStart = 'V131/session_start';
   static const String sessionEnd = 'V131/session_end';
 
-  static const String sendOtp = 'verify_mobile_number';
+  //static const String sendOtp = 'verify_mobile_number';
   static const String registerInstructor = 'V131/instructor_signup';
   static const String sendOtp = 'V130/student_sendsignupotp';
   static const String categoryList = 'all_categories';

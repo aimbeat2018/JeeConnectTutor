@@ -40,6 +40,9 @@ class RouteHelper {
   static String getSessionDetailsScreenRoute(String id) =>
       '$sessionDetails?id=$id';
 
+  static String getPackageDetailsRoute(String packageid)=>
+      '$packageDetailsScreen?packageid=$packageid';
+
   static String getOtpScreenRoute(
           {String? firstName,
           String? lastName,
@@ -74,8 +77,7 @@ class RouteHelper {
   static String getPasswordScreenRoute(String image, String email) =>
       '$passwordScreen?image=$image&email=$email';
 
-  static String getPackageDetailsRoute(String packageid) =>
-      '$packageDetailsScreen?packageid=$packageid';
+
 
 
   static List<GetPage> routes = [
@@ -93,6 +95,10 @@ class RouteHelper {
     GetPage(
         name: sessionDetails,
         page: () => getRoute(SessionDetailsScreen(id: Get.parameters['id']!))),
+    GetPage(
+        name: packageDetailsScreen,
+        page: () =>
+            getRoute(PackageDetailScreen(packageid: Get.parameters['packageid']))),
     GetPage(
       /*      '$otpScreen?name=$name&email=$email&phone=$phone&password=$password&confirm_password=$confirm_password&pincode=$pincode&role_id=$roleId&otp=$otp&referral_stud=$refferalCode';
 */

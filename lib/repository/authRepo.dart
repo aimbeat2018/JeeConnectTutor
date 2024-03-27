@@ -191,7 +191,7 @@ class AuthRepo {
   }
 
   bool isLoggedIn() {
-    return sharedPreferences.containsKey(AppConstants.token);
+    return sharedPreferences.containsKey(AppConstants.userMobile);
   }
 
   bool clearSharedData() {

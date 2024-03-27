@@ -8,6 +8,7 @@ import 'package:jeeconnecttutor/model/tutorRequestModel.dart';
 
 import '../constant/app_constants.dart';
 import '../model/loginModel.dart';
+import '../model/response/SessionResponseModel.dart';
 import '../model/sessionDetailsModel.dart';
 import '../model/updateProfileResponseModel.dart';
 import '../repository/requestRepo.dart';
@@ -26,6 +27,7 @@ class RequestController extends GetxController implements GetxService {
   List<CourseModel>? courseModelList = [];
 
   UpdateProfileResponseModel? model;
+  SessionResponseModel? sessionResponseModel;
 
   SessionDetailsModel? sessionDetailsModel;
 
@@ -237,7 +239,7 @@ class RequestController extends GetxController implements GetxService {
     return value;
   }
 
-  Future<UpdateProfileResponseModel?> startSession(
+  Future<SessionResponseModel?> startSession(
       String id, String token, String otp, String startTime) async {
     _isLoading = true;
     update();
@@ -245,17 +247,16 @@ class RequestController extends GetxController implements GetxService {
     Response response = await requestRepo.startSession(id,otp,startTime);
 
     if (response.statusCode == 200) {
-      model = UpdateProfileResponseModel.fromJson(response.body);
+      sessionResponseModel = SessionResponseModel.fromJson(response.body);
     } else {
-      model = UpdateProfileResponseModel(status: '403');
+      sessionResponseModel = SessionResponseModel(status: '403');
     }
-
     _isLoading = false;
     update();
-    return model;
+    return sessionResponseModel;
   }
 
-  Future<UpdateProfileResponseModel?> endSession(
+  Future<SessionResponseModel?> endSession(
       String id, String token, String startTime) async {
     _isLoading = true;
     update();
@@ -264,17 +265,13 @@ class RequestController extends GetxController implements GetxService {
         CommonRequestModel(id: id, authToken: token, endTime: startTime));
 
     if (response.statusCode == 200) {
-      // if (response.body['status'] == 200) {
-      model = UpdateProfileResponseModel.fromJson(response.body);
-      // } else {
-      //   model = UpdateProfileResponseModel(status: 403);
-      // }
+      sessionResponseModel = SessionResponseModel.fromJson(response.body);
     } else {
-      model = UpdateProfileResponseModel(status: '403');
+      sessionResponseModel = SessionResponseModel(status: '403');
     }
     _isLoading = false;
     update();
-    return model;
+    return sessionResponseModel;
   }
 
   Future<UpdateProfileResponseModel?> addReview(

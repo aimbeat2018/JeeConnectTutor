@@ -78,7 +78,8 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                 ),
               ),
               body: requestController.isDetailsLoading ||
-                      requestController.sessionDetailsModel == null || requestController.sessionDetailsModel!.data!.isEmpty
+                      requestController.sessionDetailsModel == null ||
+                      requestController.sessionDetailsModel!.data!.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -86,8 +87,9 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                       child: Padding(
                         padding: const EdgeInsets.all(15),
                         child: Column(children: [
-                          if (requestController.sessionDetailsModel!.data![0].status ==
-                              "4")
+                          if (requestController
+                                  .sessionDetailsModel!.data![0].status ==
+                              "5")
                             Column(
                               children: [
                                 Text(
@@ -102,7 +104,9 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                if (requestController.sessionDetailsModel!.data![0].status=='1')
+                                if (requestController
+                                        .sessionDetailsModel!.data![0].status ==
+                                    '1')
                                   Text(
                                     'Review from Student side is pending'
                                         .toUpperCase(),
@@ -116,7 +120,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                               ],
                             ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.35,
+                            height: MediaQuery.of(context).size.height * 0.50,
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: SizedBox(
@@ -179,7 +183,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     MainAxisAlignment.end,
                                                 children: [
                                                   Text(
-                                                    requestController.sessionDetailsModel!.data![0].studentName!,
+                                                    'Student Name : ${requestController.sessionDetailsModel!.data![0].studentName!}',
                                                     textAlign: TextAlign.left,
                                                     style: const TextStyle(
                                                       fontSize: 14,
@@ -214,38 +218,21 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                       color: Colors.white,
                                                     ),
                                                   ),
-
-                                                  // Text(
-                                                  //   '80 Lessons',
-                                                  //   textAlign: TextAlign.center,
-                                                  //   style: TextStyle(
-                                                  //     fontSize: 10,
-                                                  //     fontWeight:
-                                                  //         FontWeight.normal,
-                                                  //     color: Colors.white,
-                                                  //   ),
-                                                  // ),
-                                                  // SizedBox(
-                                                  //   height: 10,
-                                                  // ),
-                                                  // new LinearPercentIndicator(
-                                                  //   width: 140.0,
-                                                  //   lineHeight: 11.0,
-                                                  //   percent: 0.5,
-                                                  //   trailing: new Text(
-                                                  //     "51%",
-                                                  //     style: new TextStyle(
-                                                  //         fontSize: 12.0,
-                                                  //         color: Colors.white,
-                                                  //         fontWeight:
-                                                  //             FontWeight.bold),
-                                                  //   ),
-                                                  //   backgroundColor:
-                                                  //       Color(0xff8fca3f),
-                                                  //   progressColor: Colors.white,
-                                                  // ),
                                                   const SizedBox(
                                                     height: 10,
+                                                  ),
+                                                  Text(
+                                                    'No. of chapters : ${requestController.sessionDetailsModel!.data![0].noOfChaoters!}',
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
                                                   ),
                                                   Text(
                                                     'Date : ${requestController.sessionDetailsModel!.data![0].date!}',
@@ -270,36 +257,43 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                       color: Colors.white,
                                                     ),
                                                   ),
-                                                  // SizedBox(
-                                                  //   height: 5,
-                                                  // ),
-                                                  // Text(
-                                                  //   'Session Type ${ requestController
-                                                  //       .sessionDetailsModel!
-                                                  //       .ty!}}',
-                                                  //   textAlign: TextAlign.center,
-                                                  //   style: TextStyle(
-                                                  //     fontSize: 12,
-                                                  //     fontWeight:
-                                                  //         FontWeight.normal,
-                                                  //     color: Colors.white,
-                                                  //   ),
-                                                  // ),
-                                                  // SizedBox(
-                                                  //   height: 5,
-                                                  // ),
-                                                  // Text(
-                                                  //   'Session Link - https://www.google.co.in/',
-                                                  //   maxLines: 1,
-                                                  //   overflow:
-                                                  //       TextOverflow.ellipsis,
-                                                  //   style: TextStyle(
-                                                  //     fontSize: 12,
-                                                  //     fontWeight:
-                                                  //         FontWeight.normal,
-                                                  //     color: Colors.white,
-                                                  //   ),
-                                                  // ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    'Session Type : ${ requestController
+                                                        .sessionDetailsModel!
+                                                        .data![0].sessionType!}',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  requestController.sessionDetailsModel!.data![0].sessionType! ==
+                                                      'Online'
+                                                      ? Text(
+                                                    'Session Link : ${requestController.sessionDetailsModel!.data![0].googleMeetLink}',
+                                                    textAlign:
+                                                    TextAlign
+                                                        .center,
+                                                    style:
+                                                    TextStyle(
+                                                      fontSize:
+                                                      14,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .normal,
+                                                      color: Colors
+                                                          .white,
+                                                    ),
+                                                  )
+                                                      : SizedBox(),
                                                 ],
                                               ),
                                             ],
@@ -312,8 +306,9 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                               ),
                             ),
                           ),
-                          if (requestController.sessionDetailsModel!.data![0].status ==
-                                  "5" )
+                          if (requestController
+                                  .sessionDetailsModel!.data![0].status ==
+                              "5")
                             SizedBox(
                               child: Center(
                                 child: Padding(
@@ -408,7 +403,10 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     'Enter Review');
                                               } else {
                                                 addReview(
-                                                    requestController.sessionDetailsModel!.data![0].sessionId!,
+                                                    requestController
+                                                        .sessionDetailsModel!
+                                                        .data![0]
+                                                        .sessionId!,
                                                     requestController);
                                               }
                                             },
@@ -424,7 +422,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                 ),
                               ),
                             ),
-                          if (requestController.sessionDetailsModel!.status ==
+                          if (requestController.sessionDetailsModel!.data![0].status ==
                               "1")
                             SizedBox(
                               child: Center(
@@ -518,14 +516,26 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                         4) {
                                                       showCustomSnackBar(
                                                           "Enter Valid OTP");
-                                                    } else {
+                                                    } else if(requestController.sessionDetailsModel!.data![0].otpCode! !=_otpPinFieldController
+                                                        .currentState!
+                                                        .text)
+                                                      {
+                                                        showCustomSnackBar("Enter Valid OTP");
+                                                      }
+                                                    else {
+                                                     // showCustomSnackBar("OTP Matched");
                                                       startSession(
-                                                          requestController.sessionDetailsModel!.data![0].date!,
-                                                          requestController.sessionDetailsModel!.data![0].time!,
-                                                          requestController.sessionDetailsModel!.data![0].sessionId!,
+                                                          requestController
+                                                              .sessionDetailsModel!
+                                                              .data![0]
+                                                              .sessionId!,
                                                           _otpPinFieldController
                                                               .currentState!
                                                               .text,
+                                                          requestController
+                                                              .sessionDetailsModel!
+                                                              .data![0]
+                                                              .time!,
                                                           requestController);
                                                     }
                                                   },
@@ -549,8 +559,8 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                 ),
                               ),
                             ),
-                          if (requestController.sessionDetailsModel!.status ==
-                              "3")
+                          if (requestController.sessionDetailsModel!.data![0].status ==
+                              "4")
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Center(
@@ -647,7 +657,10 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                                           .pop();
 
                                                                       endSession(
-                                                                          requestController.sessionDetailsModel!.data![0].sessionId!,
+                                                                          requestController
+                                                                              .sessionDetailsModel!
+                                                                              .data![0]
+                                                                              .sessionId!,
                                                                           requestController);
                                                                     },
                                                                     child:
@@ -692,57 +705,21 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
           });
   }
 
-  void startSession(String sessionDate, String time, String id, String otp,
+  void startSession(String id, String otp,String time,
       RequestController requestController) {
-    debugPrint(sessionDate);
-    DateTime newDateTime =
-        DateFormat('yyyy-MM-dd HH:mm').parse(sessionDate + " " +time);
-
-    DateTime valEnd = DateTime.parse(sessionDate);
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final String valEnddateformatted = formatter.format(valEnd);
-
-    DateTime date = DateTime.now();
-    final DateFormat formatterdate = DateFormat('yyyy-MM-dd');
-    final String formatted = formatterdate.format(date);
-    bool valDate = (formatted==valEnddateformatted);
-
-    if (valDate) {
-      DateFormat dateFormat = DateFormat.Hm();// this is the format like(5:08 PM)
-      DateTime now =  DateTime.now();// current time
-      DateTime open = dateFormat.parse(time); // time is dynamic value database
-      open = DateTime(now.year, now.month, now.day, open.hour, open.minute);
-
-      bool valTimeBool;
-      if(now.isAfter(open)){
-        valTimeBool=true;
-      }else{
-        valTimeBool=false;
-      }
-      if (valTimeBool) {
-        String currentTime = GlobalFunctions.getCurrentTime();
-        requestController
-            .startSession(
-                id, Get.find<AuthController>().getUserToken(), otp, currentTime)
-            .then((model) async {
-          if (model!.status != 403) {
-            showCustomSnackBar(model.message!, isError: false);
-            requestController.sessionDetailsModel!.status = "3";
-            setState(() {});
-          } else {
-            showCustomSnackBar(model.message!);
-          }
-        });
+    requestController
+        .startSession(
+        id, Get.find<AuthController>().getUserToken(), otp, time)
+        .then((model) async {
+      if (model!.status != 403) {
+        showCustomSnackBar(model.msg!, isError: false);
+        requestController.sessionDetailsModel!.data![0].status = "4";
+        setState(() {});
       } else {
-        showCustomSnackBar(
-            "You can only start this session on the assigned time!",
-            isError: true);
+        showCustomSnackBar(model.msg!);
       }
-    } else {
-      showCustomSnackBar(
-          "You can only start this session on the assigned date!",
-          isError: true);
-    }
+    });
+
   }
 
   getTime(startTime, endTime) {
@@ -765,11 +742,11 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
         .endSession(id, Get.find<AuthController>().getUserToken(), currentTime)
         .then((model) async {
       if (model!.status != 403) {
-        showCustomSnackBar(model.message!, isError: false);
-        requestController.sessionDetailsModel!.status = "4";
+        showCustomSnackBar(model.msg!, isError: false);
+        requestController.sessionDetailsModel!.data![0].status = "5";
         setState(() {});
       } else {
-        showCustomSnackBar(model.message!);
+        showCustomSnackBar(model.msg!);
       }
     });
   }
@@ -781,7 +758,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
         .then((model) async {
       if (model!.status != 403) {
         showCustomSnackBar(model.message!, isError: false);
-        requestController.sessionDetailsModel!.status = "5";
+        requestController.sessionDetailsModel!.data![0].status = "5";
         setState(() {});
       } else {
         showCustomSnackBar(model.message!);

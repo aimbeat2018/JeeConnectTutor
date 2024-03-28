@@ -30,7 +30,9 @@ class PackageRequestListScreenState
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: kYellowColor,
-
+        iconTheme: IconThemeData(
+          color: Colors.white, //change your color here
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

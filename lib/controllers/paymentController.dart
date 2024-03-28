@@ -27,33 +27,8 @@ class PaymentController extends GetxController implements GetxService {
   getCompletedSessionsList() async {
     _isLoading = true;
 
-    CommonAuthTokenRequestModel commonAuthTokenRequestModel =
-    CommonAuthTokenRequestModel();
 
-    commonAuthTokenRequestModel.authToken = paymentRepo.getUserToken();
 
-    var url =
-        '${AppConstants.baseUrl}${AppConstants
-        .instructorSessionsCompleteCount}';
-
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: jsonEncode(commonAuthTokenRequestModel.toJson()),
-      );
-
-      if (response.statusCode == 200) {
-        List data = json.decode(response.body);
-        completedSessionsListResponseModel = toResponseList(data);
-      } else {
-        completedSessionsListResponseModel = [];
-      }
-    } catch (error) {
-      rethrow;
-    }
     _isLoading = false;
     update();
     return completedSessionsListResponseModel;

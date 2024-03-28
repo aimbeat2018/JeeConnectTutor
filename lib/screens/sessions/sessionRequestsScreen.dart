@@ -63,6 +63,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
               backgroundColor: kBackgroundColor,
               appBar: AppBar(
                 backgroundColor: kYellowColor,
+                iconTheme: IconThemeData(
+                  color: Colors.white, //change your color here
+                ),
                 centerTitle: true,
                 title: Text(
                   'Session Requests',
@@ -443,6 +446,7 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                   ],
                 ),
               ),
+/*
               MaterialButton(
                 elevation: 0,
                 color: accentCanvasColor,
@@ -471,6 +475,7 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                   ],
                 ),
               ),
+*/
             ],
           )
         ],

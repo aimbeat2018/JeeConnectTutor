@@ -32,6 +32,9 @@ class OngoingPackageDetailScreenState
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: kYellowColor,
+        iconTheme: IconThemeData(
+          color: Colors.white, //change your color here
+        ),
         centerTitle: true,
         title: const Text(
           'Package Details',

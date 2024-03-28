@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:jeeconnecttutor/model/commonRequestModel.dart';
 import 'package:jeeconnecttutor/model/courseModel.dart';
+import 'package:jeeconnecttutor/model/response/ChapterListResponseModel.dart';
 import 'package:jeeconnecttutor/model/tutorRequestModel.dart';
 
 import '../constant/app_constants.dart';
@@ -23,6 +24,7 @@ class RequestController extends GetxController implements GetxService {
   List<TutorRequestModel>? completedTutorRequestList;
 
   TutorRequestModel? tutorRequestModel;
+  ChapterListResponseModel? chapterListResponseModel;
 
   List<CourseModel>? courseModelList = [];
 
@@ -231,6 +233,20 @@ class RequestController extends GetxController implements GetxService {
     return sessionDetailsModel;
   }
 
+  Future<ChapterListResponseModel?> getchapterlist(String packageid) async{
+    _isDetailsLoading=true;
+    Response response=await requestRepo.chapterList(packageid);
+    if(response.statusCode==200){
+      chapterListResponseModel=ChapterListResponseModel.fromJson(response.body);
+    }
+    else{
+      chapterListResponseModel=ChapterListResponseModel();
+    }
+    _isDetailsLoading=false;
+    update();
+    return chapterListResponseModel;
+  }
+
   List<SessionDetailsModel> toSessionList(List<dynamic> data) {
     List<SessionDetailsModel> value = <SessionDetailsModel>[];
     for (var element in data) {
@@ -261,8 +277,7 @@ class RequestController extends GetxController implements GetxService {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo.endSession(
-        CommonRequestModel(id: id, authToken: token, endTime: startTime));
+    Response response = await requestRepo.endSession(id,startTime);
 
     if (response.statusCode == 200) {
       sessionResponseModel = SessionResponseModel.fromJson(response.body);
@@ -275,19 +290,14 @@ class RequestController extends GetxController implements GetxService {
   }
 
   Future<UpdateProfileResponseModel?> addReview(
-      String id, String token, String rating, String review) async {
+      String id, String token, String rating, String review,String chaptername) async {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo.addReview(CommonRequestModel(
-        id: id, authToken: token, rating: rating, review: review));
+    Response response = await requestRepo.addReview(id,rating,review,chaptername);
 
     if (response.statusCode == 200) {
-      // if (response.body['status'] == 200) {
       model = UpdateProfileResponseModel.fromJson(response.body);
-      // } else {
-      //   model = UpdateProfileResponseModel(status: 403);
-      // }
     } else {
       model = UpdateProfileResponseModel(status: '403');
     }

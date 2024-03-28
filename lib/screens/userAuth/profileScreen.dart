@@ -86,6 +86,9 @@ class ProfileScreenState extends State<ProfileScreen>
               appBar: AppBar(
                 backgroundColor: kYellowColor,
                 automaticallyImplyLeading: true,
+                iconTheme: IconThemeData(
+                  color: Colors.white, //change your color here
+                ),
                 centerTitle: true,
                 title: const Text(
                   'Profile',

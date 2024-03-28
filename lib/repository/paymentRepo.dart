@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:jeeconnecttutor/controllers/authController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
@@ -19,10 +20,13 @@ class PaymentRepo {
         AppConstants.login, {"email": phone, "password": password});
   }
 
+  Future<Response> completedPaymentCount() async {
+    return await apiClient.postBodyData(
+        AppConstants.instructorSessionsCompleteCount,
+        {'user_id': await Get.find<AuthController>().getUserId()});
+  }
 
   String getUserToken() {
     return sharedPreferences.getString(AppConstants.token) ?? "";
   }
-
-
 }

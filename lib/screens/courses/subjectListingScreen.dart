@@ -46,6 +46,9 @@ class SubjectListingScreenState extends State<SubjectListingScreen>
         key: _scaffoldKey,
         backgroundColor: kBackgroundColor,
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.white, //change your color here
+          ),
           backgroundColor: kYellowColor,
           centerTitle: true,
           title: Text(

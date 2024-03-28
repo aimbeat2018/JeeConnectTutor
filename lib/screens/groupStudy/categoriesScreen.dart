@@ -29,6 +29,9 @@ class CategoriesScreenState extends State<CategoriesScreen> with TickerProviderS
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: kYellowColor,
+        iconTheme: IconThemeData(
+          color: Colors.white, //change your color here
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(padding: EdgeInsets.symmetric(horizontal: 15, vertical: 35),

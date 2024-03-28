@@ -30,6 +30,9 @@ class TutorListingScreenState extends State<TutorListingScreen>
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: kYellowColor,
+        iconTheme: IconThemeData(
+          color: Colors.white, //change your color here
+        ),
         centerTitle: true,
         title: Text(
           'History',

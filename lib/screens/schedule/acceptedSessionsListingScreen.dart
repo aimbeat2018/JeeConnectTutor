@@ -64,6 +64,9 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
         backgroundColor: kBackgroundColor,
         appBar: AppBar(
           backgroundColor: kYellowColor,
+          iconTheme: IconThemeData(
+            color: Colors.white, //change your color here
+          ),
           centerTitle: true,
           title: Text(
             'Session Requests',
@@ -416,7 +419,7 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: 'Pending',
+                      text: 'Accepted',
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),

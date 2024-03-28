@@ -62,6 +62,9 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
               backgroundColor: kBackgroundColor,
               appBar: AppBar(
                 backgroundColor: kYellowColor,
+                iconTheme: IconThemeData(
+                  color: Colors.white, //change your color here
+                ),
                 centerTitle: true,
                 title: Text(
                   '${requestController.tutorRequestModel!.data![0].subjectName!}',
@@ -100,7 +103,7 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                 const SizedBox(
                                   height: 20,
                                 ),*/
-                              /*  Padding(
+                                /*  Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15.0, vertical: 15),
                                   child: Center(
@@ -110,19 +113,19 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                               Radius.circular(15))),
                                       child: Stack(
                                         children: [
-                                        *//*  Image.asset(
+                                        */ /*  Image.asset(
                                             'assets/images/blue_rectangle.png',
                                             fit: BoxFit.cover,
                                             height: 70,
                                             width: 380,
-                                          ),*//*
+                                          ),*/ /*
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              *//* Padding(
+                                              */ /* Padding(
                                                 padding: EdgeInsets.symmetric(
                                                     vertical: 20.0,
                                                     horizontal: 25),
@@ -135,7 +138,7 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                                           FontWeight.w900),
                                                   textAlign: TextAlign.center,
                                                 ),
-                                              ),*//*
+                                              ),*/ /*
                                               Padding(
                                                 padding: EdgeInsets.symmetric(
                                                     vertical: 20.0,
@@ -205,8 +208,8 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                       ),
 */
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0,horizontal: 25),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 25),
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: requestController
@@ -220,7 +223,7 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                         (BuildContext context, int index) {
                                       return InkWell(
                                         onTap: () {
-                                         /* Navigator.of(context).push(
+                                          /* Navigator.of(context).push(
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       TodaysSessionScreen(
@@ -233,15 +236,13 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                         child: Card(
                                           semanticContainer: true,
                                           clipBehavior:
-                                          Clip.antiAliasWithSaveLayer,
+                                              Clip.antiAliasWithSaveLayer,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(
-                                                10.0),
+                                                BorderRadius.circular(10.0),
                                           ),
                                           child: Container(
-                                            decoration:
-                                            const BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               image: DecorationImage(
                                                 fit: BoxFit.cover,
                                                 //I assumed you want to occupy the entire space of the card
@@ -256,85 +257,107 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                                   children: [
                                                     Column(
                                                       crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .start,
+                                                          MainAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
-                                                          requestController.tutorRequestModel!.data![0].session![index].subject!,
-                                                          style: const TextStyle(
-                                                              fontSize:
-                                                              16,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .bold,
-                                                              color: Colors
-                                                                  .white),
+                                                          requestController
+                                                              .tutorRequestModel!
+                                                              .data![0]
+                                                              .session![index]
+                                                              .subject!,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .white),
                                                         ),
                                                         const SizedBox(
                                                           height: 1,
                                                         ),
                                                         Text(
-                                                          requestController.tutorRequestModel!.data![0].session![index].date!,
-                                                          style: const TextStyle(
-                                                              fontSize:
-                                                              14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w400,
-                                                              color: Colors
-                                                                  .white),
+                                                          requestController
+                                                              .tutorRequestModel!
+                                                              .data![0]
+                                                              .session![index]
+                                                              .date!,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white),
                                                         ),
                                                       ],
                                                     ),
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets
-                                                          .only(
-                                                          left: 60.0),
+                                                          const EdgeInsets.only(
+                                                              left: 60.0),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
+                                                            CrossAxisAlignment
+                                                                .center,
                                                         mainAxisSize:
-                                                        MainAxisSize
-                                                            .max,
+                                                            MainAxisSize.max,
                                                         children: <Widget>[
                                                           Text(
-                                                            requestController.tutorRequestModel!.data![0].session![index].time!,
-                                                            softWrap:
-                                                            true,
+                                                            requestController
+                                                                .tutorRequestModel!
+                                                                .data![0]
+                                                                .session![index]
+                                                                .time!,
+                                                            softWrap: true,
                                                             style: const TextStyle(
-                                                                fontSize:
-                                                                14,
+                                                                fontSize: 14,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .bold,
+                                                                    FontWeight
+                                                                        .bold,
                                                                 color: Colors
                                                                     .yellow),
                                                           ),
                                                           InkWell(
-                                                            onTap: (){
-                                                              Get.toNamed(RouteHelper.getSessionDetailsScreenRoute(requestController.tutorRequestModel!.data![0].session![index].sessionId!));
+                                                            onTap: () {
+                                                              Get.toNamed(RouteHelper.getSessionDetailsScreenRoute(
+                                                                  requestController
+                                                                      .tutorRequestModel!
+                                                                      .data![0]
+                                                                      .session![
+                                                                          index]
+                                                                      .sessionId!,
+                                                                  requestController
+                                                                      .tutorRequestModel!
+                                                                      .data![0]
+                                                                      .packageId!));
                                                             },
-                                                            child: const Padding(
-                                                              padding: EdgeInsets.only(left: 20.0),
+                                                            child:
+                                                                const Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          20.0),
                                                               child: Text(
                                                                 'Start',
-                                                                softWrap:
-                                                                true,
+                                                                softWrap: true,
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                    16,
+                                                                        16,
                                                                     fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                    color: Colors.white),
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white),
                                                               ),
                                                             ),
                                                           ),
@@ -349,7 +372,6 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                         ),
                                       );
                                     },
-
                                   ),
                                 ),
                                 SizedBox(

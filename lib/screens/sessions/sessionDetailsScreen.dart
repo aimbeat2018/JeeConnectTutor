@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -15,11 +16,12 @@ import '../../constant/internetConnectivity.dart';
 import '../../constant/no_internet_screen.dart';
 import '../../controllers/authController.dart';
 import '../../controllers/requestController.dart';
+import '../../model/response/ChapterListResponseModel.dart';
 
 class SessionDetailsScreen extends StatefulWidget {
-  final String id;
+  final String id,packageid;
 
-  const SessionDetailsScreen({super.key, required this.id});
+  const SessionDetailsScreen({super.key, required this.id,required this.packageid});
 
   @override
   State<StatefulWidget> createState() => SessionDetailsScreenState();
@@ -34,6 +36,10 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
 
   final _otpPinFieldController = GlobalKey<OtpPinFieldState>();
   String ratingStr = "5.0";
+  String? selectedChapter;
+  ChapterListResponseModel? chapterListResponseModel;
+  List<ChapterListModel>? chapterlist;
+
 
   @override
   void initState() {
@@ -51,7 +57,10 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
 
     if (mounted) {
       Get.find<RequestController>()
-          .sessionDetails(widget.id, Get.find<AuthController>().getUserToken());
+          .sessionDetails(widget.id, Get.find<AuthController>().getUserToken()).then((value) async =>{
+       getChapterList(widget.packageid)
+      });
+      
     }
   }
 
@@ -66,6 +75,9 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
               key: _scaffoldKey,
               backgroundColor: kBackgroundColor,
               appBar: AppBar(
+                iconTheme: IconThemeData(
+                  color: Colors.white, //change your color here
+                ),
                 backgroundColor: kYellowColor,
                 centerTitle: true,
                 title: const Text(
@@ -308,7 +320,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                           ),
                           if (requestController
                                   .sessionDetailsModel!.data![0].status ==
-                              "5")
+                              "4")
                             SizedBox(
                               child: Center(
                                 child: Padding(
@@ -371,8 +383,75 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                               ratingStr = rating.toString();
                                             },
                                           ),
+                                          SizedBox(height: 10,),
+                                          if(chapterlist!=null)
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: kBlueDarkColor),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(
+                                                        5.0) //                 <--- border radius here
+                                                ),
+                                              ),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context).size.width,
+                                                height: 37,
+                                                child: DropdownButtonHideUnderline(
+                                                  child: DropdownButton(
+                                                    dropdownColor:
+                                                    CupertinoColors
+                                                        .lightBackgroundGray,
+                                                    value: selectedChapter,
+                                                    icon: const Padding(
+                                                      padding: EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 0),
+                                                      child: Icon(
+                                                        Icons
+                                                            .keyboard_arrow_down,
+                                                        color: kPrimaryColor,
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                    hint: Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                      child: const Text('Select Chapter',style: TextStyle(color: Colors.black,fontSize: 12),),
+                                                    ),
+                                                    items: chapterlist!
+                                                        .map((chaptermodel) {
+                                                      return DropdownMenuItem(
+                                                        value: chaptermodel.chapters,
+                                                        child: Container(
+                                                            margin:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal:
+                                                                4),
+                                                            child: Text(
+                                                              chaptermodel.chapters!,
+                                                              style:
+                                                              TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            )),
+                                                      );
+                                                    }).toList(),
+                                                    onChanged: (newValue) {
+                                                      setState(() {
+                                                        selectedChapter =
+                                                        newValue!;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           const SizedBox(
-                                            height: 15,
+                                            height: 10,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -410,7 +489,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     requestController);
                                               }
                                             },
-                                            child: const Text('Submit'),
+                                            child: const Text('Submit',style: TextStyle(color: Colors.white),),
                                           ),
                                           const SizedBox(
                                             height: 10,
@@ -423,7 +502,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                               ),
                             ),
                           if (requestController.sessionDetailsModel!.data![0].status ==
-                              "1")
+                              "0")
                             SizedBox(
                               child: Center(
                                 child: Padding(
@@ -560,7 +639,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                               ),
                             ),
                           if (requestController.sessionDetailsModel!.data![0].status ==
-                              "4")
+                              "3")
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Center(
@@ -713,7 +792,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
         .then((model) async {
       if (model!.status != 403) {
         showCustomSnackBar(model.msg!, isError: false);
-        requestController.sessionDetailsModel!.data![0].status = "4";
+        requestController.sessionDetailsModel!.data![0].status = "3";
         setState(() {});
       } else {
         showCustomSnackBar(model.msg!);
@@ -754,15 +833,23 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
   void addReview(String id, RequestController requestController) {
     requestController
         .addReview(id, Get.find<AuthController>().getUserToken(), ratingStr,
-            reviewController.text)
+            reviewController.text,selectedChapter!)
         .then((model) async {
       if (model!.status != 403) {
         showCustomSnackBar(model.message!, isError: false);
-        requestController.sessionDetailsModel!.data![0].status = "5";
+        requestController.sessionDetailsModel!.data![0].status = "6";
         setState(() {});
       } else {
         showCustomSnackBar(model.message!);
       }
     });
+  }
+
+  getChapterList(String packageid) async {
+    chapterListResponseModel=await Get.find<RequestController>().getchapterlist(packageid);
+    chapterlist=chapterListResponseModel!.data!;
+    setState(() {
+    });
+
   }
 }

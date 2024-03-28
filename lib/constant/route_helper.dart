@@ -37,8 +37,8 @@ class RouteHelper {
           String token, String userId, String from) =>
       '$updateProfileScreen?token=$token&userId=$userId&from=$from';
 
-  static String getSessionDetailsScreenRoute(String id) =>
-      '$sessionDetails?id=$id';
+  static String getSessionDetailsScreenRoute(String id,String packageid) =>
+      '$sessionDetails?id=$id&packageid=$packageid';
 
   static String getPackageDetailsRoute(String packageid)=>
       '$packageDetailsScreen?packageid=$packageid';
@@ -94,7 +94,7 @@ class RouteHelper {
             ))),
     GetPage(
         name: sessionDetails,
-        page: () => getRoute(SessionDetailsScreen(id: Get.parameters['id']!))),
+        page: () => getRoute(SessionDetailsScreen(id: Get.parameters['id']!,packageid: Get.parameters['packageid']!))),
     GetPage(
         name: packageDetailsScreen,
         page: () =>

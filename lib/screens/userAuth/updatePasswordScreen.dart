@@ -59,6 +59,9 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
 
       appBar: AppBar(
         backgroundColor: kYellowColor,
+        iconTheme: IconThemeData(
+          color: Colors.white, //change your color here
+        ),
         centerTitle: true,
         title: const Text(
           'Change Password',

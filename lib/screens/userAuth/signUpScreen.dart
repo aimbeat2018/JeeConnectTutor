@@ -69,7 +69,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   List<String>? gradesList = [];
   List<String>? gradesIdList = [];
   List<String> subjectsList = [];
-  List<String> subjectsGradeList = [];
+  List<String> subjectsIDList = [];
   List multipleSelected = [];
   XFile? _pickedFile;
 
@@ -423,9 +423,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                           2],
                                                                   controller:
                                                                       _mobileController,
-                                                                  keyboardType:
+                                                                      keyboardType:
                                                                       TextInputType
-                                                                          .phone,
+                                                                          .number,
+                                                                      inputFormatters: [
+                                                                        FilteringTextInputFormatter
+                                                                            .digitsOnly,
+                                                                        LengthLimitingTextInputFormatter(
+                                                                            10),
+                                                                      ],
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .black),
@@ -711,8 +717,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                           5],
                                                                   controller:
                                                                       _passwordController,
-                                                                  keyboardType: TextInputType
-                                                                      .text,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .text,
                                                                   decoration:
                                                                       InputDecoration(
                                                                     suffixIcon:
@@ -814,10 +821,12 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                   keyboardType:
                                                                       TextInputType
                                                                           .number,
-                                                                      inputFormatters: [
-                                                                        FilteringTextInputFormatter.digitsOnly,
-                                                                        LengthLimitingTextInputFormatter(6),
-                                                                      ],
+                                                                  inputFormatters: [
+                                                                    FilteringTextInputFormatter
+                                                                        .digitsOnly,
+                                                                    LengthLimitingTextInputFormatter(
+                                                                        6),
+                                                                  ],
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .black),
@@ -923,10 +932,12 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                   keyboardType:
                                                                       TextInputType
                                                                           .number,
-                                                                      inputFormatters: [
-                                                                        FilteringTextInputFormatter.digitsOnly,
-                                                                        LengthLimitingTextInputFormatter(12),
-                                                                      ],
+                                                                  inputFormatters: [
+                                                                    FilteringTextInputFormatter
+                                                                        .digitsOnly,
+                                                                    LengthLimitingTextInputFormatter(
+                                                                        12),
+                                                                  ],
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .black),
@@ -1025,9 +1036,10 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                   keyboardType:
                                                                       TextInputType
                                                                           .text,
-                                                                      inputFormatters: [
-                                                                        LengthLimitingTextInputFormatter(10),
-                                                                      ],
+                                                                  inputFormatters: [
+                                                                    LengthLimitingTextInputFormatter(
+                                                                        10),
+                                                                  ],
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .black),
@@ -1771,7 +1783,8 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                 ),
                                                                 SizedBox(
                                                                   height: 37,
-                                                                  child: TextFormField(
+                                                                  child:
+                                                                      TextFormField(
                                                                     controller:
                                                                         _subjectsController,
                                                                     cursorColor:
@@ -1795,13 +1808,13 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                               .black12,
                                                                       contentPadding: EdgeInsets.only(
                                                                           left:
-                                                                          8,
+                                                                              8,
                                                                           bottom:
-                                                                          0,
+                                                                              0,
                                                                           top:
-                                                                          0,
+                                                                              0,
                                                                           right:
-                                                                          15),
+                                                                              15),
                                                                       hintText:
                                                                           'Select Subjects',
                                                                       border:
@@ -1810,12 +1823,11 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                             BorderSide(
                                                                           width:
                                                                               0,
-                                                                          style: BorderStyle
-                                                                              .none,
+                                                                          style:
+                                                                              BorderStyle.none,
                                                                         ),
                                                                         borderRadius:
-                                                                            BorderRadius
-                                                                                .all(
+                                                                            BorderRadius.all(
                                                                           Radius.circular(
                                                                               8.0),
                                                                         ),
@@ -1830,10 +1842,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                             ),
                                                           ),
                                                           Align(
-                                                              alignment: Alignment.centerLeft,
+                                                              alignment: Alignment
+                                                                  .centerLeft,
                                                               child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                                                                child: const Text('Mode of Teaching'),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        18.0),
+                                                                child: const Text(
+                                                                    'Mode of Teaching'),
                                                               )),
                                                           const SizedBox(
                                                             height: 5.0,
@@ -1845,27 +1862,52 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                     horizontal:
                                                                         15),
                                                             child: Column(
-                                                              children: List.generate(
-                                                                checkListItems.length,
-                                                                    (index) => CheckboxListTile(
-                                                                  controlAffinity: ListTileControlAffinity.leading,
-                                                                  contentPadding: EdgeInsets.zero,
+                                                              children:
+                                                                  List.generate(
+                                                                checkListItems
+                                                                    .length,
+                                                                (index) =>
+                                                                    CheckboxListTile(
+                                                                  controlAffinity:
+                                                                      ListTileControlAffinity
+                                                                          .leading,
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .zero,
                                                                   dense: true,
                                                                   title: Text(
-                                                                    checkListItems[index]["title"],
-                                                                    style: const TextStyle(
-                                                                      fontSize: 16.0,
-                                                                      color: Colors.black,
+                                                                    checkListItems[
+                                                                            index]
+                                                                        [
+                                                                        "title"],
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      color: Colors
+                                                                          .black,
                                                                     ),
                                                                   ),
-                                                                  value: checkListItems[index]["value"],
-                                                                  onChanged: (value) {
-                                                                    setState(() {
-                                                                      checkListItems[index]["value"] = value;
-                                                                      if (multipleSelected.contains(checkListItems[index])) {
-                                                                        multipleSelected.remove(checkListItems[index]);
+                                                                  value: checkListItems[
+                                                                          index]
+                                                                      ["value"],
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      checkListItems[index]
+                                                                              [
+                                                                              "value"] =
+                                                                          value;
+                                                                      if (multipleSelected
+                                                                          .contains(
+                                                                              checkListItems[index])) {
+                                                                        multipleSelected
+                                                                            .remove(checkListItems[index]);
                                                                       } else {
-                                                                        multipleSelected.add(checkListItems[index]);
+                                                                        multipleSelected
+                                                                            .add(checkListItems[index][
+                                                                        "title"]);
                                                                       }
                                                                     });
                                                                   },
@@ -1877,16 +1919,25 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                             height: 5,
                                                           ),
                                                           Align(
-                                                              alignment: Alignment.centerLeft,
+                                                              alignment: Alignment
+                                                                  .centerLeft,
                                                               child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                                                                child: const Text('Upload your resume'),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        18.0),
+                                                                child: const Text(
+                                                                    'Upload your resume'),
                                                               )),
                                                           const SizedBox(
                                                             height: 5.0,
                                                           ),
                                                           Padding(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        18.0),
                                                             child: InkWell(
                                                               onTap: () {
                                                                 // pickImageCamera();
@@ -1895,28 +1946,46 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                               },
                                                               child: Container(
                                                                 decoration: BoxDecoration(
-                                                                    color: Colors.white,
-                                                                    borderRadius: BorderRadius.circular(12),
-                                                                    border: Border.all(color: kPrimaryColor)),
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                    border: Border.all(
+                                                                        color:
+                                                                            kPrimaryColor)),
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                                                                  padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          8.0,
+                                                                      vertical:
+                                                                          5),
                                                                   child: Row(
                                                                     children: [
                                                                       Expanded(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.symmetric(
-                                                                                horizontal: 4.0),
-                                                                            child: Text(
-                                                                              _pickedFile == null
-                                                                                  ? 'Select Your resume'
-                                                                                  : _pickedFile!.name,
-                                                                              style: const TextStyle(
-                                                                                  color: Colors.black, fontSize: 14),
-                                                                            ),
-                                                                          )),
+                                                                          child:
+                                                                              Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                4.0),
+                                                                        child:
+                                                                            Text(
+                                                                          _pickedFile == null
+                                                                              ? 'Select Your resume'
+                                                                              : _pickedFile!.name,
+                                                                          style: const TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontSize: 14),
+                                                                        ),
+                                                                      )),
                                                                       Icon(
-                                                                        Icons.picture_as_pdf,
-                                                                        color: Colors.grey.shade700,
+                                                                        Icons
+                                                                            .picture_as_pdf,
+                                                                        color: Colors
+                                                                            .grey
+                                                                            .shade700,
                                                                       )
                                                                     ],
                                                                   ),
@@ -2011,7 +2080,10 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                           .black),
                                                             ),
                                                             onPressed: () {
-                                                              sendOtp(authController);
+                                                              if(globalFormKey!.currentState!.validate()==true && _pickedFile!=null){
+                                                                sendOtp(
+                                                                    authController);
+                                                              }
                                                             },
                                                             child: Padding(
                                                               padding:
@@ -2058,55 +2130,42 @@ class SignUpScreenState extends State<SignUpScreen> {
   void sendOtp(AuthController authController) {
     String? modeOfTeaching;
     modeOfTeaching = multipleSelected.join(", ");
+    String  subject = subjectsIDList.join(",");
+    String  multipleSelecte =multipleSelected.join(",");
+    //
+    // GlobalFunctions.showSuccessToast(subject);
+    // GlobalFunctions.showSuccessToast(multipleSelecte);
+
     authController
         .sendRegisterOtp(phone: _mobileController.text)
         .then((model) async {
       if (model!.status == "200") {
+
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-          OtpScreen(
-            firstName: _firstNameController.text,
-                lastName: _lastNameController.text,
-                email: _emailController.text,
-                phone: _mobileController.text,
-                password: _passwordController.text,
-                pincode: _pincodeController.text,
-                accountNo: _accountnoontroller.text,
-                subjects: _subjectsController.text,
-                pan: _panController.text,
-                ifsc: _ifscController.text,
-                board: _boardController.text,
-                bankname: _banknameController.text,
-                adhar: _adharController.text,
-                modeOfTeachingSelected: modeOfTeaching,
-                grade: _gradeController.text,
-                address: _addressController.text,
-                otp: model.otp,
-                referralCode: _referralCodeController.text,
-                resume: _pickedFile
-          ),
+          builder: (context) => OtpScreen(
+              firstName: _firstNameController.text,
+              lastName: _lastNameController.text,
+              email: _emailController.text,
+              phone: _mobileController.text,
+              password: _passwordController.text,
+              pincode: _pincodeController.text,
+              accountNo: _accountnoontroller.text,
+              subjects: subject,
+              pan: _panController.text,
+              ifsc: _ifscController.text,
+              holdername: _holdernameController.text,
+              board: selectedBoard,
+              bankname: _banknameController.text,
+              adhar: _adharController.text,
+              modeOfTeachingSelected: multipleSelecte,
+              grade: _gradeController.text,
+              address: _addressController.text,
+              otp: model.otp,
+              referralCode: _referralCodeController.text,
+              resume: _pickedFile),
         ));
 
-        // Get.toNamed(RouteHelper.getOtpScreenRoute(
-        //     firstName: _firstNameController.text,
-        //     lastName: _lastNameController.text,
-        //     email: _emailController.text,
-        //     phone: _mobileController.text,
-        //     password: _passwordController.text,
-        //     pincode: _pincodeController.text,
-        //     accountNo: _accountnoontroller.text,
-        //     subjects: _subjectsController.text,
-        //     pan: _panController.text,
-        //     ifsc: _ifscController.text,
-        //     board: _boardController.text,
-        //     bankname: _banknameController.text,
-        //     adhar: _adharController.text,
-        //     modeOfTeachingSelected: modeOfTeaching,
-        //     grade: _gradeController.text,
-        //     address: _addressController.text,
-        //     otp: model.otp,
-        //     referralCode: _referralCodeController.text,
-        //     resume: _pickedFile));
+
       } else {
         showCustomSnackBar('Mobile number already exists');
       }
@@ -2153,7 +2212,7 @@ class SignUpScreenState extends State<SignUpScreen> {
       for (var item in subjectResponseModel!.data!) {
         _listOfSubjects.add(SelectedListItem(
             name: item.subjectName! + " - " + item.gradeName!,
-            value: item.subjectName! + " - " + item.gradeName!,
+            value: item.subjectId!,
             isSelected: false));
       }
       setState(() {});
@@ -2282,9 +2341,11 @@ class SignUpScreenState extends State<SignUpScreen> {
         selectedItems: (List<dynamic> selectedList) {
           print(selectedList.indexed);
           subjectsList = [];
+          subjectsIDList = [];
           for (var item in selectedList) {
             if (item is SelectedListItem) {
-              subjectsList.add(item.value!);
+              subjectsList.add(item.name);
+              subjectsIDList.add(item.value!);
             }
           }
           _subjectsController.text = subjectsList.join(", ");
@@ -2294,8 +2355,6 @@ class SignUpScreenState extends State<SignUpScreen> {
       ),
     ).showModal(context);
   }
-
-
 
   void openFiles() async {
     FilePickerResult? resultFile = await FilePicker.platform.pickFiles();
@@ -2309,7 +2368,6 @@ class SignUpScreenState extends State<SignUpScreen> {
       //not picket any file
     }
   }
-
 }
 /*
 

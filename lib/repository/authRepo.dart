@@ -44,7 +44,8 @@ class AuthRepo {
       String? modeOfTeachingSelected,
         XFile? resume}) async {
 
-    return await apiClient.postMultipartData(AppConstants.registerInstructor, {
+    return await apiClient.postMultipartData(
+        AppConstants.registerInstructor, {
       "first_name": firstName!,
       "last_name": lastName!,
       "mobile_no": phone!,

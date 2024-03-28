@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:jeeconnecttutor/constant/app_constants.dart';
 import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
+import 'package:jeeconnecttutor/constant/globalFunction.dart';
 import 'package:jeeconnecttutor/model/commonAuthTokenRequestModel.dart';
 import 'package:jeeconnecttutor/model/commonResponseModel.dart';
 import 'package:jeeconnecttutor/model/otpModel.dart';
@@ -19,6 +20,7 @@ import 'package:jeeconnecttutor/model/updateProfileResponseModel.dart';
 
 import '../model/loginModel.dart';
 import '../model/request/gradeRequestModel.dart';
+import '../model/response/bannerModel.dart';
 import '../model/response/boardsModel.dart';
 import '../model/termsPrivacyHelpDynamicContentResponseModel.dart';
 import '../repository/authRepo.dart';
@@ -36,13 +38,13 @@ class AuthController extends GetxController implements GetxService {
   ProfileViewModel? profileViewModel;
   BoardsModel? boardsModel;
   GradesModel? gradesModel;
+  BannerModel bannerModel = BannerModel();
 
   UpdateProfileResponseModel? updateProfileResponseModel;
   CommonResponseModel? commonResponseModel;
   TermsPrivacyHelpDynamicContentResponseModel?
       termsPrivacyHelpDynamicContentResponseModel;
 
-  List bannerList = [];
 
   OtpModel? otpModel;
 
@@ -63,11 +65,17 @@ class AuthController extends GetxController implements GetxService {
     Response response=await authRepo.login(phone: phone,password: password,deviceToken: deviceToken);
     if(response.statusCode==200){
       loginModel=LoginModel.fromJson(response.body);
+      if(loginModel!.status=="200"){
+      authRepo.saveUserId(loginModel!.userId!);
       authRepo.saveUserMobile(loginModel!.mobileNo!);
       authRepo.saveUserName(loginModel!.firstName!+loginModel!.lastName!);
       authRepo.saveUserUniqueId(loginModel!.uniqueCode!);
       authRepo.saveUserId(loginModel!.userId!.toString());
-    }
+      authRepo.saveUserToken(deviceToken!);
+    }else {
+GlobalFunctions.showWarningToast(loginModel!.msg!);
+      }
+      }
     _isLoading = false;
     update();
     return loginModel;
@@ -127,12 +135,13 @@ class AuthController extends GetxController implements GetxService {
       if (response.body['status'] == "200") {
         registerModel = RegisterModel.fromJson(response.body);
 
-        authRepo.saveUserMobile(registerModel!.data!.phone!);
+        authRepo.saveUserMobile(registerModel!.mobileNo!);
+
       } else {
-        registerModel = RegisterModel(status: 403);
+        registerModel = RegisterModel(status: "403");
       }
     } else {
-      registerModel = RegisterModel(status: 403);
+      registerModel = RegisterModel(status: "403");
     }
     });
     _isLoading = false;
@@ -322,14 +331,14 @@ class AuthController extends GetxController implements GetxService {
   }
 
 
-  Future<List> getBanners() async {
-    String? token = authRepo.getUserToken();
-    var url = '${AppConstants.baseUrl}${AppConstants.banner}?auth_token=$token';
+  Future<BannerModel> getBanners() async {
+    var url = '${AppConstants.baseUrl}${AppConstants.banner}';
     try {
       final response = await http.get(
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
         },
       );
       final responseData = json.decode(response.body);
@@ -338,9 +347,9 @@ class AuthController extends GetxController implements GetxService {
         throw const HttpException('Auth Failed');
       }
 
-      bannerList = json.decode(response.body);
+      bannerModel = BannerModel.fromJson(json.decode(response.body));
 
-      return bannerList;
+      return bannerModel;
     } catch (error) {
       rethrow;
     }

@@ -20,6 +20,8 @@ class LoginModel {
   String? accountHolderName;
   String? accountNo;
   String? ifscCode;
+  String? payMode;
+  String? perSessionAmt;
   String? msg;
 
   LoginModel(
@@ -44,6 +46,8 @@ class LoginModel {
         this.accountHolderName,
         this.accountNo,
         this.ifscCode,
+        this.payMode,
+        this.perSessionAmt,
         this.msg});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
@@ -88,6 +92,8 @@ class LoginModel {
     accountHolderName = json['account_holder_name'];
     accountNo = json['account_no'];
     ifscCode = json['ifsc_code'];
+    payMode = json['pay_mode'];
+    perSessionAmt = json['per_session_amt'];
     msg = json['msg'];
   }
 
@@ -125,6 +131,8 @@ class LoginModel {
     data['account_holder_name'] = this.accountHolderName;
     data['account_no'] = this.accountNo;
     data['ifsc_code'] = this.ifscCode;
+    data['pay_mode'] = this.payMode;
+    data['per_session_amt'] = this.perSessionAmt;
     data['msg'] = this.msg;
     return data;
   }

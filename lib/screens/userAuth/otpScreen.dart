@@ -294,7 +294,7 @@ class OtpScreenState extends State<OtpScreen> {
           builder: (BuildContext context) => AlertDialog(
             title: const Text('Add Your Details'),
             content: const Text(
-                'Registration successful!, Please login and update your kyc and other details for verification!'),
+                'Registration successful!, Please wait, We are verifying your profile...'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {

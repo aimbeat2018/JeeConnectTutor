@@ -1,27 +1,25 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
-import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
 import 'package:jeeconnecttutor/model/commonResponseModel.dart';
-import 'package:jeeconnecttutor/screens/courses/categoriesListingScreen.dart';
 import 'package:jeeconnecttutor/screens/groupStudy/categoriesScreen.dart';
-import 'package:jeeconnecttutor/screens/history/tutorListingHistoryScreen.dart';
-import 'package:jeeconnecttutor/screens/other/termsAndConditionScreen.dart';
 import 'package:jeeconnecttutor/screens/payment/paymentScreen.dart';
 import 'package:jeeconnecttutor/screens/schedule/acceptedSessionsListingScreen.dart';
 import 'package:jeeconnecttutor/screens/sessions/sessionRequestsScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/updatePasswordScreen.dart';
 import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../../constant/internetConnectivity.dart';
-import '../../constant/shared_pref_helper.dart';
 import '../../constant/textConstant.dart';
 import '../../controllers/authController.dart';
+import '../../model/response/bannerModel.dart';
 import '../other/HelpScreen.dart';
 import '../userAuth/profileScreen.dart';
 import 'completedScreen.dart';
@@ -55,6 +53,8 @@ List<Widget> imageSliders = imgList
 class HomeScreen extends StatefulWidget {
   static const String name = 'home';
 
+  int currentIndex = 0;
+
   HomeScreen({super.key});
 
   @override
@@ -65,6 +65,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
   CommonResponseModel? commonResponseModel;
+  BannerModel bannerModel = BannerModel();
   String username = "";
   String userId = "";
   String _connectionStatus = 'unKnown';
@@ -73,7 +74,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-
     CheckInternet.initConnectivity().then((value) => setState(() {
           _connectionStatus = value;
         }));
@@ -296,10 +296,13 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       child: const Text('Cancel'),
                     ),
                     TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.pop(context);
-                        logout();
                         Get.find<AuthController>().clearSharedData();
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.remove('userData');
+                        prefs.clear();
+                        logout();
                       },
                       child: const Text('OK'),
                     ),
@@ -338,220 +341,245 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      aspectRatio: 2.0,
-                      viewportFraction: 0.8,
-                      enlargeCenterPage: true,
-                      scrollDirection: Axis.horizontal,
-                      autoPlay: true,
-                    ),
-                    items: imageSliders,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                bannerModel.data == null
+                    ? SizedBox()
+                    : bannerModel.data!.isEmpty
+                        ? SizedBox()
+                        : CarouselSlider.builder(
+                            options: CarouselOptions(
+                              viewportFraction: 1.0,
+                              height: 150,
+                              scrollDirection: Axis.horizontal,
+                              autoPlay: true,
+                              onPageChanged: (index, reason) {
+                                // print(index);
+                                widget.currentIndex = index;
+                                // setState(() {
+                                // });
+                              },
+                            ),
+                            itemCount: bannerModel.data!.length,
+                            itemBuilder: (BuildContext context, int index,
+                                int realIndex) {
+                              return ClipRRect(
+                                child: CachedNetworkImage(
+                                  imageUrl: bannerModel.data![index].image!,
+                                  alignment: Alignment.topCenter,
+                                  fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width,
+                                  // placeholder: (context, url) => SizedBox(
+                                  //     height: 50,
+                                  //     width: 50,
+                                  //     child: CircularProgressIndicator(
+                                  //       color: primaryColor,
+                                  //     )),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                              );
+                            },
+                          ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 8.0),
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        SessionRequestsScreen(),
+                                  ));
+                                },
+                                child: Column(
+                                  children: [
+                                    Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8),
+                                        //set border radius more than 50% of height and width to make circle
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Image.asset(
+                                          'assets/images/meeting.png',
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const Text(
+                                      'Session \nRequests',
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AcceptedSessionsListingScreen(),
+                                  ));
+                                },
+                                child: Column(
+                                  children: [
+                                    Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8),
+                                        //set border radius more than 50% of height and width to make circle
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Image.asset(
+                                          'assets/images/schedule.png',
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const Text(
+                                      'Schedule\n',
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CompletedSessionsScreen(),
+                                  ));
+                                },
+                                child: Column(
+                                  children: [
+                                    Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8),
+                                        //set border radius more than 50% of height and width to make circle
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Image.asset(
+                                          'assets/images/history.png',
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const Text(
+                                      'History',
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PaymentScreen(),
+                                  ));
+                                },
+                                child: Column(
+                                  children: [
+                                    Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8),
+                                        //set border radius more than 50% of height and width to make circle
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Image.asset(
+                                          'assets/images/creditCard.png',
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const Text(
+                                      'Payment',
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 8.0),
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          SessionRequestsScreen(),
-                                    ));
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          //set border radius more than 50% of height and width to make circle
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Image.asset(
-                                            'assets/images/meeting.png',
-                                            height: 50,
-                                            width: 50,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      const Text(
-                                        'Session \nRequests',
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.clip,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AcceptedSessionsListingScreen(),
-                                    ));
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          //set border radius more than 50% of height and width to make circle
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Image.asset(
-                                            'assets/images/schedule.png',
-                                            height: 50,
-                                            width: 50,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      const Text(
-                                        'Schedule\n',
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.clip,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CompletedSessionsScreen(),
-                                    ));
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          //set border radius more than 50% of height and width to make circle
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Image.asset(
-                                            'assets/images/history.png',
-                                            height: 50,
-                                            width: 50,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      const Text(
-                                        'History',
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.clip,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const PaymentScreen(),
-                                    ));
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          //set border radius more than 50% of height and width to make circle
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Image.asset(
-                                            'assets/images/creditCard.png',
-                                            height: 50,
-                                            width: 50,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      const Text(
-                                        'Payment',
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.clip,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -560,48 +588,26 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   getBanners() async {
-    userId = (await SharedPreferenceHelper().getUniqueCode())!;
+    userId = (await Get.find<AuthController>().getUserId());
 
-    List bannerData = await Get.find<AuthController>().getBanners();
-
-    for (int i = 0; i < bannerData.length; i++) {
-      imgList.add(bannerData[i]["banner_image"]);
-    }
-
-     imageSliders = imgList
-        .map((item) => Container(
-      child: Container(
-        margin: const EdgeInsets.all(5.0),
-        child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-            child: Stack(
-              children: <Widget>[
-                Image.network(item, fit: BoxFit.cover, width: 1000.0),
-              ],
-            )),
-      ),
-    ))
-        .toList();
-
+    bannerModel = await Get.find<AuthController>().getBanners();
     setState(() {});
-
   }
 
   logout() async {
-    commonResponseModel = await Get.find<AuthController>().logoutUser();
-    if (commonResponseModel!.status == 401) {
-      Navigator.pushNamedAndRemoveUntil(context, '/login', (r) => false);
-    } else {
-      showCustomSnackBar('Something went wrong!', isError: true);
-    }
+    // commonResponseModel = await Get.find<AuthController>().logoutUser();
+    // if (commonResponseModel!.status == 401) {
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (r) => false);
+    // } else {
+    //   showCustomSnackBar('Something went wrong!', isError: true);
+    // }
   }
-
-
 
   void _referAndEarn(context) async {
     showModalBottomSheet(
         context: context,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
         builder: (BuildContext bc) {
           return Container(
             alignment: Alignment.center,
@@ -613,15 +619,24 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text('Refer & Earn',
+                      const Text(
+                        'Refer & Earn',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: kPrimaryColor, fontSize:18, fontWeight: FontWeight.bold),),
-                      SizedBox(height: 2,),
-                      const Divider(height: 2,
+                        style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      const Divider(
+                        height: 2,
                         thickness: 2,
                         endIndent: 140,
                         indent: 140,
-                        color: kPrimaryColor,),
+                        color: kPrimaryColor,
+                      ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -635,11 +650,18 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Text('Hey ${username},  We\'re having an awesome offers.\nIf you refer a friend, you\'ll both get a coins for your next purchase!\nUse the code - ${userId} while registration.',
-                          style: const TextStyle(color: Colors.deepOrange,fontSize: 16, fontWeight: FontWeight.w700),
-                          textAlign: TextAlign.center,),
+                        child: Text(
+                          'Hey ${username},  We\'re having an awesome offers.\nIf you refer a friend, you\'ll both get a coins for your next purchase!\nUse the code - ${Get.find<AuthController>().getUserUniqueId()} while registration.',
+                          style: const TextStyle(
+                              color: Colors.deepOrange,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      SizedBox(height: 15,),
+                      SizedBox(
+                        height: 15,
+                      ),
                       RichText(
                           text: TextSpan(
                               style: const TextStyle(
@@ -647,29 +669,35 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500),
                               children: <TextSpan>[
-                                const TextSpan(
-                                  text: 'Your referral code : ',
-                                  style: TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold),
-                                ),
-                                TextSpan(
-                                  text: userId,
-                                  style: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w500),
-                                ),
-                              ])),
-                      SizedBox(height: 20,),
+                            const TextSpan(
+                              text: 'Your referral code : ',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(
+                              text: '${Get.find<AuthController>().getUserUniqueId()}',
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
+                          ])),
+                      SizedBox(
+                        height: 20,
+                      ),
                       ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
-                            foregroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(kPrimaryColor),
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(kPrimaryColor),
                             textStyle: MaterialStateProperty.all<TextStyle>(
                               const TextStyle(fontSize: 16),
                             ),
                             padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
                             ),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -686,17 +714,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500),
                           )),
-                      SizedBox(height: 20,),
-
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 )
               ],
             ),
           );
-        }
-    );
-
-
+        });
   }
 }

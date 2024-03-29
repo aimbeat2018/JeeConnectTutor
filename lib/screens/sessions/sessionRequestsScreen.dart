@@ -130,6 +130,7 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                                     child: CircularProgressIndicator(),
                                   )
                                 : requestController
+                                .tutorRequestModel!.data==null || requestController
                                         .tutorRequestModel!.data!.isEmpty
                                     ? Container(
                                         height:

@@ -25,7 +25,12 @@ class PaymentRepo {
         AppConstants.instructorSessionsCompleteCount,
         {'user_id': await Get.find<AuthController>().getUserId()});
   }
-
+  Future<Response> requestPayment(String? amount) async{
+    return await apiClient.postBodyData(AppConstants.requestPayment, {
+      'user_id': await Get.find<AuthController>().getUserId(),
+      'total_amount':amount
+    });
+  }
   String getUserToken() {
     return sharedPreferences.getString(AppConstants.token) ?? "";
   }

@@ -13,6 +13,7 @@ class AppConstants {
   static const String addReview = 'V131/insta_review';
   static const String chapterList = 'V130/package_wise_chapters';
   static const String instructorSessionsCompleteCount = 'V131/intructor_complete_session';
+  static const String requestPayment = 'V131/request_amount';
 
   //static const String sendOtp = 'verify_mobile_number';
   static const String registerInstructor = 'V131/instructor_signup';
@@ -65,7 +66,6 @@ class AppConstants {
   static const String getEmployeeCampaignList = 'get/employee/campaign/list';
   static const String getEmployeeCampaignResponse = 'get/campaign/answers/list';
   static const String getEmployeeList = 'get/employee/team/members';
-  static const String requestPayment = 'request_payment';
 
   static const String boardlist = 'V130/boardlist';
   static const String gradeslist = 'V130/gradeslist';

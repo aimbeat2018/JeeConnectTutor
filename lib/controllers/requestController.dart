@@ -80,34 +80,34 @@ class RequestController extends GetxController implements GetxService {
     return value;
   }
 
-  Future<TutorRequestModel?> getSessionRequestList({String? userid,String? flag}) async{
-    _isLoading=true;
-    Response response=await requestRepo.pendingPackageList(userid!,flag!);
-    if(response.statusCode==200){
+  Future<TutorRequestModel?> getSessionRequestList(
+      {String? userid, String? flag}) async {
+    _isLoading = true;
+    Response response = await requestRepo.pendingPackageList(userid!, flag!);
+    if (response.statusCode == 200) {
       tutorRequestModel = TutorRequestModel.fromJson(response.body);
-    }
-    else{
-      tutorRequestModel=TutorRequestModel();
+    } else {
+      tutorRequestModel = TutorRequestModel();
     }
     _isLoading = false;
     update();
     return tutorRequestModel;
+  }
 
-}
-  Future<TutorRequestModel?> getPackageDetails({String? packageid}) async{
-    _isLoading=true;
-    Response response=await requestRepo.getpackageDetails(package_id:packageid);
-    if(response.statusCode==200){
-      tutorRequestModel=TutorRequestModel.fromJson(response.body);
+  Future<TutorRequestModel?> getPackageDetails({String? packageid}) async {
+    _isLoading = true;
+    Response response =
+        await requestRepo.getpackageDetails(package_id: packageid);
+    if (response.statusCode == 200) {
+      tutorRequestModel = TutorRequestModel.fromJson(response.body);
+    } else {
+      tutorRequestModel = TutorRequestModel();
     }
-    else{
-      tutorRequestModel=TutorRequestModel();
-    }
-    _isLoading=false;
+    _isLoading = false;
     update();
     return tutorRequestModel;
-
   }
+
   Future<List<TutorRequestModel>?> getAcceptedTutorRequestList(
       String token) async {
     _isLoading = true;
@@ -156,7 +156,7 @@ class RequestController extends GetxController implements GetxService {
     update();
 
     Response response = await requestRepo.acceptRequest(
-        package_purchase_id: packageid,instructorid: userid);
+        package_purchase_id: packageid, instructorid: userid);
 
     if (response.statusCode == 200) {
       // if (response.body['status'] == 200) {
@@ -220,11 +220,10 @@ class RequestController extends GetxController implements GetxService {
     _isDetailsLoading = true;
     // update();
 
-    Response response = await requestRepo
-        .sessionDetail(id);
+    Response response = await requestRepo.sessionDetail(id);
 
     if (response.statusCode == 200) {
-     sessionDetailsModel=SessionDetailsModel.fromJson(response.body);
+      sessionDetailsModel = SessionDetailsModel.fromJson(response.body);
     } else {
       sessionDetailsModel = SessionDetailsModel();
     }
@@ -233,16 +232,16 @@ class RequestController extends GetxController implements GetxService {
     return sessionDetailsModel;
   }
 
-  Future<ChapterListResponseModel?> getchapterlist(String packageid) async{
-    _isDetailsLoading=true;
-    Response response=await requestRepo.chapterList(packageid);
-    if(response.statusCode==200){
-      chapterListResponseModel=ChapterListResponseModel.fromJson(response.body);
+  Future<ChapterListResponseModel?> getchapterlist(String packageid) async {
+    _isDetailsLoading = true;
+    Response response = await requestRepo.chapterList(packageid);
+    if (response.statusCode == 200) {
+      chapterListResponseModel =
+          ChapterListResponseModel.fromJson(response.body);
+    } else {
+      chapterListResponseModel = ChapterListResponseModel();
     }
-    else{
-      chapterListResponseModel=ChapterListResponseModel();
-    }
-    _isDetailsLoading=false;
+    _isDetailsLoading = false;
     update();
     return chapterListResponseModel;
   }
@@ -260,7 +259,7 @@ class RequestController extends GetxController implements GetxService {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo.startSession(id,otp,startTime);
+    Response response = await requestRepo.startSession(id, otp, startTime);
 
     if (response.statusCode == 200) {
       sessionResponseModel = SessionResponseModel.fromJson(response.body);
@@ -277,7 +276,7 @@ class RequestController extends GetxController implements GetxService {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo.endSession(id,startTime);
+    Response response = await requestRepo.endSession(id, startTime);
 
     if (response.statusCode == 200) {
       sessionResponseModel = SessionResponseModel.fromJson(response.body);
@@ -289,12 +288,13 @@ class RequestController extends GetxController implements GetxService {
     return sessionResponseModel;
   }
 
-  Future<UpdateProfileResponseModel?> addReview(
-      String id, String token, String rating, String review,String chaptername) async {
+  Future<UpdateProfileResponseModel?> addReview(String id, String token,
+      String rating, String review, String chaptername) async {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo.addReview(id,rating,review,chaptername);
+    Response response =
+        await requestRepo.addReview(id, rating, review, chaptername);
 
     if (response.statusCode == 200) {
       model = UpdateProfileResponseModel.fromJson(response.body);

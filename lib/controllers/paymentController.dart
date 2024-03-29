@@ -6,6 +6,8 @@ import 'package:jeeconnecttutor/model/RequestPaymentModel.dart';
 import 'package:jeeconnecttutor/model/commonAuthTokenRequestModel.dart';
 import 'package:jeeconnecttutor/model/commonResponseModel.dart';
 import 'package:jeeconnecttutor/model/completedSessionsListResponseModel.dart';
+import 'package:jeeconnecttutor/model/updateProfileModel.dart';
+import 'package:jeeconnecttutor/model/updateProfileResponseModel.dart';
 import 'package:jeeconnecttutor/repository/paymentRepo.dart';
 
 import '../constant/app_constants.dart';
@@ -15,20 +17,26 @@ class PaymentController extends GetxController implements GetxService {
 
   PaymentController({required this.paymentRepo});
 
-  List<CompletedSessionsListResponseModel>? completedSessionsListResponseModel;
+  CompletedSessionsListResponseModel? completedSessionsListResponseModel;
   CommonResponseModel? commonResponseModel;
+  UpdateProfileResponseModel? updateProfileResponseModel;
 
   bool? _isLoading = false;
 
   bool get isLoading => _isLoading!;
 
 
-  Future<List<CompletedSessionsListResponseModel>?>
+  Future<CompletedSessionsListResponseModel?>
   getCompletedSessionsList() async {
     _isLoading = true;
-
-
-
+    Response response=await paymentRepo.completedPaymentCount();
+    if(response.statusCode==200)
+      {
+        completedSessionsListResponseModel=CompletedSessionsListResponseModel.fromJson(response.body);
+      }
+    else {
+      completedSessionsListResponseModel = CompletedSessionsListResponseModel(status: '403');
+    }
     _isLoading = false;
     update();
     return completedSessionsListResponseModel;
@@ -43,37 +51,20 @@ class PaymentController extends GetxController implements GetxService {
   }
 
 
-  Future<CommonResponseModel?>
+  Future<UpdateProfileResponseModel?>
       requestPayment(String? totalAmount) async {
     _isLoading = true;
 
-    RequestPaymentModel requestPaymentModel =
-    RequestPaymentModel();
-
-    requestPaymentModel.authToken = paymentRepo.getUserToken();
-    requestPaymentModel.totalAmount = totalAmount;
-
-    var url =
-        '${AppConstants.baseUrl}${AppConstants.requestPayment}';
-
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: jsonEncode(requestPaymentModel.toJson()),
-      );
-
-
+    Response response=await paymentRepo.requestPayment(totalAmount);
       if (response.statusCode == 200) {
-        commonResponseModel = CommonResponseModel.fromJson(json.decode(response.body));
+        updateProfileResponseModel = UpdateProfileResponseModel.fromJson(json.decode(response.body));
 
       } else {
-        commonResponseModel = CommonResponseModel(status: 403);
+        updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
       }
       _isLoading = false;
       update();
-      return commonResponseModel;
+      return updateProfileResponseModel;
     }
 
 

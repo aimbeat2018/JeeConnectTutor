@@ -784,7 +784,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
           });
   }
 
-  void startSession(String id, String otp,String time,
+  void startSession(String id, String otp,String time, 
       RequestController requestController) {
     requestController
         .startSession(

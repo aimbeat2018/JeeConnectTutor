@@ -69,7 +69,7 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
           ),
           centerTitle: true,
           title: Text(
-            'Session Requests',
+            'Accepted Session',
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -131,6 +131,7 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
                         child: CircularProgressIndicator(),
                       )
                           : requestController
+                          .tutorRequestModel!.data==null || requestController
                           .tutorRequestModel!.data!.isEmpty
                           ? Container(
                         height:

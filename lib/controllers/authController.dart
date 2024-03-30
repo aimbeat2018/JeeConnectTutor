@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -169,6 +170,22 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
     update();
     return otpModel;
   }
+  Future<OtpModel?> forgotsendOtp({String? mobile}) async{
+    _isLoading=true;
+    update();
+    
+    Response response=await authRepo.sendForgotOtp(mobile: mobile);
+    if(response.statusCode==200){
+      otpModel=OtpModel.fromJson(response.body);
+    }
+    else{
+      otpModel=OtpModel();
+    }
+    _isLoading=false;
+    update();
+    return otpModel;
+  }
+
 
   Future<UpdateProfileResponseModel?> updateProfile(
       UpdateProfileModel model, String userId, String token) async {

@@ -18,6 +18,7 @@ class AppConstants {
   //static const String sendOtp = 'verify_mobile_number';
   static const String registerInstructor = 'V131/instructor_signup';
   static const String sendOtp = 'V130/student_sendsignupotp';
+  static const String sendforgotOtp = 'V130/sendforgototp';
   static const String categoryList = 'all_categories';
   static const String categoryWiseCourse = 'category_wise_course';
   static const String subCategoryWiseCourse = 'sub_category_wise_course';

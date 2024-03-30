@@ -75,6 +75,11 @@ class AuthRepo {
       "mobile_no": phone,
     });
   }
+  Future<Response> sendForgotOtp({String? mobile}) async{
+    return await apiClient.postData(AppConstants.sendforgotOtp, {
+      'mobile_no':mobile
+    });
+  }
 
   Future<Response> subjectListingGradeWise(GradeRequestModel model) async {
     return await apiClient.postBodyData(

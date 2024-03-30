@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/globalFunction.dart';
 import 'package:jeeconnecttutor/constant/textConstant.dart';
+import 'package:jeeconnecttutor/screens/userAuth/forgetPasswordOtpScreen.dart';
 import 'package:jeeconnecttutor/screens/userAuth/signUpScreen.dart';
 
 import '../../constant/app_constants.dart';
@@ -16,6 +17,7 @@ import '../../constant/no_internet_screen.dart';
 import '../../constant/route_helper.dart';
 import '../../constant/shared_pref_helper.dart';
 import '../../controllers/authController.dart';
+import 'mobileNumberForgetPasswordScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String name = 'login';
@@ -244,11 +246,7 @@ class LoginScreenState extends State<LoginScreen> {
                                                     ),
                                                     InkWell(
                                                       onTap: () {
-                                                       /* Navigator.pushNamedAndRemoveUntil(
-                                                            context,
-                                                            MobileNumberForgetPasswordScreen
-                                                                .routeName,
-                                                                (r) => false);*/
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MobileNumberForgetPasswordScreen()));
                                                       },
                                                       child: Align(
                                                         alignment: Alignment.topRight,

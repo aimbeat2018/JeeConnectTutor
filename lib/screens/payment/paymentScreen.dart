@@ -284,7 +284,7 @@ class PaymentScreenState extends State<PaymentScreen>
     if (_connectionStatus != AppConstants.connectivityCheck) {
       UpdateProfileResponseModel? updateProfileResponseModel;
       updateProfileResponseModel = await Get.find<PaymentController>().requestPayment(total_Amount);
-      if (updateProfileResponseModel!.status == 401) {
+      if (updateProfileResponseModel!.status == '403') {
         Navigator.pop(context);
         showCustomSnackBar('Payment request placed successfully',
             isError: false);

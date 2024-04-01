@@ -217,6 +217,7 @@ class MobileNumberForgetPasswordScreenState extends State<MobileNumberForgetPass
           model) async {
         if (model!.status == '200') {
           showCustomSnackBar(model.message!);
+         // showCustomSnackBar('Otp send to your registered mobile number');
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
                   ForgetPasswordOtpScreen(

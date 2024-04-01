@@ -3,19 +3,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/colorsConstant.dart';
+import '../../constant/custom_snackbar.dart';
 import '../../constant/globalFunction.dart';
 import '../../constant/textConstant.dart';
+import '../../controllers/authController.dart';
 import '../home/mainScreen.dart';
 import 'changePasswordScreen.dart';
 
 class ForgetPasswordOtpScreen extends StatefulWidget {
   static const String routeName = '/forgetPasswordOtp';
-  String? mobile,otp;
+  String? mobile, otp;
 
-  ForgetPasswordOtpScreen(this.mobile,this.otp,{super.key});
+  ForgetPasswordOtpScreen(this.mobile, this.otp, {super.key});
 
   @override
   State<StatefulWidget> createState() => ForgetPasswordOtpScreenState();
@@ -56,7 +59,7 @@ class ForgetPasswordOtpScreenState extends State<ForgetPasswordOtpScreen> {
                       },
                       icon: const Icon(Icons.arrow_back_ios_new_outlined),
                       color: Colors.white),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 15),
@@ -72,18 +75,18 @@ class ForgetPasswordOtpScreenState extends State<ForgetPasswordOtpScreen> {
                         ),
                         Image.asset(
                           'assets/images/otp.png',
-                          height: 250,
+                          height: 230,
                           width: 250,
                         ),
                         Text(
-                          'Dear customer, use this One Time Password\n(+91 )${widget.mobile} to log in to your account.\nThis OTP will be valid for the next 5 mins.',
+                          'Dear customer, use this One Time Password\n(+91 ) ${widget.mobile} to log in to your account.\nThis OTP will be valid for the next 5 mins.',
                           style: Theme.of(context)
                               .textTheme
                               .titleSmall!
                               .copyWith(color: Colors.white),
                         ),
                         const SizedBox(
-                          height: 50,
+                          height: 40,
                         ),
                         OtpTextField(
                           numberOfFields: numberOfFields,
@@ -95,7 +98,7 @@ class ForgetPasswordOtpScreenState extends State<ForgetPasswordOtpScreen> {
                               color: Colors.white, fontSize: 14),
                           cursorColor: Colors.white,
                           onCodeChanged: (String value) {
-                            verificationOtp=value;
+                            verificationOtp = value;
                             //Handle each value
                           },
                           handleControllers: (controllers) {
@@ -104,12 +107,15 @@ class ForgetPasswordOtpScreenState extends State<ForgetPasswordOtpScreen> {
                           },
                           onSubmit: (String verificationCode) {
                             //set clear text to clear text from all fields56
-                           // clearText = true;
-                            verificationOtp=verificationCode;
-                           /* setState(() {
+                            // clearText = true;
+                            verificationOtp = verificationCode;
+                            /* setState(() {
 
                             });*/
                           }, // end onSubmit
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         SizedBox(
                           width: double.infinity,
@@ -150,6 +156,21 @@ class ForgetPasswordOtpScreenState extends State<ForgetPasswordOtpScreen> {
                                 ),
                         ),
                         const SizedBox(height: 20),
+                        const Text(
+                          'Didnt received a Verifcation Code?',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              _mobileVerification(widget.mobile!);
+                            },
+                            child: Text(
+                              'Resend again',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal),
+                            )),
                       ]),
                     ),
                   ),
@@ -168,41 +189,41 @@ class ForgetPasswordOtpScreenState extends State<ForgetPasswordOtpScreen> {
   }
 
   void _submit() {
-     if (widget.otp==verificationOtp) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            ChangePasswordScreen(
-                widget.mobile)));
+    if (widget.otp == verificationOtp) {
+      showCustomSnackBar('OTP Verified!');
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ChangePasswordScreen(widget.mobile)));
     } else {
       GlobalFunctions.showErrorDialog("Enter valid OTP", context);
     }
-   /* Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => MainScreen(),
-    ));*/
   }
 
-  // Future<String?> _otp(String mobile) async {
-  //   // setState(() {
-  //   //   _isLoading = true;
-  //   // });
-  //   try {
-  //     v_otp =
-  //         await Provider.of<AuthProvider>(context, listen: false).forgetPasswordotp(mobile);
-  //     verificationOtp = v_otp;
-  //     print("OTP$mobile");
-  //
-  //     return v_otp;
-  //   } on HttpException {
-  //     return null;
-  //   } catch (error) {
-  //     // print(error);
-  //     return null;
-  //   }
-  // }
+  _mobileVerification(String mobile) {
+    Get.find<AuthController>()
+        .forgotsendOtp(mobile: mobile)
+        .then((model) async {
+      if (model!.status == '200') {
+        showCustomSnackBar(model.message!);
+        // showCustomSnackBar('Otp send to your registered mobile number');
+        widget.otp = model!.otp;
+        setState(() {});
+      } else {
+        showCustomSnackBar('Mobile number not registered');
+      }
+    });
+    /* if (mobileFormKey.currentState!.validate()) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              ForgetPasswordOtpScreen(
+                  _mobileController.text.toString())));
+    }*/
+  }
+
   void getOtp() async {
-  //  v_otp = await _otp(widget.mobile!);
+    //  v_otp = await _otp(widget.mobile!);
     if (v_otp == "0") {
-      GlobalFunctions.showWarningToast("Account with this mobile number doesn't exists");
+      GlobalFunctions.showWarningToast(
+          "Account with this mobile number doesn't exists");
       Navigator.pop(context);
     }
     // print(v_otp!.toString());

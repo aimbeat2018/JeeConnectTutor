@@ -211,25 +211,21 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
     return updateProfileResponseModel;
   }
 
-  Future<UpdateProfileResponseModel?> changePassword(
+  Future<OtpModel?> changePassword(
       String mobile, String password) async {
     _isLoading = true;
 
     Response response = await authRepo.updatePassword(mobile, password);
 
     if (response.statusCode == 200) {
-      if (response.body['status'] == 200) {
-        updateProfileResponseModel =
-            UpdateProfileResponseModel.fromJson(response.body);
-      } else {
-        updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
-      }
+        otpModel =
+            OtpModel.fromJson(response.body);
     } else {
-      updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
+      otpModel = OtpModel(status: '403');
     }
     _isLoading = false;
     update();
-    return updateProfileResponseModel;
+    return otpModel;
   }
 
   Future<ProfileViewModel?> getProfile(String token) async {

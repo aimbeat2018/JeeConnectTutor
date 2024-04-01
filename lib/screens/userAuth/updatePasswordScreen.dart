@@ -13,6 +13,7 @@ import '../../constant/app_constants.dart';
 import '../../constant/globalFunction.dart';
 import '../../constant/textConstant.dart';
 import '../../controllers/authController.dart';
+import '../../model/otpModel.dart';
 import '../../model/updateProfileResponseModel.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class UpdatePasswordScreen extends StatefulWidget {
 class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   GlobalKey<FormState> updatePasswordFormKey = GlobalKey<FormState>();
   bool _isLoading = false;
-  UpdateProfileResponseModel? updateProfileResponseModel;
+  OtpModel? otpModel;
   bool hidePassword = true;
   bool hideReEnterPassword = true;
   final _passwordController = TextEditingController();
@@ -56,7 +57,6 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-
       appBar: AppBar(
         backgroundColor: kYellowColor,
         iconTheme: IconThemeData(
@@ -79,8 +79,8 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
               children: [
                 const SizedBox(height: 60),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                   child: Card(
                     elevation: 5,
                     shape: const RoundedRectangleBorder(
@@ -123,14 +123,14 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                           borderSide: const BorderSide(
                                             color: kYellowColor,
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                           borderSide: const BorderSide(
                                             color: kRedColor,
                                             // width: 1.0,
@@ -167,7 +167,7 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                           onPressed: () {
                                             setState(() {
                                               hideReEnterPassword =
-                                              !hideReEnterPassword;
+                                                  !hideReEnterPassword;
                                             });
                                           },
                                           color: kPrimaryColor,
@@ -177,14 +177,14 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                           borderSide: const BorderSide(
                                             color: kYellowColor,
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                           borderSide: const BorderSide(
                                             color: kRedColor,
                                             // width: 1.0,
@@ -195,8 +195,7 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                                 Radius.circular(20))),
                                         contentPadding: const EdgeInsets.only(
                                             top: 12, bottom: 12, left: 15),
-                                        labelText:
-                                        TextConstant.confirmPassword,
+                                        labelText: TextConstant.confirmPassword,
                                         labelStyle: Theme.of(context)
                                             .textTheme
                                             .titleMedium!
@@ -209,51 +208,56 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                       validator: (input) => input!.length < 3
                                           ? "Password should be more than 3 characters"
                                           : input !=
-                                          _passwordController.text
-                                              .toString()
-                                          ? "Password didn't match"
-                                          : null,
+                                                  _passwordController.text
+                                                      .toString()
+                                              ? "Password didn't match"
+                                              : null,
                                       obscureText: hideReEnterPassword,
                                     ),
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        if (_passwordController.text
-                                            .toString() ==
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                kPrimaryColor),
+                                      ),
+                                      onPressed: () {
+                                        if(_passwordController.text.isEmpty||_confirmPasswordController.text.isEmpty){
+                                          GlobalFunctions.showErrorDialog(
+                                              "Enter both passwords",
+                                              context);
+                                        }
+                                        else if (_passwordController.text
+                                                .toString() ==
                                             _confirmPasswordController.text
                                                 .toString()) {
-                                          _changePassword(Get.find<AuthController>().getUserMobile(),
+                                          _changePassword(
+                                              Get.find<AuthController>()
+                                                  .getUserMobile(),
                                               _passwordController.text);
-                                        }else{
-                                          GlobalFunctions.showErrorDialog("Both passwords didn't match", context);
-
+                                        } else {
+                                          GlobalFunctions.showErrorDialog(
+                                              "Both passwords didn't match",
+                                              context);
                                         }
                                       },
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          TextConstant.changepassword,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(
-                                              color: Colors.redAccent),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'Change Password',
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 130,
-                                          top: 5,
-                                          right: 130,
-                                          bottom: 5),
-                                      child: Divider(
-                                          thickness: 1,
-                                          height: 0.5,
-                                          color: Colors.purple),
-                                    )
+
                                   ],
                                 ))
                           ],
@@ -274,6 +278,7 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = new RegExp(pattern);
     if (value!.length == 0) {
+
       return 'Enter mobile number';
     } else if (!regExp.hasMatch(value)) {
       return 'Enter valid mobile number';
@@ -283,17 +288,13 @@ class UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
 
   Future<void> _changePassword(String mobile, String password) async {
     if (_connectionStatus != AppConstants.connectivityCheck) {
-      updateProfileResponseModel= await Get.find<AuthController>()
-          .changePassword(mobile, password);
-      if(updateProfileResponseModel!.status==200){
+      otpModel =
+          await Get.find<AuthController>().changePassword(mobile, password);
+      if (otpModel!.status == '200') {
         Navigator.pop(context);
-
-        showCustomSnackBar(
-            'Password changed successfully!');
-      }else{
-        showCustomSnackBar(
-            'Something went wrong!', isError: true);
-
+        showCustomSnackBar('Password changed successfully!');
+      } else {
+        showCustomSnackBar('Something went wrong!', isError: true);
       }
     }
   }

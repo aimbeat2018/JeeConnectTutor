@@ -1,11 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jeeconnecttutor/controllers/authController.dart';
+import 'package:jeeconnecttutor/screens/userAuth/loginScreen.dart';
 import 'package:provider/provider.dart';
 import '../../constant/colorsConstant.dart';
+import '../../constant/custom_snackbar.dart';
 import '../../constant/globalFunction.dart';
 import '../../constant/textConstant.dart';
-
+import '../home/mainScreen.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   static const String routeName = '/forgetPassword';
@@ -59,12 +63,10 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     color: Colors.black),
                 const SizedBox(height: 60),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white70
-                    ),
+                    decoration: BoxDecoration(color: Colors.white70),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 15),
@@ -175,8 +177,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                                 Radius.circular(20))),
                                         contentPadding: const EdgeInsets.only(
                                             top: 12, bottom: 12, left: 15),
-                                        labelText:
-                                            TextConstant.confirmPassword,
+                                        labelText: TextConstant.confirmPassword,
                                         labelStyle: Theme.of(context)
                                             .textTheme
                                             .titleMedium!
@@ -198,50 +199,35 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    // GestureDetector(
-                                    //   onTap: () {
-                                    //     if (_passwordController.text
-                                    //         .toString() ==
-                                    //         _confirmPasswordController.text
-                                    //             .toString()) {
-                                    //      /* _changePassword(widget.mobile!,
-                                    //           _passwordController.text);*/
-                                    //     }else{
-                                    //       GlobalFunctions.showErrorDialog("Both passwords didn't match", context);
-                                    //
-                                    //     }
-                                    //   },
-                                    //   child: Align(
-                                    //     alignment: Alignment.center,
-                                    //     child: Text(
-                                    //       TextConstant.changepassword,
-                                    //       style: Theme.of(context)
-                                    //           .textTheme
-                                    //           .titleLarge!
-                                    //           .copyWith(
-                                    //               color: Colors.redAccent),
-                                    //     ),
-                                    //   ),
-                                    // ),
                                     ElevatedButton(
                                       style: ButtonStyle(
                                         backgroundColor:
-                                        MaterialStateProperty.all(kPrimaryColor),
+                                            MaterialStateProperty.all(
+                                                kPrimaryColor),
                                       ),
                                       onPressed: () {
-                                        if (_passwordController.text
-                                            .toString() ==
+                                        if (_passwordController.text.isEmpty ||
+                                            _confirmPasswordController
+                                                .text.isEmpty) {
+                                          GlobalFunctions.showErrorDialog(
+                                              "Enter both passwords", context);
+                                        } else if (_passwordController.text
+                                                .toString() ==
                                             _confirmPasswordController.text
                                                 .toString()) {
-                                          /* _changePassword(widget.mobile!,
-                                              _passwordController.text);*/
-                                        }else{
-                                          GlobalFunctions.showErrorDialog("Both passwords didn't match", context);
 
-                                        }                                      },
+                                          _changePassword(widget.mobile!,
+                                              _passwordController.text);
+                                        } else {
+                                          GlobalFunctions.showErrorDialog(
+                                              "Both passwords didn't match",
+                                              context);
+                                        }
+                                      },
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                        child:  Align(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: Align(
                                           alignment: Alignment.center,
                                           child: Text(
                                             'Set Password',
@@ -252,18 +238,6 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         ),
                                       ),
                                     ),
-
-                                    // const Padding(
-                                    //   padding: EdgeInsets.only(
-                                    //       left: 130,
-                                    //       top: 5,
-                                    //       right: 130,
-                                    //       bottom: 5),
-                                    //   child: Divider(
-                                    //       thickness: 1,
-                                    //       height: 0.5,
-                                    //       color: Colors.purple),
-                                    // )
                                   ],
                                 ))
                           ],
@@ -291,17 +265,25 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return null;
   }
 
- /* _changePassword(String? mobile, String password) async {
+  _changePassword(String? mobile, String password) async {
     if (updatePasswordFormKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
       try {
-        await Provider.of<AuthProvider>(context, listen: false)
-            .changePassword(mobile, password);
-        Navigator.pop(context);
-        GlobalFunctions.showSuccessToast(
-            'Password changed successfully!');
+        Get.find<AuthController>()
+            .changePassword(mobile!, password!)
+            .then((model) async {
+          if (model!.status == '200') {
+            Navigator.pop(context);
+            showCustomSnackBar(model!.message!);
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ));
+          } else {
+            showCustomSnackBar(model!.message!);
+          }
+        });
       } on HttpException {
         var errorMsg = 'Auth failed';
         GlobalFunctions.showErrorDialog(errorMsg, context);
@@ -318,5 +300,5 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
       GlobalFunctions.showErrorDialog(
           "Enter valid login credentials!", context);
     }
-  }*/
+  }
 }

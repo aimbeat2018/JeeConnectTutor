@@ -217,6 +217,7 @@ class PaymentScreenState extends State<PaymentScreen>
                       const SizedBox(
                         height: 10,
                       ),
+                   //   if(paymentController.completedSessionsListResponseModel!.walletdetails!=null || paymentController.completedSessionsListResponseModel!.walletdetails!.isNotEmpty )
                       Align(
                         alignment:Alignment.topLeft,
                         child: Padding(

@@ -14,6 +14,8 @@ class AppConstants {
   static const String chapterList = 'V130/package_wise_chapters';
   static const String instructorSessionsCompleteCount = 'V131/intructor_complete_session';
   static const String requestPayment = 'V131/request_amount';
+  static const String updatePassword = 'V130/restpassword';
+
 
   //static const String sendOtp = 'verify_mobile_number';
   static const String registerInstructor = 'V131/instructor_signup';
@@ -23,7 +25,6 @@ class AppConstants {
   static const String categoryWiseCourse = 'category_wise_course';
   static const String subCategoryWiseCourse = 'sub_category_wise_course';
   static const String updateProfile = 'update_instructor_profile';
-  static const String updatePassword = 'forgot_password';
   static const String getProfile = 'instructor_profile';
   static const String banner = 'V130/sliderlist';
   static const String dynamic_cantent = 'dynamic_cantent';

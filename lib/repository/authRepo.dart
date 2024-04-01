@@ -92,7 +92,7 @@ class AuthRepo {
   }
   Future<Response> updatePassword(String mobile, String password) async {
     return await apiClient.postData(
-        AppConstants.updatePassword, {"phone": mobile, "password": password});
+        AppConstants.updatePassword, {"mobile_no": mobile, "new_password": password});
   }
 
   Future<Response> resetPassword({String? phone, String? password}) async {

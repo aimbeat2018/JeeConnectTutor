@@ -24,8 +24,8 @@ class AppConstants {
   static const String categoryList = 'all_categories';
   static const String categoryWiseCourse = 'category_wise_course';
   static const String subCategoryWiseCourse = 'sub_category_wise_course';
-  static const String updateProfile = 'update_instructor_profile';
-  static const String getProfile = 'instructor_profile';
+  static const String updateProfile = 'V131/instructor_profile_update';
+  static const String getProfile = 'V131/instructor_profile';
   static const String banner = 'V130/sliderlist';
   static const String dynamic_cantent = 'dynamic_cantent';
   static const String logout = 'logout';

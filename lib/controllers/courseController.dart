@@ -35,6 +35,7 @@ class CourseController extends GetxController implements GetxService {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
         },
       );
       // final responseData = json.decode(response.body);
@@ -81,6 +82,7 @@ class CourseController extends GetxController implements GetxService {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
         },
       );
       // final responseData = json.decode(response.body);

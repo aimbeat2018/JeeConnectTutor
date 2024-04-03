@@ -423,7 +423,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       height: 5,
                                     ),
                                     const Text(
-                                      'Session \nRequests',
+                                      'Requests',
                                       textAlign: TextAlign.center,
                                       maxLines: 2,
                                       overflow: TextOverflow.clip,

@@ -26,6 +26,7 @@ import '../../constant/no_internet_screen.dart';
 import '../../constant/route_helper.dart';
 import '../../controllers/authController.dart';
 import '../../controllers/requestController.dart';
+import '../../model/pincodeList.dart';
 import '../../model/response/gradesModel.dart';
 import '../other/termsAndConditionScreen.dart';
 
@@ -70,8 +71,10 @@ class SignUpScreenState extends State<SignUpScreen> {
   List<String>? gradesIdList = [];
   List<String> subjectsList = [];
   List<String> subjectsIDList = [];
+  List<String> boardsIDList = [];
   List multipleSelected = [];
   XFile? _pickedFile;
+  int? totalPincodeCount = 1;
 
   List checkListItems = [
     {
@@ -110,6 +113,7 @@ class SignUpScreenState extends State<SignUpScreen> {
     FocusNode()
   ];
 
+  List<PincodeList> pincodeList = [PincodeList(name: "", index: 1)];
   bool termsChecked = false;
   final bool isBoardSelected = true;
   final bool isGradeSelected = false;
@@ -423,15 +427,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                           2],
                                                                   controller:
                                                                       _mobileController,
-                                                                      keyboardType:
+                                                                  keyboardType:
                                                                       TextInputType
                                                                           .number,
-                                                                      inputFormatters: [
-                                                                        FilteringTextInputFormatter
-                                                                            .digitsOnly,
-                                                                        LengthLimitingTextInputFormatter(
-                                                                            10),
-                                                                      ],
+                                                                  inputFormatters: [
+                                                                    FilteringTextInputFormatter
+                                                                        .digitsOnly,
+                                                                    LengthLimitingTextInputFormatter(
+                                                                        10),
+                                                                  ],
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .black),
@@ -699,214 +703,106 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                           const SizedBox(
                                                             height: 20,
                                                           ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              SizedBox(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    2,
-                                                                child:
-                                                                    TextFormField(
-                                                                  focusNode:
-                                                                      _focusNodes[
-                                                                          5],
-                                                                  controller:
-                                                                      _passwordController,
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    suffixIcon:
-                                                                        IconButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        setState(
-                                                                            () {
-                                                                          hidePassword =
-                                                                              !hidePassword;
-                                                                        });
-                                                                      },
-                                                                      color: Colors
-                                                                          .black,
-                                                                      icon: Icon(hidePassword
-                                                                          ? Icons
-                                                                              .visibility_off_outlined
-                                                                          : Icons
-                                                                              .visibility_outlined),
-                                                                    ),
-                                                                    focusedBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        8.0),
+                                                            child:
+                                                                TextFormField(
+                                                              focusNode:
+                                                                  _focusNodes[
+                                                                      5],
+                                                              controller:
+                                                                  _passwordController,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .text,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                suffixIcon:
+                                                                    IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    setState(
+                                                                        () {
+                                                                      hidePassword =
+                                                                          !hidePassword;
+                                                                    });
+                                                                  },
+                                                                  color: Colors
+                                                                      .black,
+                                                                  icon: Icon(hidePassword
+                                                                      ? Icons
+                                                                          .visibility_off_outlined
+                                                                      : Icons
+                                                                          .visibility_outlined),
+                                                                ),
+                                                                focusedBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
                                                                               6.0),
-                                                                      borderSide:
-                                                                          const BorderSide(
-                                                                        color:
-                                                                            kYellowColor,
-                                                                      ),
-                                                                    ),
-                                                                    enabledBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                    color:
+                                                                        kYellowColor,
+                                                                  ),
+                                                                ),
+                                                                enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
                                                                               6.0),
-                                                                      borderSide:
-                                                                          const BorderSide(
-                                                                        color:
-                                                                            kBlueDarkColor,
-                                                                        // width: 1.0,
-                                                                      ),
-                                                                    ),
-                                                                    border: const OutlineInputBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.all(Radius.circular(6))),
-                                                                    contentPadding: const EdgeInsets
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                    color:
+                                                                        kBlueDarkColor,
+                                                                    // width: 1.0,
+                                                                  ),
+                                                                ),
+                                                                border: const OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(6))),
+                                                                contentPadding:
+                                                                    const EdgeInsets
                                                                         .only(
                                                                         top: 11,
                                                                         bottom:
                                                                             11,
                                                                         left:
                                                                             15),
-                                                                    labelText:
-                                                                        TextConstant
-                                                                            .password,
-                                                                    labelStyle: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .titleSmall!
-                                                                        .copyWith(
-                                                                            color:
-                                                                                Colors.black),
-                                                                  ),
-                                                                  style: const TextStyle(
-                                                                      color: Colors
-                                                                          .black),
-                                                                  onSaved:
-                                                                      (String?
-                                                                          value) {
-                                                                    // This optional block of code can be used to run
-                                                                    // code when the user saves the form.
-                                                                  },
-                                                                  validator: (input) =>
-                                                                      input!.length <
-                                                                              3
-                                                                          ? "Password should be more than 3 characters"
-                                                                          : null,
-                                                                  obscureText:
-                                                                      hidePassword,
-                                                                ),
+                                                                labelText:
+                                                                    TextConstant
+                                                                        .password,
+                                                                labelStyle: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .titleSmall!
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .black),
                                                               ),
-                                                              const SizedBox(
-                                                                height: 20,
-                                                              ),
-                                                              SizedBox(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    3.7,
-                                                                child:
-                                                                    TextFormField(
-                                                                  focusNode:
-                                                                      _focusNodes[
-                                                                          6],
-                                                                  controller:
-                                                                      _pincodeController,
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .number,
-                                                                  inputFormatters: [
-                                                                    FilteringTextInputFormatter
-                                                                        .digitsOnly,
-                                                                    LengthLimitingTextInputFormatter(
-                                                                        6),
-                                                                  ],
-                                                                  style: const TextStyle(
-                                                                      color: Colors
-                                                                          .black),
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    isDense:
-                                                                        true,
-                                                                    // suffixIcon: Icon(
-                                                                    //   Icons.lock,
-                                                                    //   size: 20,
-                                                                    //   color:
-                                                                    //       FocusScope.of(context).isFirstFocus
-                                                                    //           ? kYellowColor
-                                                                    //           : kBlueDarkColor,
-                                                                    // ),
-                                                                    // hintText: 'What do people call you?',
-                                                                    // isDense: true,
-                                                                    focusedBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              6.0),
-                                                                      borderSide:
-                                                                          const BorderSide(
-                                                                        color:
-                                                                            kYellowColor,
-                                                                      ),
-                                                                    ),
-                                                                    enabledBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              6.0),
-                                                                      borderSide:
-                                                                          const BorderSide(
-                                                                        color:
-                                                                            kBlueDarkColor,
-                                                                        // width: 1.0,
-                                                                      ),
-                                                                    ),
-                                                                    border: const OutlineInputBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.all(Radius.circular(6))),
-                                                                    contentPadding: const EdgeInsets
-                                                                        .only(
-                                                                        top: 11,
-                                                                        bottom:
-                                                                            11,
-                                                                        left:
-                                                                            15),
-                                                                    labelText:
-                                                                        'Pin Code',
-                                                                    labelStyle: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .titleSmall!
-                                                                        .copyWith(
-                                                                            color:
-                                                                                Colors.black),
-                                                                  ),
-                                                                  onSaved:
-                                                                      (String?
-                                                                          value) {
-                                                                    // This optional block of code can be used to run
-                                                                    // code when the user saves the form.
-                                                                  },
-                                                                  validator:
-                                                                      (String?
-                                                                          value) {
-                                                                    return (value != null &&
-                                                                            value ==
-                                                                                "" &&
-                                                                            value.length <
-                                                                                3)
-                                                                        ? 'Enter valid pincode'
-                                                                        : null;
-                                                                  },
-                                                                ),
-                                                              ),
-                                                            ],
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .black),
+                                                              onSaved: (String?
+                                                                  value) {
+                                                                // This optional block of code can be used to run
+                                                                // code when the user saves the form.
+                                                              },
+                                                              validator: (input) =>
+                                                                  input!.length <
+                                                                          3
+                                                                      ? "Password should be more than 3 characters"
+                                                                      : null,
+                                                              obscureText:
+                                                                  hidePassword,
+                                                            ),
                                                           ),
                                                           const SizedBox(
                                                             height: 15,
@@ -1905,15 +1801,172 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                         multipleSelected
                                                                             .remove(checkListItems[index]);
                                                                       } else {
-                                                                        multipleSelected
-                                                                            .add(checkListItems[index][
-                                                                        "title"]);
+                                                                        multipleSelected.add(checkListItems[index]
+                                                                            [
+                                                                            "title"]);
                                                                       }
                                                                     });
                                                                   },
                                                                 ),
                                                               ),
                                                             ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Column(
+                                                            children: [
+                                                              Padding(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        8.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          horizontal:
+                                                                              10.0),
+                                                                      child:
+                                                                          Text(
+                                                                        'Pincode',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          decoration:
+                                                                              TextDecoration.none,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    ElevatedButton(
+                                                                      style: ElevatedButton.styleFrom(
+                                                                          textStyle:
+                                                                              const TextStyle(fontSize: 14)),
+                                                                      onPressed:
+                                                                          () {
+                                                                        totalPincodeCount =
+                                                                            totalPincodeCount! +
+                                                                                1;
+
+                                                                        pincodeList.add(PincodeList(
+                                                                            name:
+                                                                                "",
+                                                                            index:
+                                                                                totalPincodeCount));
+                                                                        setState(
+                                                                            () {});
+                                                                        for(var item in pincodeList){
+                                                                          debugPrint(item.name!);
+                                                                        }
+                                                                      },
+                                                                      child: const Text(
+                                                                          'ADD'),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 3.0),
+                                                              ListView.builder(
+                                                                  scrollDirection:
+                                                                      Axis
+                                                                          .vertical,
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  physics:
+                                                                      const NeverScrollableScrollPhysics(),
+                                                                  itemCount:
+                                                                      pincodeList
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (BuildContext
+                                                                              context,
+                                                                          int index) {
+                                                                    return Row(
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 15.0),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                40,
+                                                                            width:
+                                                                                150,
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(horizontal: 10),
+                                                                            margin:
+                                                                                const EdgeInsets.symmetric(vertical: 5),
+                                                                            decoration:
+                                                                                ShapeDecoration(
+                                                                              shape: OutlineInputBorder(
+                                                                                borderSide: const BorderSide(
+                                                                                  color: kBlueDarkColor,
+                                                                                ),
+                                                                                borderRadius: BorderRadius.all(
+                                                                                  Radius.circular(8.0),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            child:
+                                                                                TextFormField(
+                                                                              keyboardType: TextInputType.number,
+                                                                                  inputFormatters: [LengthLimitingTextInputFormatter(
+                                                                                      6),],
+                                                                              cursorColor: Colors.black,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                color: const Color(0xff444444),
+                                                                              ),
+                                                                              decoration: const InputDecoration(
+                                                                                border: InputBorder.none,
+                                                                                hintText: "Type Pincode",
+                                                                              ),
+                                                                              onChanged: (values) {
+                                                                                pincodeList[index].name = values;
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            if (totalPincodeCount !=
+                                                                                1) {
+                                                                              totalPincodeCount = totalPincodeCount! - 1;
+                                                                              totalPincodeCount = totalPincodeCount;
+
+                                                                              pincodeList.removeAt(totalPincodeCount!);
+                                                                            }
+                                                                            setState(() {});
+                                                                            for(var item in pincodeList){
+                                                                            debugPrint(item.name!);
+                                                                          }
+                                                                          },
+                                                                          child:
+                                                                              Icon(
+                                                                            Icons.delete_forever_outlined,
+                                                                            color:
+                                                                                Colors.red,
+                                                                            size:
+                                                                                25,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  }),
+                                                            ],
                                                           ),
                                                           const SizedBox(
                                                             height: 5,
@@ -2080,10 +2133,18 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                           .black),
                                                             ),
                                                             onPressed: () {
-                                                              if(globalFormKey!.currentState!.validate()==true && _pickedFile!=null){
+                                                              if (globalFormKey!
+                                                                          .currentState!
+                                                                          .validate() ==
+                                                                      true &&
+                                                                  _pickedFile !=
+                                                                      null) {
                                                                 sendOtp(
                                                                     authController);
                                                               }
+                                                              // for(var item in pincodeList){
+                                                              //   debugPrint(item.name!);
+                                                              // }
                                                             },
                                                             child: Padding(
                                                               padding:
@@ -2128,11 +2189,17 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   void sendOtp(AuthController authController) {
-    String? modeOfTeaching;
+    String? modeOfTeaching, pincodeIds="";
     modeOfTeaching = multipleSelected.join(", ");
-    String  subject = subjectsIDList.join(",");
-    String  multipleSelecte =multipleSelected.join(",");
-    //
+    String subject = subjectsIDList.join(",");
+    String multipleSelecte = multipleSelected.join(",");
+    for(var item in pincodeList){
+      if(pincodeIds=="") {
+        pincodeIds = item.name!;
+      }else{
+        pincodeIds = pincodeIds!+","+item.name!;
+      }
+    }
     // GlobalFunctions.showSuccessToast(subject);
     // GlobalFunctions.showSuccessToast(multipleSelecte);
 
@@ -2140,7 +2207,6 @@ class SignUpScreenState extends State<SignUpScreen> {
         .sendRegisterOtp(phone: _mobileController.text)
         .then((model) async {
       if (model!.status == "200") {
-
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => OtpScreen(
               firstName: _firstNameController.text,
@@ -2148,24 +2214,22 @@ class SignUpScreenState extends State<SignUpScreen> {
               email: _emailController.text,
               phone: _mobileController.text,
               password: _passwordController.text,
-              pincode: _pincodeController.text,
+              pincode: pincodeIds,
               accountNo: _accountnoontroller.text,
               subjects: subject,
               pan: _panController.text,
               ifsc: _ifscController.text,
               holdername: _holdernameController.text,
-              board: selectedBoard,
+              board: boardsIDList.join(","),
               bankname: _banknameController.text,
               adhar: _adharController.text,
               modeOfTeachingSelected: multipleSelecte,
-              grade: _gradeController.text,
+              grade: gradesIdList!.join(","),
               address: _addressController.text,
               otp: model.otp,
               referralCode: _referralCodeController.text,
               resume: _pickedFile),
         ));
-
-
       } else {
         showCustomSnackBar('Mobile number already exists');
       }
@@ -2254,6 +2318,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             if (item is SelectedListItem) {
               list.add(item.name);
               selectedBoard = item.id!;
+              boardsIDList.add(item.id!);
               getGrades(selectedBoard!);
               _boardController.text = item.name;
               print(selectedBoard);

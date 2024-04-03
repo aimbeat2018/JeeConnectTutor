@@ -79,7 +79,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
 
     if (widget.from == 'update') {
       Get.find<AuthController>()
-          .getProfile(Get.find<AuthController>().getUserToken());
+          .getProfile();
     }
 
     Get.find<CourseController>().getCategoryList(widget.token);
@@ -96,15 +96,15 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
               if (widget.from == 'update') {
                 widget.from = "";
                 if (authController.profileViewModel != null) {
-                  _experienceController.text =
-                      authController.profileViewModel!.experience!;
-                  _nocController.text = authController.profileViewModel!.noc!;
-                  _tutorLocationController.text =
-                      authController.profileViewModel!.location!;
-                  _tutorPincodeController.text =
-                      authController.profileViewModel!.pincode!;
-                  _aadhaarController.text =
-                      authController.profileViewModel!.adhaarNo!;
+                  // _experienceController.text =
+                  //     authController.profileViewModel!.experience!;
+                  // _nocController.text = authController.profileViewModel!.noc!;
+                  // _tutorLocationController.text =
+                  //     authController.profileViewModel!.location!;
+                  // _tutorPincodeController.text =
+                  //     authController.profileViewModel!.pincode!;
+                  // _aadhaarController.text =
+                  //     authController.profileViewModel!.adhaarNo!;
                   _panNoController.text =
                       authController.profileViewModel!.panNo!;
                   _bankNameController.text =
@@ -117,27 +117,27 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                       authController.profileViewModel!.ifscCode!;
 
                   selectedCourseList = [];
-                  for (var courseInfo
-                      in authController.profileViewModel!.courseInfo!) {
-                    List<SelectedCourse> subSelectedList = [];
-                    String course = "";
-                    for (var selectedCourse in courseInfo.selectedCourse!) {
-                      subSelectedList.add(SelectedCourse(
-                          courseName: selectedCourse.courseName,
-                          courseId: selectedCourse.courseId));
-                      course += "${selectedCourse.courseName!},";
-                    }
-                    course = course.substring(0, course.length - 1);
-
-                    CourseDetails model = CourseDetails();
-                    model.selectedCourse = subSelectedList;
-                    model.selectedCourserStr = course;
-                    model.categoryId = courseInfo.categoryId;
-                    model.categoryName = courseInfo.categoryName;
-                    model.subCategoryName = courseInfo.subCategoryName;
-                    model.subCategoryId = courseInfo.subCategoryId;
-                    selectedCourseList.add(model);
-                  }
+                  // for (var courseInfo
+                  //     in authController.profileViewModel!.courseInfo!) {
+                  //   List<SelectedCourse> subSelectedList = [];
+                  //   String course = "";
+                  //   for (var selectedCourse in courseInfo.selectedCourse!) {
+                  //     subSelectedList.add(SelectedCourse(
+                  //         courseName: selectedCourse.courseName,
+                  //         courseId: selectedCourse.courseId));
+                  //     course += "${selectedCourse.courseName!},";
+                  //   }
+                  //   course = course.substring(0, course.length - 1);
+                  //
+                  //   CourseDetails model = CourseDetails();
+                  //   model.selectedCourse = subSelectedList;
+                  //   model.selectedCourserStr = course;
+                  //   model.categoryId = courseInfo.categoryId;
+                  //   model.categoryName = courseInfo.categoryName;
+                  //   model.subCategoryName = courseInfo.subCategoryName;
+                  //   model.subCategoryId = courseInfo.subCategoryId;
+                  //   selectedCourseList.add(model);
+                  // }
                 }
               }
               return Scaffold(
@@ -583,7 +583,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
                                                 selectedCourseList;
                                             model.mode = "offline";
 
-                                            _submit(model, authController);
+                                            // _submit(model, authController);
                                           }
                                         },
                                         padding: const EdgeInsets.symmetric(
@@ -623,32 +623,32 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen>
           });
   }
 
-  void _submit(UpdateProfileModel model, AuthController authController) {
-    authController
-        .updateProfile(model, widget.userId, widget.token)
-        .then((model) async {
-      if (model!.status == 200) {
-        showDialog<String>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) => AlertDialog(
-            title: const Text('Account Verification'),
-            content: const Text('Thank you! for giving your details, We\'ll verify and contact you in two to three days'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-
-                  Get.offNamed(RouteHelper.getLoginRoute());
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      } else {
-        showCustomSnackBar(model.message!);
-      }
-    });
-  }
+  // void _submit(UpdateProfileModel model, AuthController authController) {
+  //   authController
+  //       .updateProfile(model, widget.userId, widget.token)
+  //       .then((model) async {
+  //     if (model!.status == 200) {
+  //       showDialog<String>(
+  //         context: context,
+  //         barrierDismissible: false,
+  //         builder: (BuildContext context) => AlertDialog(
+  //           title: const Text('Account Verification'),
+  //           content: const Text('Thank you! for giving your details, We\'ll verify and contact you in two to three days'),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //
+  //                 Get.offNamed(RouteHelper.getLoginRoute());
+  //               },
+  //               child: const Text('OK'),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     } else {
+  //       showCustomSnackBar(model.message!);
+  //     }
+  //   });
+  // }
 }

@@ -70,6 +70,49 @@ class AuthRepo {
     ]);
   }
 
+  Future<Response> updateProfile({String? firstName,
+    String? lastName,
+    String? email,
+    String? address,
+    String? pincode,
+    String? adhar,
+    String? pan,
+    String? bankname,
+    String? holdername,
+    String? accountNo,
+    String? ifsc,
+    String? board,
+    String? grade,
+    String? subjects,
+    String? userId,
+    String? modeOfTeachingSelected,
+    XFile? resume}) async {
+    List<MultipartBody> profileResume;
+    if (resume != null) {
+      profileResume = [MultipartBody('resume', resume)];
+    } else {
+      profileResume = [];
+    }
+    return await apiClient.postMultipartData(
+        AppConstants.updateProfile, {
+      "first_name": firstName!,
+      "last_name": lastName!,
+      "email": email!,
+      "address": address!,
+      "pincode": pincode!,
+      "aadhar_no": adhar!,
+      "pan_no": pan!,
+      "bank_name": bankname!,
+      "account_holder_name": holdername!,
+      "account_no": accountNo!,
+      "ifsc_code": ifsc!,
+      "board_id": board!,
+      "grade_id": grade!,
+      "subject_id": subjects!,
+      "user_id": userId!,
+      "mode_of_teaching": modeOfTeachingSelected!
+    }, profileResume);
+  }
   Future<Response> sendRegisterOtp({String? phone}) async {
     return await apiClient.postData(AppConstants.sendOtp, {
       "mobile_no": phone,
@@ -86,10 +129,6 @@ class AuthRepo {
         AppConstants.gradeWisemultiplesubjectslist, jsonEncode(model.toJson()));
   }
 
-  Future<Response> updateProfile(UpdateProfileModel? model) async {
-    return await apiClient.postBodyData(
-        AppConstants.updateProfile, jsonEncode(model!.toJson()));
-  }
   Future<Response> updatePassword(String mobile, String password) async {
     return await apiClient.postData(
         AppConstants.updatePassword, {"mobile_no": mobile, "new_password": password});

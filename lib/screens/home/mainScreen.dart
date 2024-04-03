@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/screens/home/homeScreen.dart';
 import 'package:jeeconnecttutor/screens/schedule/acceptedSessionsListingScreen.dart';
+import 'package:jeeconnecttutor/screens/userAuth/instructorProfileScreen.dart';
 import 'package:moony_nav_bar/moony_nav_bar.dart';
 
 import '../userAuth/profileScreen.dart';
@@ -23,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   final Widget _screen1 = HomeScreen();
   final Widget _screen2 = const AcceptedSessionsListingScreen();
   final Widget _screen3 = HomeScreen();
-  final Widget _screen4 = const ProfileScreen();
+  final Widget _screen4 = const InstructorProfileScreen();
   int selectedIndex = 0;
 
   @override
@@ -76,11 +77,11 @@ class _MainScreenState extends State<MainScreen> {
             activeColor: Colors.white,
             indicatorPosition: IndicatorPosition.BOTTOM,
             indicatorType: IndicatorType.LINE,
-            backgroundColor: kYellowColor,
             indicatorColor: kComplimentaryBackgroundColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
+            backgroundColor: kPrimaryColor,
+            borderRadius:  BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
           ),
         ),

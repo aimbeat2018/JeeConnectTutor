@@ -63,13 +63,13 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
               backgroundColor: kBackgroundColor,
               appBar: AppBar(
                 backgroundColor: kYellowColor,
-                iconTheme: IconThemeData(
+                iconTheme: const IconThemeData(
                   color: Colors.white, //change your color here
                 ),
                 centerTitle: true,
-                title: Text(
-                  'Session Requests',
-                  style: const TextStyle(
+                title: const Text(
+                  'Package Requests',
+                  style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w500),
@@ -81,7 +81,8 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                   onRefresh: () async {
                     if (_connectionStatus != AppConstants.connectivityCheck) {
                       Get.find<RequestController>().getSessionRequestList(
-                          userid: Get.find<AuthController>().getUserId(),flag: '0');
+                          userid: Get.find<AuthController>().getUserId(),
+                          flag: '0');
                     }
                   },
                   child: SingleChildScrollView(
@@ -126,17 +127,18 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                         height: 0,
                       ),*/
                             requestController.isLoading
-                                ? Center(
+                                ? const Center(
                                     child: CircularProgressIndicator(),
                                   )
-                                : requestController
-                                .tutorRequestModel!.data==null || requestController
-                                        .tutorRequestModel!.data!.isEmpty
+                                : requestController.tutorRequestModel!.data ==
+                                            null ||
+                                        requestController
+                                            .tutorRequestModel!.data!.isEmpty
                                     ? Container(
                                         height:
                                             MediaQuery.of(context).size.height /
                                                 1.5,
-                                        child: Center(
+                                        child: const Center(
                                             child:
                                                 Text("No request data found")),
                                       )
@@ -155,7 +157,7 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                                               requestController);
                                         },
                                         separatorBuilder: (context, index) {
-                                          return Divider();
+                                          return const Divider();
                                         },
                                       ),
                           ],
@@ -188,9 +190,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                             fontSize: 14,
                             fontWeight: FontWeight.w500),
                         children: <TextSpan>[
-                          TextSpan(
+                          const TextSpan(
                             text: 'Student name : ',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
@@ -215,7 +217,7 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                   ])),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 3,
           ),
           Row(
@@ -228,9 +230,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                       children: <TextSpan>[
-                    TextSpan(
+                    const TextSpan(
                       text: 'Board : ',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
@@ -246,9 +248,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                       children: <TextSpan>[
-                    TextSpan(
+                    const TextSpan(
                       text: 'Grade : ',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
@@ -269,9 +271,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Subject name : ',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
@@ -293,9 +295,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'No. of sessions : ',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
@@ -315,9 +317,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'No.of chapters : ',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
@@ -330,26 +332,27 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
           const SizedBox(
             height: 3,
           ),
-          if(model!.session!.isNotEmpty)
-          RichText(
-              text: TextSpan(
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500),
-                  children: <TextSpan>[
-                TextSpan(
-                  text: 'Start Date & Time : ',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
-                ),
-                TextSpan(
-                  // text: '${model.purchaseDate} ${model.purchaseDate}',
-                  text: '${model.session![0].date!} ${model.session![0].time!}',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500),
-                ),
-              ])),
+          if (model!.session!.isNotEmpty)
+            RichText(
+                text: TextSpan(
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                    children: <TextSpan>[
+                  const TextSpan(
+                    text: 'Start Date & Time : ',
+                    style: TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    // text: '${model.purchaseDate} ${model.purchaseDate}',
+                    text:
+                        '${model.session![0].date!} ${model.session![0].time!}',
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
+                  ),
+                ])),
           const SizedBox(
             height: 3,
           ),
@@ -360,9 +363,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Duration : ',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
@@ -382,9 +385,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
-                TextSpan(
+                const TextSpan(
                   text: 'Mode of teaching : ',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
@@ -397,24 +400,24 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
             height: 3,
           ),
           RichText(
-              text: TextSpan(
-                  style: const TextStyle(
+              text: const TextSpan(
+                  style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                   children: <TextSpan>[
                 TextSpan(
                   text: 'Status :  ',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: 'Pending',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500),
                 ),
               ])),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -435,8 +438,8 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     requestController.isLoading
-                        ? CircularProgressIndicator()
-                        : Text(
+                        ? const CircularProgressIndicator()
+                        : const Text(
                             'Accept',
                             style: TextStyle(
                               fontSize: 14,
@@ -489,12 +492,12 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
         .acceptRequest(id, Get.find<AuthController>().getUserId())
         .then((model) async {
       if (model!.status != '403') {
-        showCustomSnackBar(model.message!);
+        showCustomSnackBar(model.msg!);
         requestController.getSessionRequestList(
             userid: Get.find<AuthController>().getUserId(), flag: '0');
         setState(() {});
       } else {
-        showCustomSnackBar(model.message!);
+        showCustomSnackBar(model.msg!);
       }
     });
   }
@@ -504,12 +507,12 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
         .declineRequest(id, Get.find<AuthController>().getUserToken())
         .then((model) async {
       if (model!.status != 403) {
-        showCustomSnackBar(model.message!);
+        showCustomSnackBar(model.msg!);
         requestController
             .getTutorRequestList(Get.find<AuthController>().getUserToken());
         setState(() {});
       } else {
-        showCustomSnackBar(model.message!);
+        showCustomSnackBar(model.msg!);
       }
     });
   }

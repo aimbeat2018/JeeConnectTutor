@@ -10,6 +10,7 @@ import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
 import 'package:jeeconnecttutor/constant/globalFunction.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constant/app_constants.dart';
 import '../../constant/internetConnectivity.dart';
@@ -289,22 +290,28 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                   ),
                                                   requestController.sessionDetailsModel!.data![0].sessionType! ==
                                                       'Online'
-                                                      ? Text(
-                                                    'Session Link : ${requestController.sessionDetailsModel!.data![0].googleMeetLink}',
+                                                      ? InkWell(
+                                                    onTap: () {
+                                                      _launchUrl;
+                                                    },
+                                                        child: Text(
+                                                    // 'Session Link : ${requestController.sessionDetailsModel!.data![0].googleMeetLink}',
+                                                    'Session Link : https://us05web.zoom.us/j/85141654178?pwd=89KOgASoZZHT5lp5oy8jKk36RbpDEi.1',
                                                     textAlign:
                                                     TextAlign
-                                                        .center,
+                                                          .center,
                                                     style:
                                                     TextStyle(
-                                                      fontSize:
-                                                      14,
-                                                      fontWeight:
-                                                      FontWeight
-                                                          .normal,
-                                                      color: Colors
-                                                          .white,
+                                                        fontSize:
+                                                        14,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .normal,
+                                                        color: Colors
+                                                            .white,
                                                     ),
-                                                  )
+                                                  ),
+                                                      )
                                                       : SizedBox(),
                                                 ],
                                               ),
@@ -708,7 +715,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                                         kYellowColor),
                                                               ),
                                                               content: const Text(
-                                                                  'Do you Really want to end session?'),
+                                                                  'Do you really want to end session?'),
                                                               actions: [
                                                                 // The "Yes" button
                                                                 TextButton(
@@ -836,11 +843,11 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
             reviewController.text,selectedChapter!)
         .then((model) async {
       if (model!.status != 403) {
-        showCustomSnackBar(model.message!, isError: false);
+        showCustomSnackBar(model.msg!, isError: false);
         requestController.sessionDetailsModel!.data![0].status = "6";
         setState(() {});
       } else {
-        showCustomSnackBar(model.message!);
+        showCustomSnackBar(model.msg!);
       }
     });
   }
@@ -852,4 +859,13 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
     });
 
   }
+
+
+  Future<void> _launchUrl() async {
+    final Uri _url = Uri.parse('https://us05web.zoom.us/j/85141654178?pwd=89KOgASoZZHT5lp5oy8jKk36RbpDEi.1');
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
 }

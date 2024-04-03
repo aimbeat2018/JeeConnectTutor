@@ -69,7 +69,7 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
           ),
           centerTitle: true,
           title: Text(
-            'Accepted Session',
+            'Accepted Packages',
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -501,12 +501,12 @@ class AcceptedSessionsListingScreenState extends State<AcceptedSessionsListingSc
         .cancelRequest(id, Get.find<AuthController>().getUserToken())
         .then((model) async {
       if (model!.status != 403) {
-        showCustomSnackBar(model.message!);
+        showCustomSnackBar(model.msg!);
         requestController
             .getTutorRequestList(Get.find<AuthController>().getUserToken());
         setState(() {});
       } else {
-        showCustomSnackBar(model.message!);
+        showCustomSnackBar(model.msg!);
       }
     });
   }

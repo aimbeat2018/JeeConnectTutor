@@ -150,6 +150,63 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
     return registerModel;
   }
 
+
+  Future<UpdateProfileResponseModel?> updateProfile({
+    String? firstName,
+  String? lastName,
+  String? email,
+  String? address,
+  String? pincode,
+  String? adhar,
+  String? pan,
+  String? bankname,
+  String? holdername,
+  String? accountNo,
+  String? ifsc,
+  String? board,
+  String? grade,
+  String? subjects,
+  XFile? resume,
+  String? modeOfTeachingSelected,
+  String? userId}) async {
+    _isLoading = true;
+    update();
+
+    Response response = await authRepo.updateProfile(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        address: address,
+        pincode: pincode,
+        adhar: adhar,
+        pan: pan,
+        bankname: bankname,
+        holdername: holdername,
+        accountNo: accountNo,
+        ifsc: ifsc,
+        board: board,
+        grade: grade,
+        subjects: subjects,
+        resume: resume,
+        modeOfTeachingSelected: modeOfTeachingSelected,
+        userId:userId);
+
+    if (response.statusCode == 200) {
+      if (response.body['status'] == "200") {
+        updateProfileResponseModel =
+            UpdateProfileResponseModel.fromJson(response.body);
+        // authRepo.saveUserToken(token);
+      } else {
+        updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
+      }
+    } else {
+      updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
+    }
+    _isLoading = false;
+    update();
+    return updateProfileResponseModel;
+  }
+
   Future<OtpModel?> sendRegisterOtp({String? phone}) async {
     _isLoading = true;
     update();
@@ -187,29 +244,6 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
   }
 
 
-  Future<UpdateProfileResponseModel?> updateProfile(
-      UpdateProfileModel model, String userId, String token) async {
-    _isLoading = true;
-    update();
-
-    Response response = await authRepo.updateProfile(model);
-
-    if (response.statusCode == 200) {
-      if (response.body['status'] == 200) {
-        updateProfileResponseModel =
-            UpdateProfileResponseModel.fromJson(response.body);
-        authRepo.saveUserToken(token);
-        authRepo.saveUserId(userId);
-      } else {
-        updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
-      }
-    } else {
-      updateProfileResponseModel = UpdateProfileResponseModel(status: '403');
-    }
-    _isLoading = false;
-    update();
-    return updateProfileResponseModel;
-  }
 
   Future<OtpModel?> changePassword(
       String mobile, String password) async {
@@ -228,21 +262,25 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
     return otpModel;
   }
 
-  Future<ProfileViewModel?> getProfile(String token) async {
+  Future<ProfileViewModel?> getProfile() async {
     _isLoading = true;
     // update();
 
-    // String token = courseRepo.getUserToken();
+    String userId = await Get.find<AuthController>().getUserId();
 
     var url =
-        '${AppConstants.baseUrl}${AppConstants.getProfile}?auth_token=$token';
+        '${AppConstants.baseUrl}${AppConstants.getProfile}';
 
     try {
-      final response = await http.get(
+      final response = await http.post(
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
         },
+        body: {
+          'user_id': userId,
+        }
       );
       // final responseData = json.decode(response.body);
 
@@ -262,10 +300,7 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
 
   Future<BoardsModel?> getBoards() async {
     _isLoading = true;
-    // update();
-
-    // String token = courseRepo.getUserToken();
-
+String? userId=await Get.find<AuthController>().getUserId();
     var url =
         '${AppConstants.baseUrl}${AppConstants.boardlist}?course_id=1';
 
@@ -275,7 +310,7 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
-        },
+        }
       );
       // final responseData = json.decode(response.body);
 
@@ -375,6 +410,7 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
         },
       );
         termsPrivacyHelpDynamicContentResponseModel =
@@ -399,6 +435,7 @@ GlobalFunctions.showWarningToast(loginModel!.msg!);
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
+          'API-KEY': 'ea3652c8-d890-44c6-9789-48dfc5832e79',
         },
         body: jsonEncode(authRequestModel.toJson()),
       );

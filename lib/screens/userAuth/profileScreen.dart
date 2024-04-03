@@ -63,7 +63,7 @@ class ProfileScreenState extends State<ProfileScreen>
     });
 
     Get.find<AuthController>()
-        .getProfile(Get.find<AuthController>().getUserToken());
+        .getProfile();
   }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -74,8 +74,8 @@ class ProfileScreenState extends State<ProfileScreen>
         ? const NoInternetScreen()
         : GetBuilder<AuthController>(builder: (authController) {
             if (authController.profileViewModel != null) {
-              _nameController.text = authController.profileViewModel!.name!;
-              _mobileController.text = authController.profileViewModel!.phone!;
+              _nameController.text = authController.profileViewModel!.firstName!;
+              _mobileController.text = authController.profileViewModel!.mobileNo!;
               _emailController.text = authController.profileViewModel!.email!;
               userIdController.text =
                   authController.profileViewModel!.uniqueCode!;

@@ -43,6 +43,9 @@ class HelpScreenState extends State<HelpScreen>
         backgroundColor: kBackgroundColor,
         appBar: AppBar(
           backgroundColor: kYellowColor,
+          iconTheme: IconThemeData(
+              color: Colors.white
+          ),
           leading: BackButton(
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -111,7 +114,7 @@ class HelpScreenState extends State<HelpScreen>
         .dynamicContent();
 
     phone = termsPrivacyHelpDynamicContentResponseModel!.phone!;
-    email = termsPrivacyHelpDynamicContentResponseModel!.email!;
+    email = termsPrivacyHelpDynamicContentResponseModel!.contactEmail!;
     address = termsPrivacyHelpDynamicContentResponseModel!.address!;
     setState(() {    });
   }

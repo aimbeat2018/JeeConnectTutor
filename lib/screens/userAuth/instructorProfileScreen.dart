@@ -2202,14 +2202,17 @@ bool newFlag =false;
     }
   }
 
-
   Future<void> updateUser(AuthController authController) async {
     String? modeOfTeaching="", pincodeIds="";
     for(int i=0; i<checkListItems!.length;i++){
       if(modeOfTeaching==""){
-      modeOfTeaching= checkListItems[i]["value"];
+        if(checkListItems[i]["value"]) {
+          modeOfTeaching = checkListItems[i]["title"];
+        }
       }else{
-        modeOfTeaching= modeOfTeaching!+","+checkListItems[i]["value"];
+        if(checkListItems[i]["value"]) {
+          modeOfTeaching = modeOfTeaching! + "," + checkListItems[i]["title"];
+        }
       }
     }
 

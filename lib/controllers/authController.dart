@@ -73,9 +73,7 @@ class AuthController extends GetxController implements GetxService {
       authRepo.saveUserUniqueId(loginModel!.uniqueCode!);
       authRepo.saveUserId(loginModel!.userId!.toString());
       authRepo.saveUserToken(deviceToken!);
-    }else {
-GlobalFunctions.showWarningToast(loginModel!.msg!);
-      }
+    }
       }
     _isLoading = false;
     update();
@@ -406,7 +404,7 @@ String? userId=await Get.find<AuthController>().getUserId();
   Future<TermsPrivacyHelpDynamicContentResponseModel?> dynamicContent() async {
     var url = '${AppConstants.baseUrl}${AppConstants.dynamic_cantent}';
     try {
-      final response = await http.post(
+      final response = await http.get(
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

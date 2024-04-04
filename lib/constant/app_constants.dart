@@ -27,7 +27,7 @@ class AppConstants {
   static const String updateProfile = 'V131/instructor_profile_update';
   static const String getProfile = 'V131/instructor_profile';
   static const String banner = 'V130/sliderlist';
-  static const String dynamic_cantent = 'dynamic_cantent';
+  static const String dynamic_cantent = 'V130/app_data';
   static const String logout = 'logout';
   static const String instructorRequestList = 'instructor_course_list';
   static const String instructorAcceptedRequestList = 'accept_session_list';

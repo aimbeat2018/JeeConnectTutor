@@ -360,7 +360,10 @@ class LoginScreenState extends State<LoginScreen> {
         showCustomSnackBar(model!.msg!);
         Get.offNamed(RouteHelper.getMainScreenRoute());
       } else if (model!.status == "202") {
-        showCustomSnackBar(model!.msg!);
+        showCustomSnackBar('Your profile is in review');
+      //  Get.offNamed(RouteHelper.getMainScreenRoute());
+      } else if (model!.status == "203") {
+        showCustomSnackBar('Your profile is in review');
       //  Get.offNamed(RouteHelper.getMainScreenRoute());
       }
       else {

@@ -1876,96 +1876,99 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                               ),
                                                               const SizedBox(
                                                                   height: 3.0),
-                                                              ListView.builder(
-                                                                  scrollDirection:
-                                                                      Axis
-                                                                          .vertical,
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  physics:
-                                                                      const NeverScrollableScrollPhysics(),
-                                                                  itemCount:
-                                                                      pincodeList
-                                                                          .length,
-                                                                  itemBuilder:
-                                                                      (BuildContext
-                                                                              context,
-                                                                          int index) {
-                                                                    return Row(
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .symmetric(
-                                                                              horizontal: 15.0),
-                                                                          child:
-                                                                              Container(
-                                                                            height:
-                                                                                40,
-                                                                            width:
-                                                                                150,
-                                                                            padding:
-                                                                                const EdgeInsets.symmetric(horizontal: 10),
-                                                                            margin:
-                                                                                const EdgeInsets.symmetric(vertical: 5),
-                                                                            decoration:
-                                                                                ShapeDecoration(
-                                                                              shape: OutlineInputBorder(
-                                                                                borderSide: const BorderSide(
-                                                                                  color: kBlueDarkColor,
-                                                                                ),
-                                                                                borderRadius: BorderRadius.all(
-                                                                                  Radius.circular(8.0),
-                                                                                ),
-                                                                              ),
-                                                                            ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                child: ListView.builder(
+                                                                    scrollDirection:
+                                                                        Axis
+                                                                            .vertical,
+                                                                    shrinkWrap:
+                                                                        true,
+                                                                    physics:
+                                                                        const NeverScrollableScrollPhysics(),
+                                                                    itemCount:
+                                                                        pincodeList
+                                                                            .length,
+                                                                    itemBuilder:
+                                                                        (BuildContext
+                                                                                context,
+                                                                            int index) {
+                                                                      return Row(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: const EdgeInsets
+                                                                                .symmetric(
+                                                                                horizontal: 15.0),
                                                                             child:
-                                                                                TextFormField(
-                                                                              keyboardType: TextInputType.number,
-                                                                                  inputFormatters: [LengthLimitingTextInputFormatter(
-                                                                                      6),],
-                                                                              cursorColor: Colors.black,
-                                                                              style: TextStyle(
-                                                                                fontSize: 14,
-                                                                                fontWeight: FontWeight.w400,
-                                                                                color: const Color(0xff444444),
+                                                                                Container(
+                                                                              height:
+                                                                                  40,
+                                                                              width:
+                                                                                  150,
+                                                                              padding:
+                                                                                  const EdgeInsets.symmetric(horizontal: 10),
+                                                                              margin:
+                                                                                  const EdgeInsets.symmetric(vertical: 5),
+                                                                              decoration:
+                                                                                  ShapeDecoration(
+                                                                                shape: OutlineInputBorder(
+                                                                                  borderSide: const BorderSide(
+                                                                                    color: kBlueDarkColor,
+                                                                                  ),
+                                                                                  borderRadius: BorderRadius.all(
+                                                                                    Radius.circular(8.0),
+                                                                                  ),
+                                                                                ),
                                                                               ),
-                                                                              decoration: const InputDecoration(
-                                                                                border: InputBorder.none,
-                                                                                hintText: "Type Pincode",
+                                                                              child:
+                                                                                  TextFormField(
+                                                                                keyboardType: TextInputType.number,
+                                                                                    inputFormatters: [LengthLimitingTextInputFormatter(
+                                                                                        6),],
+                                                                                cursorColor: Colors.black,
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.w400,
+                                                                                  color: const Color(0xff444444),
+                                                                                ),
+                                                                                decoration: const InputDecoration(
+                                                                                  border: InputBorder.none,
+                                                                                  hintText: "Type Pincode",
+                                                                                ),
+                                                                                onChanged: (values) {
+                                                                                  pincodeList[index].name = values;
+                                                                                },
                                                                               ),
-                                                                              onChanged: (values) {
-                                                                                pincodeList[index].name = values;
-                                                                              },
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                        InkWell(
-                                                                          onTap:
-                                                                              () {
-                                                                            if (totalPincodeCount !=
-                                                                                1) {
-                                                                              totalPincodeCount = totalPincodeCount! - 1;
-                                                                              totalPincodeCount = totalPincodeCount;
-
-                                                                              pincodeList.removeAt(totalPincodeCount!);
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              if (totalPincodeCount !=
+                                                                                  1) {
+                                                                                totalPincodeCount = totalPincodeCount! - 1;
+                                                                                totalPincodeCount = totalPincodeCount;
+                                                                
+                                                                                pincodeList.removeAt(totalPincodeCount!);
+                                                                              }
+                                                                              setState(() {});
+                                                                              for(var item in pincodeList){
+                                                                              debugPrint(item.name!);
                                                                             }
-                                                                            setState(() {});
-                                                                            for(var item in pincodeList){
-                                                                            debugPrint(item.name!);
-                                                                          }
-                                                                          },
-                                                                          child:
-                                                                              Icon(
-                                                                            Icons.delete_forever_outlined,
-                                                                            color:
-                                                                                Colors.red,
-                                                                            size:
-                                                                                25,
+                                                                            },
+                                                                            child:
+                                                                                Icon(
+                                                                              Icons.delete_forever_outlined,
+                                                                              color:
+                                                                                  Colors.red,
+                                                                              size:
+                                                                                  25,
+                                                                            ),
                                                                           ),
-                                                                        ),
-                                                                      ],
-                                                                    );
-                                                                  }),
+                                                                        ],
+                                                                      );
+                                                                    }),
+                                                              ),
                                                             ],
                                                           ),
                                                           const SizedBox(
@@ -2253,10 +2256,14 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> getGrades(String boardId) async {
+
+    RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
+
     gradesModel = await Get.find<AuthController>().getGrades(boardId);
     if (gradesModel!.status == "success") {
       _listOfGrades.clear();
       for (var item in gradesModel!.data!) {
+        item.gradeName= item.gradeName!.replaceAll(exp, '');
         _listOfGrades.add(SelectedListItem(
             name: item.gradeName!,
             value: item.gradeName!,
@@ -2269,13 +2276,16 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> subjectListing() async {
+
+    RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
+
     subjectResponseModel = await Get.find<AuthController>()
         .subjectListingGradeWise(GradeRequestModel(gradeId: gradesIdList));
     if (subjectResponseModel!.status == "success") {
       _listOfSubjects.clear();
       for (var item in subjectResponseModel!.data!) {
         _listOfSubjects.add(SelectedListItem(
-            name: item.subjectName! + " - " + item.gradeName!,
+            name: item.subjectName! + " - " + item.gradeName!.replaceAll(exp, ''),
             value: item.subjectId!,
             isSelected: false));
       }

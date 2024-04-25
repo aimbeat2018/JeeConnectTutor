@@ -7,8 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:jeeconnecttutor/constant/get_di.dart' as di;
 import 'package:jeeconnecttutor/constant/route_helper.dart';
-import 'package:responsive_framework/breakpoint.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import 'constant/PushNotificationService.dart';
 import 'constant/globalFunction.dart';

@@ -75,6 +75,7 @@ class _MainScreenState extends State<MainScreen> {
           ],
           style: MoonyNavStyle(
             activeColor: Colors.white,
+            color: Colors.white70,
             indicatorPosition: IndicatorPosition.BOTTOM,
             indicatorType: IndicatorType.LINE,
             indicatorColor: kComplimentaryBackgroundColor,

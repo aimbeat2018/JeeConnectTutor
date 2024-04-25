@@ -12,6 +12,9 @@ import 'package:jeeconnecttutor/constant/globalFunction.dart';
 import 'package:jeeconnecttutor/model/response/sesssionStartRequestModel.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zoom_allinonesdk/data/models/meeting_options.dart';
+import 'package:zoom_allinonesdk/data/models/zoom_options.dart';
+import 'package:zoom_allinonesdk/zoom_allinonesdk.dart';
 
 import '../../constant/app_constants.dart';
 import '../../constant/internetConnectivity.dart';
@@ -135,7 +138,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                               ],
                             ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.50,
+                            height: 360,
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: SizedBox(
@@ -289,29 +292,29 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     height: 5,
                                                   ),
                                                   requestController
-                                                              .sessionDetailsModel!
-                                                              .data![0]
-                                                              .sessionType! ==
-                                                          'Online'
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            _launchUrl;
-                                                          },
-                                                          child: Text(
-                                                            // 'Session Link : ${requestController.sessionDetailsModel!.data![0].googleMeetLink}',
-                                                            'Session Link : ${requestController.sessionDetailsModel!.data![0].joinUrl!}',
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
+                                                                  .sessionDetailsModel!
+                                                                  .data![0]
+                                                                  .sessionType! ==
+                                                              'Online' &&
+                                                          requestController
+                                                                  .sessionDetailsModel!
+                                                                  .data![0]
+                                                                  .joinUrl !=
+                                                              ""
+                                                      ? Text(
+                                                          // 'Session Link : ${requestController.sessionDetailsModel!.data![0].googleMeetLink}',
+                                                          'Session Link : ${requestController.sessionDetailsModel!.data![0].joinUrl!}',
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Colors.white,
                                                           ),
                                                         )
                                                       : SizedBox(),
@@ -553,31 +556,69 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                       "") {
                                                     showDialog<String>(
                                                       context: context,
-                                                      builder: (BuildContext context) => AlertDialog(
-                                                        title: const Text('Session Starting'),
-                                                        content: Text('Are you sure you want to start this session?\n${requestController
-                                                            .sessionDetailsModel!
-                                                            .data![0].subject!} ${requestController
-                                                            .sessionDetailsModel!
-                                                            .data![0].date!}-${requestController
-                                                            .sessionDetailsModel!
-                                                            .data![0].time!}'),
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          AlertDialog(
+                                                        title: const Text(
+                                                          'Session Starting',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                        content: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Text(
+                                                                'Are you sure you want to start this session?'),
+                                                            Text(
+                                                              '${requestController.sessionDetailsModel!.data![0].subject!}',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 20,
+                                                                  color:
+                                                                      btnColor),
+                                                            ),
+                                                            Text(
+                                                              '${requestController.sessionDetailsModel!.data![0].date!}-${requestController.sessionDetailsModel!.data![0].time!}',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 20,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                          ],
+                                                        ),
                                                         actions: <Widget>[
                                                           TextButton(
-                                                            onPressed: () => Navigator.pop(context),
-                                                            child: const Text('Cancel'),
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context),
+                                                            child: const Text(
+                                                                'Cancel'),
                                                           ),
                                                           TextButton(
-                                                            onPressed: () async {
+                                                            onPressed:
+                                                                () async {
                                                               startOnlineSessionData(
                                                                   requestController);
                                                             },
-                                                            child: const Text('Yes'),
+                                                            child: const Text(
+                                                                'Yes'),
                                                           ),
                                                         ],
                                                       ),
                                                     );
-
                                                   } else {
                                                     showCustomSnackBar(
                                                         'Meeting already created');
@@ -878,11 +919,39 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
         requestController.sessionDetailsModel!.data![0].status = "3";
 
         Get.find<RequestController>()
-            .sessionDetails(widget.id, Get.find<AuthController>().getUserToken())
+            .sessionDetails(
+                widget.id, Get.find<AuthController>().getUserToken())
             .then((value) async => {getChapterList(widget.packageid)});
+
+        joinMeeting(context,requestController);
       } else {
         showCustomSnackBar(model.msg!);
       }
+    });
+  }
+
+  Future<void> joinMeeting(BuildContext context, RequestController requestController) async {
+
+    ZoomOptions zoomOptions = new ZoomOptions(
+      domain: "zoom.us",
+      clientId: "5rEF65h8RXzQRQ0RFlnCg",
+      clientSecert: "cHJYKybu67WZHWU4VIXoSMpZCXfYffTf",
+    );
+    var meetingOptions = new MeetingOptions(
+        displayName:
+        await Get.find<AuthController>().getUserName(),
+        meetingId: requestController.sessionDetailsModel!.data![0].meetingId, //Personal meeting id for join meeting required
+        meetingPassword: requestController.sessionDetailsModel!.data![0].password, //Personal meeting password for join meeting required
+        userType: "1");
+
+
+    var zoom = ZoomAllInOneSdk();
+    zoom.initZoom(zoomOptions: zoomOptions).then((results) {
+      if (results[0] == 0) {
+        zoom.joinMeting(meetingOptions: meetingOptions).then((loginResult) {});
+      }
+    }).catchError((error) {
+      print("[Error Generated] : " + error);
     });
   }
 

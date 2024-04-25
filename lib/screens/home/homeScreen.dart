@@ -15,9 +15,6 @@ import 'package:jeeconnecttutor/screens/userAuth/updatePasswordScreen.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sidebarx/sidebarx.dart';
-import 'package:zoom_allinonesdk/data/models/meeting_options.dart';
-import 'package:zoom_allinonesdk/data/models/zoom_options.dart';
-import 'package:zoom_allinonesdk/zoom_allinonesdk.dart';
 
 import '../../constant/internetConnectivity.dart';
 import '../../constant/textConstant.dart';
@@ -562,45 +559,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   ],
                                 ),
-                              ),
-
-                              GestureDetector(
-                                onTap: () {
-                                  joinMeeting(context);
-                                },
-                                child: Column(
-                                  children: [
-                                    Card(
-                                      elevation: 5,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        //set border radius more than 50% of height and width to make circle
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Image.asset(
-                                          'assets/images/meeting.png',
-                                          height: 50,
-                                          width: 50,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    const Text(
-                                      'zoom',
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.clip,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              )
                             ],
                           ),
                           const SizedBox(
@@ -758,57 +717,4 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           );
         });
   }
-  void joinMeeting(BuildContext context) {
-    /*ZoomOptions zoomOptions = new ZoomOptions(
-      domain: "zoom.us",
-      clientId: 'RUaQ6VGRb2ew05Mj_XdJQ',
-      clientSecert: 'LkrJxtag97A1YZiSme1p9IzeSwznMSSv',
-    );
-    var meetingOptions = new MeetingOptions(
-        displayName: "YOUR_NAME",
-        meetingId: "85662542361",
-        // If it's an instant meeting, leave it blank; otherwise, enter your specific YOUR_MEETING_ID
-        meetingPassword: "592082",
-        // If it's an instant meeting, leave it blank; otherwise, enter your specific YOUR_MEETING_PASSWORD
-        userType: "1");
-
-    var zoom = ZoomAllInOneSdk();
-    zoom.initZoom(zoomOptions: zoomOptions).then((results) {
-      if (results[0] == 0) {
-        zoom
-            .startMeeting(
-                accountId: 'A84hZm1MSEu-gtyROV3Jkw',
-                clientId: '9XnjXNPvTRWgcUcogS69Uw',
-                clientSecret: 'Y5eJNPGwdupqJ2pLjiX4bfYhmaJVGsti',
-                meetingOptions: meetingOptions)
-            .then((loginResult) {
-          print("loginResult " + loginResult.toString());
-        });
-      }
-    }).catchError((error) {
-      print("[Error Generated] : " + error);
-    });*/
-
-    ZoomOptions zoomOptions = new ZoomOptions(
-      domain: "zoom.us",
-      clientId: "5rEF65h8RXzQRQ0RFlnCg",
-      clientSecert: "cHJYKybu67WZHWU4VIXoSMpZCXfYffTf",
-    );
-    var meetingOptions = new MeetingOptions(
-        displayName: "Uzma Shaikh",
-        meetingId: "85662542361", //Personal meeting id for join meeting required
-        meetingPassword: "592082", //Personal meeting password for join meeting required
-        userType: "1");
-
-
-    var zoom = ZoomAllInOneSdk();
-    zoom.initZoom(zoomOptions: zoomOptions).then((results) {
-      if (results[0] == 0) {
-        zoom.joinMeting(meetingOptions: meetingOptions).then((loginResult) {});
-      }
-    }).catchError((error) {
-      print("[Error Generated] : " + error);
-    });
-  }
-
 }

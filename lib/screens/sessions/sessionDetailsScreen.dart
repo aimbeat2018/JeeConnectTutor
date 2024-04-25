@@ -22,6 +22,7 @@ import '../../constant/no_internet_screen.dart';
 import '../../controllers/authController.dart';
 import '../../controllers/requestController.dart';
 import '../../model/response/ChapterListResponseModel.dart';
+import '../../model/response/SessionResponseModel.dart';
 
 class SessionDetailsScreen extends StatefulWidget {
   final String id, packageid, session;
@@ -923,25 +924,25 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                 widget.id, Get.find<AuthController>().getUserToken())
             .then((value) async => {getChapterList(widget.packageid)});
 
-        joinMeeting(context,requestController);
+        joinMeeting(context,requestController, model!);
       } else {
         showCustomSnackBar(model.msg!);
       }
     });
   }
 
-  Future<void> joinMeeting(BuildContext context, RequestController requestController) async {
+  Future<void> joinMeeting(BuildContext context, RequestController requestController, SessionResponseModel sessionResponseModel) async {
 
-    ZoomOptions zoomOptions = new ZoomOptions(
+    ZoomOptions zoomOptions = ZoomOptions(
       domain: "zoom.us",
       clientId: "5rEF65h8RXzQRQ0RFlnCg",
       clientSecert: "cHJYKybu67WZHWU4VIXoSMpZCXfYffTf",
     );
-    var meetingOptions = new MeetingOptions(
+    var meetingOptions = MeetingOptions(
         displayName:
         await Get.find<AuthController>().getUserName(),
-        meetingId: requestController.sessionDetailsModel!.data![0].meetingId, //Personal meeting id for join meeting required
-        meetingPassword: requestController.sessionDetailsModel!.data![0].password, //Personal meeting password for join meeting required
+        meetingId: sessionResponseModel.meetingId!.toString(), //Personal meeting id for join meeting required
+        meetingPassword: sessionResponseModel.password!, //Personal meeting password for join meeting required
         userType: "1");
 
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -401,6 +402,9 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                           ),
                                           if (chapterlist != null)
                                             Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
                                               decoration: BoxDecoration(
                                                 border: Border.all(
                                                     width: 1,
@@ -410,11 +414,9 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                         5.0) //                 <--- border radius here
                                                     ),
                                               ),
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: 37,
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 5),
                                                 child:
                                                     DropdownButtonHideUnderline(
                                                   child: DropdownButton(
@@ -422,27 +424,16 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                         CupertinoColors
                                                             .lightBackgroundGray,
                                                     value: selectedChapter,
-                                                    icon: const Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 0),
-                                                      child: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down,
-                                                        color: kPrimaryColor,
-                                                        size: 20,
-                                                      ),
+                                                    icon: Icon(
+                                                      Icons.keyboard_arrow_down,
+                                                      color: kPrimaryColor,
+                                                      size: 20,
                                                     ),
-                                                    hint: Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 4.0),
-                                                      child: const Text(
-                                                        'Select Chapter',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 12),
-                                                      ),
+                                                    hint: const Text(
+                                                      'Select Chapter',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12),
                                                     ),
                                                     items: chapterlist!
                                                         .map((chaptermodel) {
@@ -450,6 +441,11 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                         value: chaptermodel
                                                             .chapters,
                                                         child: Container(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2,
                                                             margin:
                                                                 const EdgeInsets
                                                                     .symmetric(
@@ -611,6 +607,8 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                           TextButton(
                                                             onPressed:
                                                                 () async {
+                                                              Navigator.pop(
+                                                                  context);
                                                               startOnlineSessionData(
                                                                   requestController);
                                                             },
@@ -924,27 +922,29 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                 widget.id, Get.find<AuthController>().getUserToken())
             .then((value) async => {getChapterList(widget.packageid)});
 
-        joinMeeting(context,requestController, model!);
+        joinMeeting(context, requestController, model!);
       } else {
         showCustomSnackBar(model.msg!);
       }
     });
   }
 
-  Future<void> joinMeeting(BuildContext context, RequestController requestController, SessionResponseModel sessionResponseModel) async {
-
+  Future<void> joinMeeting(
+      BuildContext context,
+      RequestController requestController,
+      SessionResponseModel sessionResponseModel) async {
     ZoomOptions zoomOptions = ZoomOptions(
       domain: "zoom.us",
       clientId: "5rEF65h8RXzQRQ0RFlnCg",
       clientSecert: "cHJYKybu67WZHWU4VIXoSMpZCXfYffTf",
     );
     var meetingOptions = MeetingOptions(
-        displayName:
-        await Get.find<AuthController>().getUserName(),
-        meetingId: sessionResponseModel.meetingId!.toString(), //Personal meeting id for join meeting required
-        meetingPassword: sessionResponseModel.password!, //Personal meeting password for join meeting required
+        displayName: await Get.find<AuthController>().getUserName(),
+        meetingId: sessionResponseModel.meetingId!.toString(),
+        //Personal meeting id for join meeting required
+        meetingPassword: sessionResponseModel.password!,
+        //Personal meeting password for join meeting required
         userType: "1");
-
 
     var zoom = ZoomAllInOneSdk();
     zoom.initZoom(zoomOptions: zoomOptions).then((results) {

@@ -34,7 +34,9 @@ class Data {
   String? noOfComplete;
   String? subject;
   String? otpCode;
-  String? googleMeetLink;
+  String? meetingId;
+  String? joinUrl;
+  String? password;
   String? status;
   String? studentName;
   String? studentAdd;
@@ -50,7 +52,9 @@ class Data {
         this.noOfComplete,
         this.subject,
         this.otpCode,
-        this.googleMeetLink,
+        this.meetingId,
+        this.joinUrl,
+        this.password,
         this.status,
         this.studentName,
         this.studentAdd,
@@ -66,7 +70,9 @@ class Data {
     noOfComplete = json['no_of_complete'];
     subject = json['subject'];
     otpCode = json['otp_code'];
-    googleMeetLink = json['google_meet_link'];
+    meetingId = json['meeting_id'];
+    joinUrl = json['join_url'];
+    password = json['password'];
     status = json['status'];
     studentName = json['student_name'];
     studentAdd = json['student_add'];
@@ -84,7 +90,9 @@ class Data {
     data['no_of_complete'] = this.noOfComplete;
     data['subject'] = this.subject;
     data['otp_code'] = this.otpCode;
-    data['google_meet_link'] = this.googleMeetLink;
+    data['meeting_id'] = this.meetingId;
+    data['join_url'] = this.joinUrl;
+    data['password'] = this.password;
     data['status'] = this.status;
     data['student_name'] = this.studentName;
     data['student_add'] = this.studentAdd;

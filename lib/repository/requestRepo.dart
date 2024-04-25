@@ -10,6 +10,7 @@ import '../constant/app_constants.dart';
 import '../constant/shared_pref_helper.dart';
 import '../controllers/authController.dart';
 import '../model/request/gradeRequestModel.dart';
+import '../model/response/sesssionStartRequestModel.dart';
 
 class RequestRepo {
   final ApiClient apiClient;
@@ -35,10 +36,9 @@ class RequestRepo {
         AppConstants.cancelRequest, jsonEncode(model.toJson()));
   }
 
-  Future<Response> startSession(
-      String sessionid, String otp, String starttime) async {
-    return await apiClient.postData(AppConstants.sessionStart,
-        {'session_id': sessionid, 'otp': otp, 'start_time': starttime});
+  Future<Response> startSession(SesssionStartRequestModel? sesssionStartRequestModel) async {
+    return await apiClient.postBodyData(AppConstants.sessionStart,
+        jsonEncode(sesssionStartRequestModel!.toJson()));
   }
 
   Future<Response> endSession(String sessionid, String time) async {

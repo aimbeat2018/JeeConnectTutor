@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -225,15 +226,21 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                         (BuildContext context, int index) {
                                       return InkWell(
                                         onTap: () {
-                                          /* Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      TodaysSessionScreen(
-                                                          dataSnapshot
-                                                              .data!
-                                                              .data![
-                                                          index]
-                                                              .sessionId)));*/
+                                          Get.toNamed(RouteHelper.getSessionDetailsScreenRoute(
+                                              requestController
+                                                  .tutorRequestModel!
+                                                  .data![0]
+                                                  .session![
+                                              index]
+                                                  .sessionId!,
+                                              requestController
+                                                  .tutorRequestModel!
+                                                  .data![0]
+                                                  .packageId!,
+                                              requestController
+                                                  .tutorRequestModel!
+                                                  .data![0]
+                                                  .session![index].toString()!));
                                         },
                                         child: Card(
                                           semanticContainer: true,
@@ -256,6 +263,7 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                             child: ListTile(
                                               title: IntrinsicHeight(
                                                 child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Column(
                                                       crossAxisAlignment:
@@ -329,40 +337,7 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                                                 color: Colors
                                                                     .yellow),
                                                           ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Get.toNamed(RouteHelper.getSessionDetailsScreenRoute(
-                                                                  requestController
-                                                                      .tutorRequestModel!
-                                                                      .data![0]
-                                                                      .session![
-                                                                          index]
-                                                                      .sessionId!,
-                                                                  requestController
-                                                                      .tutorRequestModel!
-                                                                      .data![0]
-                                                                      .packageId!));
-                                                            },
-                                                            child:
-                                                                const Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left:
-                                                                          20.0),
-                                                              child: Text(
-                                                                'Start',
-                                                                softWrap: true,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
-                                                            ),
-                                                          ),
+
                                                         ],
                                                       ),
                                                     ),
@@ -454,24 +429,26 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                                         const SizedBox(
                                                           width: 6,
                                                         ),
-                                                        Text(
-                                                          requestController
-                                                              .tutorRequestModel!
-                                                              .data![0]
-                                                              .chapterlist![
-                                                                  index]
-                                                              .chapters!,
-                                                          maxLines: 3,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  kTextLowBlackColor,
-                                                              fontSize: 14,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
+                                                        Expanded(
+                                                          child: Text(
+                                                            requestController
+                                                                .tutorRequestModel!
+                                                                .data![0]
+                                                                .chapterlist![
+                                                                    index]
+                                                                .chapters!,
+                                                            maxLines: 3,
+                                                            style: TextStyle(
+                                                                color:
+                                                                    kTextLowBlackColor,
+                                                                fontSize: 14,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),

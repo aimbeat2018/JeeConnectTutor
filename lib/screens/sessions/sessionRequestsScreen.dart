@@ -498,7 +498,10 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
         showCustomSnackBar(model.msg!);
         requestController.getSessionRequestList(
             userid: Get.find<AuthController>().getUserId(), flag: '0');
-        setState(() {});
+
+        Get.find<RequestController>().getSessionRequestList(
+            userid: Get.find<AuthController>().getUserId(), flag: '0');
+        // setState(() {});
       } else {
         showCustomSnackBar(model.msg!);
       }

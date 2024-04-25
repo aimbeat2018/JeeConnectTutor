@@ -10,6 +10,7 @@ import 'package:jeeconnecttutor/model/tutorRequestModel.dart';
 import '../constant/app_constants.dart';
 import '../model/loginModel.dart';
 import '../model/response/SessionResponseModel.dart';
+import '../model/response/sesssionStartRequestModel.dart';
 import '../model/sessionDetailsModel.dart';
 import '../model/updateProfileResponseModel.dart';
 import '../repository/requestRepo.dart';
@@ -219,7 +220,6 @@ class RequestController extends GetxController implements GetxService {
 
   Future<SessionDetailsModel?> sessionDetails(String id, String token) async {
     _isDetailsLoading = true;
-    // update();
 
     Response response = await requestRepo.sessionDetail(id);
 
@@ -255,12 +255,11 @@ class RequestController extends GetxController implements GetxService {
     return value;
   }
 
-  Future<SessionResponseModel?> startSession(
-      String id, String token, String otp, String startTime) async {
+  Future<SessionResponseModel?> startSession(SesssionStartRequestModel sesssionStartRequestModel) async {
     _isLoading = true;
     update();
 
-    Response response = await requestRepo.startSession(id, otp, startTime);
+    Response response = await requestRepo.startSession(sesssionStartRequestModel);
 
     if (response.statusCode == 200) {
       sessionResponseModel = SessionResponseModel.fromJson(response.body);

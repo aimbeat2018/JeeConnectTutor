@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:jeeconnecttutor/constant/colorsConstant.dart';
 import 'package:jeeconnecttutor/constant/custom_snackbar.dart';
 import 'package:jeeconnecttutor/constant/globalFunction.dart';
+import 'package:jeeconnecttutor/model/response/sesssionStartRequestModel.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,9 +21,13 @@ import '../../controllers/requestController.dart';
 import '../../model/response/ChapterListResponseModel.dart';
 
 class SessionDetailsScreen extends StatefulWidget {
-  final String id,packageid;
+  final String id, packageid, session;
 
-  const SessionDetailsScreen({super.key, required this.id,required this.packageid});
+  const SessionDetailsScreen(
+      {super.key,
+      required this.id,
+      required this.packageid,
+      required this.session});
 
   @override
   State<StatefulWidget> createState() => SessionDetailsScreenState();
@@ -41,7 +46,6 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
   ChapterListResponseModel? chapterListResponseModel;
   List<ChapterListModel>? chapterlist;
 
-
   @override
   void initState() {
     super.initState();
@@ -58,10 +62,8 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
 
     if (mounted) {
       Get.find<RequestController>()
-          .sessionDetails(widget.id, Get.find<AuthController>().getUserToken()).then((value) async =>{
-       getChapterList(widget.packageid)
-      });
-      
+          .sessionDetails(widget.id, Get.find<AuthController>().getUserToken())
+          .then((value) async => {getChapterList(widget.packageid)});
     }
   }
 
@@ -240,7 +242,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       fontWeight:
-                                                      FontWeight.normal,
+                                                          FontWeight.normal,
                                                       color: Colors.white,
                                                     ),
                                                   ),
@@ -274,9 +276,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    'Session Type : ${ requestController
-                                                        .sessionDetailsModel!
-                                                        .data![0].sessionType!}',
+                                                    'Session Type : ${requestController.sessionDetailsModel!.data![0].sessionType!}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontSize: 14,
@@ -288,30 +288,32 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                   SizedBox(
                                                     height: 5,
                                                   ),
-                                                  requestController.sessionDetailsModel!.data![0].sessionType! ==
-                                                      'Online'
+                                                  requestController
+                                                              .sessionDetailsModel!
+                                                              .data![0]
+                                                              .sessionType! ==
+                                                          'Online'
                                                       ? InkWell(
-                                                    onTap: () {
-                                                      _launchUrl;
-                                                    },
-                                                        child: Text(
-                                                    // 'Session Link : ${requestController.sessionDetailsModel!.data![0].googleMeetLink}',
-                                                    'Session Link : https://us05web.zoom.us/j/85141654178?pwd=89KOgASoZZHT5lp5oy8jKk36RbpDEi.1',
-                                                    textAlign:
-                                                    TextAlign
-                                                          .center,
-                                                    style:
-                                                    TextStyle(
-                                                        fontSize:
-                                                        14,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .normal,
-                                                        color: Colors
-                                                            .white,
-                                                    ),
-                                                  ),
-                                                      )
+                                                          onTap: () {
+                                                            _launchUrl;
+                                                          },
+                                                          child: Text(
+                                                            // 'Session Link : ${requestController.sessionDetailsModel!.data![0].googleMeetLink}',
+                                                            'Session Link : ${requestController.sessionDetailsModel!.data![0].joinUrl!}',
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        )
                                                       : SizedBox(),
                                                 ],
                                               ),
@@ -390,8 +392,10 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                               ratingStr = rating.toString();
                                             },
                                           ),
-                                          SizedBox(height: 10,),
-                                          if(chapterlist!=null)
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          if (chapterlist != null)
                                             Container(
                                               decoration: BoxDecoration(
                                                 border: Border.all(
@@ -400,21 +404,24 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(
                                                         5.0) //                 <--- border radius here
-                                                ),
+                                                    ),
                                               ),
                                               child: SizedBox(
-                                                width: MediaQuery.of(context).size.width,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
                                                 height: 37,
-                                                child: DropdownButtonHideUnderline(
+                                                child:
+                                                    DropdownButtonHideUnderline(
                                                   child: DropdownButton(
                                                     dropdownColor:
-                                                    CupertinoColors
-                                                        .lightBackgroundGray,
+                                                        CupertinoColors
+                                                            .lightBackgroundGray,
                                                     value: selectedChapter,
                                                     icon: const Padding(
-                                                      padding: EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 0),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 0),
                                                       child: Icon(
                                                         Icons
                                                             .keyboard_arrow_down,
@@ -423,23 +430,31 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                       ),
                                                     ),
                                                     hint: Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                                      child: const Text('Select Chapter',style: TextStyle(color: Colors.black,fontSize: 12),),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 4.0),
+                                                      child: const Text(
+                                                        'Select Chapter',
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 12),
+                                                      ),
                                                     ),
                                                     items: chapterlist!
                                                         .map((chaptermodel) {
                                                       return DropdownMenuItem(
-                                                        value: chaptermodel.chapters,
+                                                        value: chaptermodel
+                                                            .chapters,
                                                         child: Container(
                                                             margin:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                4),
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        4),
                                                             child: Text(
-                                                              chaptermodel.chapters!,
-                                                              style:
-                                                              TextStyle(
+                                                              chaptermodel
+                                                                  .chapters!,
+                                                              style: TextStyle(
                                                                 fontSize: 12,
                                                                 color: Colors
                                                                     .black,
@@ -450,7 +465,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     onChanged: (newValue) {
                                                       setState(() {
                                                         selectedChapter =
-                                                        newValue!;
+                                                            newValue!;
                                                       });
                                                     },
                                                   ),
@@ -496,7 +511,11 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                                     requestController);
                                               }
                                             },
-                                            child: const Text('Submit',style: TextStyle(color: Colors.white),),
+                                            child: const Text(
+                                              'Submit',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                           const SizedBox(
                                             height: 10,
@@ -508,144 +527,202 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
                                 ),
                               ),
                             ),
-                          if (requestController.sessionDetailsModel!.data![0].status ==
+                          if (requestController
+                                  .sessionDetailsModel!.data![0].status ==
                               "0")
-                            SizedBox(
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Card(
-                                    elevation: 5,
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    shadowColor: Colors.blue.shade900,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 18.0,
-                                          bottom: 18,
-                                          right: 20,
-                                          left: 20),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Image.asset(
-                                            'assets/images/pin.png',
-                                            height: 50,
-                                            width: 50,
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          const Text(
-                                            'To start session enter the OTP sent on Student mobile number',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          OtpPinField(
-                                            key: _otpPinFieldController,
-                                            autoFillEnable: false,
-                                            fieldHeight: 40,
-                                            fieldWidth: 40,
-                                            textInputAction:
-                                                TextInputAction.done,
-                                            otpPinFieldDecoration:
-                                                OtpPinFieldDecoration
-                                                    .defaultPinBoxDecoration,
-                                            onSubmit: (String otp) {},
-                                            onChange: (String otp) {},
-                                            otpPinFieldStyle:
-                                                const OtpPinFieldStyle(
-                                              defaultFieldBorderColor:
-                                                  kYellowColor,
-                                              activeFieldBorderColor:
-                                                  Colors.indigo,
-                                            ),
-                                            maxLength: 4,
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          requestController.isLoading
-                                              ? const CircularProgressIndicator()
-                                              : ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          backgroundColor:
-                                                              Colors.blue
-                                                                  .shade900,
-                                                          textStyle:
-                                                              const TextStyle(
-                                                                  fontSize:
-                                                                      14)),
-                                                  onPressed: () {
-                                                    if (_otpPinFieldController
-                                                        .currentState!
-                                                        .text
-                                                        .isEmpty) {
-                                                      showCustomSnackBar(
-                                                          "Enter OTP");
-                                                    } else if (_otpPinFieldController
-                                                            .currentState!
-                                                            .text
-                                                            .length !=
-                                                        4) {
-                                                      showCustomSnackBar(
-                                                          "Enter Valid OTP");
-                                                    } else if(requestController.sessionDetailsModel!.data![0].otpCode! !=_otpPinFieldController
-                                                        .currentState!
-                                                        .text)
-                                                      {
-                                                        showCustomSnackBar("Enter Valid OTP");
-                                                      }
-                                                    else {
-                                                     // showCustomSnackBar("OTP Matched");
-                                                      startSession(
-                                                          requestController
-                                                              .sessionDetailsModel!
-                                                              .data![0]
-                                                              .sessionId!,
-                                                          _otpPinFieldController
-                                                              .currentState!
-                                                              .text,
-                                                          requestController
-                                                              .sessionDetailsModel!
-                                                              .data![0]
-                                                              .time!,
-                                                          requestController);
-                                                    }
-                                                  },
-                                                  child: const Text(
-                                                    'Start session',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.white,
-                                                    ),
+                            requestController.sessionDetailsModel!.data![0]
+                                        .sessionType ==
+                                    "Online"
+                                ? SizedBox(
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: requestController.isLoading
+                                            ? const CircularProgressIndicator()
+                                            : ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.blue.shade900,
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 14)),
+                                                onPressed: () {
+                                                  if (requestController
+                                                          .sessionDetailsModel!
+                                                          .data![0]
+                                                          .joinUrl ==
+                                                      "") {
+                                                    showDialog<String>(
+                                                      context: context,
+                                                      builder: (BuildContext context) => AlertDialog(
+                                                        title: const Text('Session Starting'),
+                                                        content: Text('Are you sure you want to start this session?\n${requestController
+                                                            .sessionDetailsModel!
+                                                            .data![0].subject!} ${requestController
+                                                            .sessionDetailsModel!
+                                                            .data![0].date!}-${requestController
+                                                            .sessionDetailsModel!
+                                                            .data![0].time!}'),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            onPressed: () => Navigator.pop(context),
+                                                            child: const Text('Cancel'),
+                                                          ),
+                                                          TextButton(
+                                                            onPressed: () async {
+                                                              startOnlineSessionData(
+                                                                  requestController);
+                                                            },
+                                                            child: const Text('Yes'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+
+                                                  } else {
+                                                    showCustomSnackBar(
+                                                        'Meeting already created');
+                                                  }
+                                                },
+                                                child: const Text(
+                                                  'Start session',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white,
                                                   ),
                                                 ),
-                                          const SizedBox(
-                                            height: 10,
+                                              ),
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Card(
+                                          elevation: 5,
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
-                                        ],
+                                          shadowColor: Colors.blue.shade900,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 18.0,
+                                                bottom: 18,
+                                                right: 20,
+                                                left: 20),
+                                            child: Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Image.asset(
+                                                  'assets/images/pin.png',
+                                                  height: 50,
+                                                  width: 50,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                const Text(
+                                                  'To start session enter the OTP sent on Student Jeeconnect App',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                OtpPinField(
+                                                  key: _otpPinFieldController,
+                                                  autoFillEnable: false,
+                                                  fieldHeight: 40,
+                                                  fieldWidth: 40,
+                                                  textInputAction:
+                                                      TextInputAction.done,
+                                                  otpPinFieldDecoration:
+                                                      OtpPinFieldDecoration
+                                                          .defaultPinBoxDecoration,
+                                                  onSubmit: (String otp) {},
+                                                  onChange: (String otp) {},
+                                                  otpPinFieldStyle:
+                                                      const OtpPinFieldStyle(
+                                                    defaultFieldBorderColor:
+                                                        kYellowColor,
+                                                    activeFieldBorderColor:
+                                                        Colors.indigo,
+                                                  ),
+                                                  maxLength: 4,
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                requestController.isLoading
+                                                    ? const CircularProgressIndicator()
+                                                    : ElevatedButton(
+                                                        style: ElevatedButton.styleFrom(
+                                                            backgroundColor:
+                                                                Colors.blue
+                                                                    .shade900,
+                                                            textStyle:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        14)),
+                                                        onPressed: () {
+                                                          if (_otpPinFieldController
+                                                              .currentState!
+                                                              .text
+                                                              .isEmpty) {
+                                                            showCustomSnackBar(
+                                                                "Enter OTP");
+                                                          } else if (_otpPinFieldController
+                                                                  .currentState!
+                                                                  .text
+                                                                  .length !=
+                                                              4) {
+                                                            showCustomSnackBar(
+                                                                "Enter Valid OTP");
+                                                          } else if (requestController
+                                                                  .sessionDetailsModel!
+                                                                  .data![0]
+                                                                  .otpCode! !=
+                                                              _otpPinFieldController
+                                                                  .currentState!
+                                                                  .text) {
+                                                            showCustomSnackBar(
+                                                                "Enter Valid OTP");
+                                                          } else {
+                                                            startOfflineSessionData(
+                                                                requestController);
+                                                          }
+                                                        },
+                                                        child: const Text(
+                                                          'Start session',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          if (requestController.sessionDetailsModel!.data![0].status ==
+                          if (requestController
+                                  .sessionDetailsModel!.data![0].status ==
                               "3")
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
@@ -791,21 +868,22 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
           });
   }
 
-  void startSession(String id, String otp,String time, 
+  void startSession(SesssionStartRequestModel? sesssionStartRequestModel,
       RequestController requestController) {
     requestController
-        .startSession(
-        id, Get.find<AuthController>().getUserToken(), otp, time)
+        .startSession(sesssionStartRequestModel!)
         .then((model) async {
       if (model!.status != 403) {
         showCustomSnackBar(model.msg!, isError: false);
         requestController.sessionDetailsModel!.data![0].status = "3";
-        setState(() {});
+
+        Get.find<RequestController>()
+            .sessionDetails(widget.id, Get.find<AuthController>().getUserToken())
+            .then((value) async => {getChapterList(widget.packageid)});
       } else {
         showCustomSnackBar(model.msg!);
       }
     });
-
   }
 
   getTime(startTime, endTime) {
@@ -840,7 +918,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
   void addReview(String id, RequestController requestController) {
     requestController
         .addReview(id, Get.find<AuthController>().getUserToken(), ratingStr,
-            reviewController.text,selectedChapter!)
+            reviewController.text, selectedChapter!)
         .then((model) async {
       if (model!.status != 403) {
         showCustomSnackBar(model.msg!, isError: false);
@@ -853,19 +931,81 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
   }
 
   getChapterList(String packageid) async {
-    chapterListResponseModel=await Get.find<RequestController>().getchapterlist(packageid);
-    chapterlist=chapterListResponseModel!.data!;
-    setState(() {
-    });
-
+    chapterListResponseModel =
+        await Get.find<RequestController>().getchapterlist(packageid);
+    chapterlist = chapterListResponseModel!.data!;
+    setState(() {});
   }
 
-
   Future<void> _launchUrl() async {
-    final Uri _url = Uri.parse('https://us05web.zoom.us/j/85141654178?pwd=89KOgASoZZHT5lp5oy8jKk36RbpDEi.1');
+    final Uri _url = Uri.parse(
+        'https://us05web.zoom.us/j/85141654178?pwd=89KOgASoZZHT5lp5oy8jKk36RbpDEi.1');
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
   }
 
+  Future<void> startOnlineSessionData(
+      RequestController requestController) async {
+    SesssionStartRequestModel? sesssionStartRequestModel =
+        SesssionStartRequestModel();
+
+    sesssionStartRequestModel!.sessionId =
+        requestController.sessionDetailsModel!.data![0].sessionId!;
+    sesssionStartRequestModel.otp = "";
+    sesssionStartRequestModel.startTime =
+        requestController.sessionDetailsModel!.data![0].time!;
+
+    sesssionStartRequestModel.meet = Meet();
+    sesssionStartRequestModel.meet!.agenda = widget.session + "th session";
+    sesssionStartRequestModel.meet!.defaultPassword = false;
+    sesssionStartRequestModel.meet!.duration = "60";
+    sesssionStartRequestModel.meet!.password =
+        requestController.sessionDetailsModel!.data![0].password!;
+
+    sesssionStartRequestModel.meet!.settings = Settings();
+    sesssionStartRequestModel.meet!.settings!.audio = "both";
+    sesssionStartRequestModel.meet!.settings!.calendarType = 2;
+    sesssionStartRequestModel.meet!.settings!.contactEmail = "";
+    sesssionStartRequestModel.meet!.settings!.contactName =
+        await Get.find<AuthController>().getUserName();
+    sesssionStartRequestModel.meet!.settings!.hostVideo = true;
+    sesssionStartRequestModel.meet!.settings!.muteUponEntry = false;
+    sesssionStartRequestModel.meet!.settings!.joinBeforeHost = true;
+    sesssionStartRequestModel.meet!.startTime =
+        requestController.sessionDetailsModel!.data![0].time!;
+    sesssionStartRequestModel.meet!.timezone = "Asia/Kolkata";
+    sesssionStartRequestModel.meet!.type = 2;
+
+    startSession(sesssionStartRequestModel, requestController);
+  }
+
+  Future<void> startOfflineSessionData(
+      RequestController requestController) async {
+    SesssionStartRequestModel? sesssionStartRequestModel;
+
+    sesssionStartRequestModel!.sessionId =
+        requestController.sessionDetailsModel!.data![0].sessionId!;
+    sesssionStartRequestModel.otp =
+        requestController.sessionDetailsModel!.data![0].otpCode!;
+    sesssionStartRequestModel.startTime =
+        requestController.sessionDetailsModel!.data![0].time!;
+    sesssionStartRequestModel.meet!.agenda = "";
+    sesssionStartRequestModel.meet!.defaultPassword = false;
+    sesssionStartRequestModel.meet!.duration = "";
+    sesssionStartRequestModel.meet!.password = "";
+    sesssionStartRequestModel.meet!.settings!.audio = "both";
+    sesssionStartRequestModel.meet!.settings!.calendarType = 2;
+    sesssionStartRequestModel.meet!.settings!.contactEmail = "";
+    sesssionStartRequestModel.meet!.settings!.contactName =
+        await Get.find<AuthController>().getUserName();
+    sesssionStartRequestModel.meet!.settings!.hostVideo = true;
+    sesssionStartRequestModel.meet!.settings!.muteUponEntry = false;
+    sesssionStartRequestModel.meet!.settings!.joinBeforeHost = true;
+    sesssionStartRequestModel.meet!.startTime = "";
+    sesssionStartRequestModel.meet!.timezone = "";
+    sesssionStartRequestModel.meet!.type = 2;
+
+    startSession(sesssionStartRequestModel, requestController);
+  }
 }

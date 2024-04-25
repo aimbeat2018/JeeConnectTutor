@@ -124,7 +124,8 @@ class InstructorProfileScreenState extends State<InstructorProfileScreen> {
   final List<SelectedListItem> _listOfBoards = [];
   final List<SelectedListItem> _listOfGrades = [];
   final List<SelectedListItem> _listOfSubjects = [];
-bool newFlag =false;
+  bool newFlag = false;
+
   @override
   void initState() {
     super.initState();
@@ -138,101 +139,94 @@ bool newFlag =false;
           }));
     });
 
-    Get.find<AuthController>().getProfile().then((value) {setState(() {
-      if(value!=null){
-      profileViewModel=value;
-      if(profileViewModel!=null){
-        String? grades, subject, boards, pincode, modeOfTeaching;
+    Get.find<AuthController>().getProfile().then((value) {
+      setState(() {
+        if (value != null) {
+          profileViewModel = value;
+          if (profileViewModel != null) {
+            String? grades, subject, boards, pincode, modeOfTeaching;
 
-        boardsIDList = [];
-        boardsIDList.add(profileViewModel!.boardId!);
-        gradesIdList = [];
-        gradesList = [];
-        for (var item in profileViewModel!.gradeDetails!) {
-          if (grades == null || grades == "") {
-            grades = item.gradeName;
-          } else {
-            grades = grades! + "," + item.gradeName!;
+            boardsIDList = [];
+            boardsIDList.add(profileViewModel!.boardId!);
+            gradesIdList = [];
+            gradesList = [];
+            for (var item in profileViewModel!.gradeDetails!) {
+              if (grades == null || grades == "") {
+                grades = item.gradeName;
+              } else {
+                grades = grades! + "," + item.gradeName!;
+              }
+              gradesIdList!.add(item.gradeId!);
+              gradesList!.add(item.gradeName!);
+            }
+
+            subjectsIDList = [];
+            subjectsList = [];
+            for (var item in profileViewModel!.subjectDetails!) {
+              if (subject == null || subject == "") {
+                subject = item.subjectName;
+              } else {
+                subject = subject! + "," + item.subjectName!;
+              }
+              subjectsIDList.add(item.subjectId!);
+              subjectsList.add(item.subjectName!);
+            }
+
+            for (var item in profileViewModel!.techingDetails!) {
+              if (modeOfTeaching == null || modeOfTeaching == "") {
+                modeOfTeaching = item.modeOfTeching;
+              } else {
+                modeOfTeaching = modeOfTeaching! + "," + item.modeOfTeching!;
+              }
+            }
+
+            totalPincodeCount = profileViewModel!.pincode!.length;
+
+            if (newFlag == false)
+              for (int i = 0; i < profileViewModel!.pincode!.length; i++) {
+                pincodeList.add(PincodeList(
+                    name: profileViewModel!.pincode![i].pincode, index: i));
+              }
+
+            for (int i = 0; i < profileViewModel!.techingDetails!.length; i++) {
+              if (profileViewModel!.techingDetails![i].modeOfTeching!.trim() ==
+                  "Online") {
+                checkListItems[0]["value"] = true;
+              }
+              if (profileViewModel!.techingDetails![i].modeOfTeching!.trim() ==
+                  "Offline") {
+                checkListItems[1]["value"] = true;
+              }
+              if (profileViewModel!.techingDetails![i].modeOfTeching!.trim() ==
+                  "Group Study") {
+                checkListItems[2]["value"] = true;
+              }
+            }
+            _firstNameController.text = profileViewModel!.firstName!;
+            _lastNameController.text = profileViewModel!.lastName!;
+            _mobileController.text = profileViewModel!.mobileNo!;
+            _gradeController.text = grades!;
+            _subjectsController.text = subjectsList!.join(",");
+            _boardController.text = profileViewModel!.boardName!;
+            _emailController.text = profileViewModel!.email!;
+            _addressController.text = profileViewModel!.address!;
+            _panController.text = profileViewModel!.panNo!;
+            _banknameController.text = profileViewModel!.bankName!;
+            _holdernameController.text = profileViewModel!.accountHolderName!;
+            _accountnoontroller.text = profileViewModel!.accountNo!;
+            _ifscController.text = profileViewModel!.ifscCode!;
+            _adharController.text = profileViewModel!.aadharNo!;
+
+            newFlag = true;
           }
-          gradesIdList!.add(item.gradeId!);
-          gradesList!.add(item.gradeName!);
+
+          selectedBoard = profileViewModel!.boardId!;
+          getGrades(selectedBoard!);
+          subjectListing();
         }
-
-        subjectsIDList = [];
-        subjectsList = [];
-        for (var item in profileViewModel!.subjectDetails!) {
-          if (subject == null || subject == "") {
-            subject = item.subjectName;
-          } else {
-            subject = subject! + "," + item.subjectName!;
-          }
-          subjectsIDList.add(item.subjectId!);
-          subjectsList.add(item.subjectName!);
-        }
-
-        for (var item in profileViewModel!.techingDetails!) {
-          if (modeOfTeaching == null || modeOfTeaching == "") {
-            modeOfTeaching = item.modeOfTeching;
-          } else {
-            modeOfTeaching = modeOfTeaching! + "," + item.modeOfTeching!;
-          }
-        }
-
-        totalPincodeCount = profileViewModel!.pincode!.length;
-
-        if (newFlag == false)
-          for (int i = 0;
-          i < profileViewModel!.pincode!.length;
-          i++) {
-            pincodeList.add(PincodeList(
-                name: profileViewModel!.pincode![i].pincode,
-                index: i));
-          }
-
-        for (int i = 0;
-        i < profileViewModel!.techingDetails!.length;
-        i++) {
-          if (profileViewModel!.techingDetails![i].modeOfTeching!.trim() ==
-              "Online") {
-            checkListItems[0]["value"] = true;
-          }
-          if (profileViewModel!.techingDetails![i].modeOfTeching!.trim() ==
-              "Offline") {
-            checkListItems[1]["value"] = true;
-          }
-          if (
-          profileViewModel!.techingDetails![i].modeOfTeching!.trim() ==
-              "Group Study") {
-            checkListItems[2]["value"] = true;
-          }
-        }
-        _firstNameController.text = profileViewModel!.firstName!;
-        _lastNameController.text = profileViewModel!.lastName!;
-        _mobileController.text = profileViewModel!.mobileNo!;
-        _gradeController.text = grades!;
-        _subjectsController.text = subjectsList!.join(",");
-        _boardController.text = profileViewModel!.boardName!;
-        _emailController.text = profileViewModel!.email!;
-        _addressController.text = profileViewModel!.address!;
-        _panController.text = profileViewModel!.panNo!;
-        _banknameController.text = profileViewModel!.bankName!;
-        _holdernameController.text =
-        profileViewModel!.accountHolderName!;
-        _accountnoontroller.text = profileViewModel!.accountNo!;
-        _ifscController.text = profileViewModel!.ifscCode!;
-        _adharController.text = profileViewModel!.aadharNo!;
-
-        newFlag = true;
-      }
-
-      selectedBoard = profileViewModel!.boardId!;
-      getGrades(selectedBoard!);
-      subjectListing();
-
-      }});});
+      });
+    });
     getBoards();
-
-
   }
 
   @override
@@ -1727,116 +1721,133 @@ bool newFlag =false;
                                                       const SizedBox(
                                                           height: 3.0),
                                                       GridView.count(
-                                                          shrinkWrap: true,
+                                                        shrinkWrap: true,
                                                         crossAxisCount: 2,
                                                         mainAxisSpacing: 10.0,
                                                         crossAxisSpacing: 10.0,
-                                                        childAspectRatio: ((MediaQuery.of(context).size.width / 2) / 50.0),
-                                                          physics: NeverScrollableScrollPhysics(),
-                                                        children: List.generate(pincodeList.length, (index) {
-                                                            return Row(
-                                                              children: [
-                                                                Expanded(
-                                                                  child: Container(
-                                                                    height: 35,
-                                                                    width: (MediaQuery.of(context).size.width/3.4),
-                                                                    padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        10),
-                                                                    margin: const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                        5),
-                                                                    decoration:
-                                                                    ShapeDecoration(
-                                                                  shape:
-                                                                      OutlineInputBorder(
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                      color:
-                                                                          kBlueDarkColor,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                      Radius.circular(
-                                                                          8.0),
-                                                                    ),
-                                                                  ),
-                                                                    ),
-                                                                    child:
-                                                                    TextFormField(
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .number,
-                                                                  inputFormatters: [
-                                                                    LengthLimitingTextInputFormatter(
-                                                                        6),
-                                                                  ],
-                                                                  cursorColor:
-                                                                      Colors
-                                                                          .black,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight.w400,
-                                                                    color: const Color(
-                                                                        0xff444444),
-                                                                  ),
+                                                        childAspectRatio:
+                                                            ((MediaQuery.of(context)
+                                                                        .size
+                                                                        .width /
+                                                                    2) /
+                                                                50.0),
+                                                        physics:
+                                                            NeverScrollableScrollPhysics(),
+                                                        children: List.generate(
+                                                            pincodeList.length,
+                                                            (index) {
+                                                          return Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child:
+                                                                    Container(
+                                                                  height: 35,
+                                                                  width: (MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width /
+                                                                      3.4),
+                                                                  padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                                  margin: const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          5),
                                                                   decoration:
-                                                                      const InputDecoration(
-                                                                    border:
-                                                                        InputBorder.none,
-                                                                    hintText:
-                                                                        "Type Pincode",
-                                                                  ),
-                                                                  initialValue: pincodeList[
-                                                                          index]
-                                                                      .name!,
-                                                                  onChanged:
-                                                                      (values) {
-                                                                    pincodeList[index].name =
-                                                                        values;
-                                                                  },
+                                                                      ShapeDecoration(
+                                                                    shape:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color:
+                                                                            kBlueDarkColor,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .all(
+                                                                        Radius.circular(
+                                                                            8.0),
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    if (totalPincodeCount !=
-                                                                        1) {
-                                                                      totalPincodeCount =
-                                                                          totalPincodeCount! -
-                                                                              1;
-                                                                      totalPincodeCount =
-                                                                          totalPincodeCount;
-
-                                                                      pincodeList
-                                                                          .removeAt(
-                                                                              totalPincodeCount!);
-                                                                    }
-                                                                    setState(
-                                                                        () {});
-                                                                    for (var item
-                                                                        in pincodeList) {
-                                                                      debugPrint(
-                                                                          item.name!);
-                                                                    }
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .delete_forever_outlined,
-                                                                    color: Colors
-                                                                        .red,
-                                                                    size: 25,
+                                                                  child:
+                                                                      TextFormField(
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .number,
+                                                                    inputFormatters: [
+                                                                      LengthLimitingTextInputFormatter(
+                                                                          6),
+                                                                    ],
+                                                                    cursorColor:
+                                                                        Colors
+                                                                            .black,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      color: const Color(
+                                                                          0xff444444),
+                                                                    ),
+                                                                    decoration:
+                                                                        const InputDecoration(
+                                                                      border: InputBorder
+                                                                          .none,
+                                                                      hintText:
+                                                                          "Type Pincode",
+                                                                    ),
+                                                                    initialValue:
+                                                                        pincodeList[index]
+                                                                            .name!,
+                                                                    onChanged:
+                                                                        (values) {
+                                                                      pincodeList[index]
+                                                                              .name =
+                                                                          values;
+                                                                    },
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            );
-                                                          }),
-                                                      ),],
+                                                              ),
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  if (totalPincodeCount !=
+                                                                      1) {
+                                                                    totalPincodeCount =
+                                                                        totalPincodeCount! -
+                                                                            1;
+                                                                    totalPincodeCount =
+                                                                        totalPincodeCount;
+
+                                                                    pincodeList
+                                                                        .removeAt(
+                                                                            totalPincodeCount!);
+                                                                  }
+                                                                  setState(
+                                                                      () {});
+                                                                  for (var item
+                                                                      in pincodeList) {
+                                                                    debugPrint(item
+                                                                        .name!);
+                                                                  }
+                                                                },
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .delete_forever_outlined,
+                                                                  color: Colors
+                                                                      .red,
+                                                                  size: 25,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        }),
+                                                      ),
+                                                    ],
                                                   ),
                                                   const SizedBox(
                                                     height: 5,
@@ -1923,32 +1934,36 @@ bool newFlag =false;
                                                   ),
                                                   InkWell(
                                                     onTap: () {
-
                                                       Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => ViewPdfScreen(
-                                                                fileUrl: profileViewModel!
-                                                                    .resume!,)));
-
+                                                              builder: (context) =>
+                                                                  ViewPdfScreen(
+                                                                    fileUrl:
+                                                                        profileViewModel!
+                                                                            .resume!,
+                                                                  )));
                                                     },
                                                     child: Padding(
                                                       padding:
-                                                      const EdgeInsets
-                                                          .only(top: 5.0, right: 20),
+                                                          const EdgeInsets.only(
+                                                              top: 5.0,
+                                                              right: 20),
                                                       child: Align(
-                                                        alignment: Alignment.centerRight,
+                                                        alignment: Alignment
+                                                            .centerRight,
                                                         child: Text(
                                                           'View Resume',
-                                                          textAlign: TextAlign.end,
+                                                          textAlign:
+                                                              TextAlign.end,
                                                           // 'Remark: ${widget.model.remark ??'vff':widget.model.remark}',
                                                           style: TextStyle(
                                                               color:
-                                                              kBlueDarkColor,
+                                                                  kBlueDarkColor,
                                                               fontSize: 14,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w500),
+                                                                  FontWeight
+                                                                      .w500),
                                                         ),
                                                       ),
                                                     ),
@@ -1965,7 +1980,7 @@ bool newFlag =false;
                                                     ),
                                                     onPressed: () {
                                                       updateUser(
-                                                            authController);
+                                                          authController);
                                                       // for(var item in pincodeList){
                                                       //   debugPrint(item.name!);
                                                       // }
@@ -2203,14 +2218,14 @@ bool newFlag =false;
   }
 
   Future<void> updateUser(AuthController authController) async {
-    String? modeOfTeaching="", pincodeIds="";
-    for(int i=0; i<checkListItems!.length;i++){
-      if(modeOfTeaching==""){
-        if(checkListItems[i]["value"]) {
+    String? modeOfTeaching = "", pincodeIds = "";
+    for (int i = 0; i < checkListItems!.length; i++) {
+      if (modeOfTeaching == "") {
+        if (checkListItems[i]["value"]) {
           modeOfTeaching = checkListItems[i]["title"];
         }
-      }else{
-        if(checkListItems[i]["value"]) {
+      } else {
+        if (checkListItems[i]["value"]) {
           modeOfTeaching = modeOfTeaching! + "," + checkListItems[i]["title"];
         }
       }
@@ -2219,36 +2234,34 @@ bool newFlag =false;
     String subject = subjectsIDList.join(",");
     String multipleSelecte = multipleSelected.join(",");
 
-
-    pincodeIds="";
-    for(var item in pincodeList){
-      if(pincodeIds=="") {
+    pincodeIds = "";
+    for (var item in pincodeList) {
+      if (pincodeIds == "") {
         pincodeIds = item.name!;
-      }else{
-        pincodeIds = pincodeIds!+","+item.name!;
+      } else {
+        pincodeIds = pincodeIds! + "," + item.name!;
       }
     }
 
     authController
         .updateProfile(
-      firstName:_firstNameController.text,
-      lastName: _lastNameController.text,
-      email: _emailController.text,
-      address: _addressController.text,
-      pincode: pincodeIds,
-      adhar: _adharController.text,
-      pan: _panController.text,
-      bankname: _banknameController.text,
-      holdername: _holdernameController.text,
-      accountNo: _accountnoontroller.text,
-      ifsc: _ifscController.text,
-      board: boardsIDList.join(","),
-      grade: gradesIdList!.join(","),
-      subjects: subject,
-      resume: _pickedFile,
-      modeOfTeachingSelected: modeOfTeaching,
-      userId: await Get.find<AuthController>().getUserId()
-    )
+            firstName: _firstNameController.text,
+            lastName: _lastNameController.text,
+            email: _emailController.text,
+            address: _addressController.text,
+            pincode: pincodeIds,
+            adhar: _adharController.text,
+            pan: _panController.text,
+            bankname: _banknameController.text,
+            holdername: _holdernameController.text,
+            accountNo: _accountnoontroller.text,
+            ifsc: _ifscController.text,
+            board: boardsIDList.join(","),
+            grade: gradesIdList!.join(","),
+            subjects: subject,
+            resume: _pickedFile,
+            modeOfTeachingSelected: modeOfTeaching,
+            userId: await Get.find<AuthController>().getUserId())
         .then((model) async {
       if (model!.status == "200") {
         showDialog<String>(
@@ -2256,8 +2269,7 @@ bool newFlag =false;
           barrierDismissible: false,
           builder: (BuildContext context) => AlertDialog(
             title: const Text('Update Profile'),
-            content: const Text(
-                'Profile Updated successfully'),
+            content: const Text('Profile Updated successfully'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {

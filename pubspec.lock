@@ -157,10 +157,18 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
+      sha256: "11e40df547d418cc0c4900a9318b26304e665da6fa4755399a9ff9efd09034b5"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.6"
+    version: "5.4.3+1"
+  dio_http_formatter:
+    dependency: transitive
+    description:
+      name: dio_http_formatter
+      sha256: "3ac0f427cbe1ac9dfaf14231bf2cccdc49c9015e67b786bde6bd9bacd148218d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   drop_down_list:
     dependency: "direct main"
     description:
@@ -573,6 +581,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  logger:
+    dependency: transitive
+    description:
+      name: logger
+      sha256: "8c94b8c219e7e50194efc8771cd0e9f10807d8d3e219af473d89b06cc2ee4e04"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   matcher:
     dependency: transitive
     description:
@@ -1098,6 +1114,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.3.0"
+  zoom_allinonesdk:
+    dependency: "direct main"
+    description:
+      name: zoom_allinonesdk
+      sha256: a3874a90264b19131a11d971a0a08b8ba290be6f055aa880eb238d6a21be1536
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
 sdks:
   dart: ">=3.2.0-0 <4.0.0"
   flutter: ">=3.13.0"

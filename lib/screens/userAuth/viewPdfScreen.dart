@@ -13,8 +13,8 @@ import '../../constant/custom_snackbar.dart';
 
 class ViewPdfScreen extends StatefulWidget {
   String fileUrl;
-  ViewPdfScreen({required this.fileUrl});
 
+  ViewPdfScreen({required this.fileUrl});
 
   @override
   State<StatefulWidget> createState() {
@@ -30,7 +30,7 @@ class _ViewPdfScreen extends State<ViewPdfScreen> {
     setState(() {
       isLoading = true;
     });
-    var url =widget.fileUrl;
+    var url = widget.fileUrl;
     //  'https://crm.shimmerscosmetics.in/public/tourvisit/1775326384.pdf';
     final response = await http.get(Uri.parse(url));
     final bytes = response.bodyBytes;
@@ -62,20 +62,18 @@ class _ViewPdfScreen extends State<ViewPdfScreen> {
         title: Text(
           "View Resume",
           style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: InkWell(onTap: (){
-              var url = widget.fileUrl;
+            child: InkWell(
+                onTap: () {
+                  var url = widget.fileUrl;
 
-                var filename = 'Resume.pdf';
-                download(url, filename);
-
-            },
+                  var filename = 'Resume.pdf';
+                  download(url, filename);
+                },
                 child: Icon(Icons.download)),
           )
         ],
@@ -83,14 +81,15 @@ class _ViewPdfScreen extends State<ViewPdfScreen> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Container(
-        child: Center(
-          child: PDFView(
-            filePath: Pfile.path,
-          ),
-        ),
-      ),
+              child: Center(
+                child: PDFView(
+                  filePath: Pfile.path,
+                ),
+              ),
+            ),
     );
   }
+
   Future download(String url, String filename) async {
     var savePath = '/storage/emulated/0/Download/$filename';
     var dio = Dio();
@@ -103,7 +102,7 @@ class _ViewPdfScreen extends State<ViewPdfScreen> {
         options: Options(
           responseType: ResponseType.bytes,
           followRedirects: false,
-          receiveTimeout: 0,
+          receiveTimeout: Duration(seconds: 0),
         ),
       );
       var file = File(savePath);
@@ -111,17 +110,18 @@ class _ViewPdfScreen extends State<ViewPdfScreen> {
       // response.data is List<int> type
       raf.writeFromSync(response.data);
       await raf.close();
-      showCustomSnackBar('Resume dowloaded successfully in '+savePath+' folder',isError: false);
+      showCustomSnackBar(
+          'Resume dowloaded successfully in ' + savePath + ' folder',
+          isError: false);
     } catch (e) {
       debugPrint(e.toString());
     }
   }
+
   void showDownloadProgress(received, total) {
     if (total != -1) {
       debugPrint((received / total * 100).toStringAsFixed(0) + '%');
       //CircularProgressIndicator();
     }
   }
-
-
 }

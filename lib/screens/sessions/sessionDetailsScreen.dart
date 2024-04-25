@@ -913,14 +913,17 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
     requestController
         .startSession(sesssionStartRequestModel!)
         .then((model) async {
-      if (model!.status != 403) {
+      if (model!.status == "200") {
         showCustomSnackBar(model.msg!, isError: false);
-        requestController.sessionDetailsModel!.data![0].status = "3";
 
-        Get.find<RequestController>()
+        setState(() {
+          requestController.sessionDetailsModel!.data![0].status = "3";
+        });
+
+        /* Get.find<RequestController>()
             .sessionDetails(
                 widget.id, Get.find<AuthController>().getUserToken())
-            .then((value) async => {getChapterList(widget.packageid)});
+            .then((value) async => {getChapterList(widget.packageid)});*/
 
         joinMeeting(context, requestController, model!);
       } else {
@@ -975,7 +978,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
     requestController
         .endSession(id, Get.find<AuthController>().getUserToken(), currentTime)
         .then((model) async {
-      if (model!.status != 403) {
+      if (model!.status != '403') {
         showCustomSnackBar(model.msg!, isError: false);
         requestController.sessionDetailsModel!.data![0].status = "5";
         setState(() {});
@@ -990,7 +993,7 @@ class SessionDetailsScreenState extends State<SessionDetailsScreen>
         .addReview(id, Get.find<AuthController>().getUserToken(), ratingStr,
             reviewController.text, selectedChapter!)
         .then((model) async {
-      if (model!.status != 403) {
+      if (model!.status != '403') {
         showCustomSnackBar(model.msg!, isError: false);
         requestController.sessionDetailsModel!.data![0].status = "6";
         setState(() {});

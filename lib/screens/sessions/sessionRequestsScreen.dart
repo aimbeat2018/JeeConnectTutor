@@ -172,6 +172,9 @@ class SessionRequestsScreenState extends State<SessionRequestsScreen>
   }
 
   Widget itemData(Data model, RequestController requestController) {
+    RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
+    model.gradeName = model.gradeName!.replaceAll(exp, '');
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
       child: Column(

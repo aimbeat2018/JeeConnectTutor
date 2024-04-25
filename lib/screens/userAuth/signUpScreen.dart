@@ -1002,17 +1002,17 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                     // This optional block of code can be used to run
                                                                     // code when the user saves the form.
                                                                   },
-                                                                  validator:
-                                                                      (String?
-                                                                          value) {
-                                                                    return (value != null &&
-                                                                            value ==
-                                                                                "" &&
-                                                                            value.length <
-                                                                                10)
-                                                                        ? 'Enter valid pancard no.'
-                                                                        : null;
-                                                                  },
+                                                                  // validator:
+                                                                  //     (String?
+                                                                  //         value) {
+                                                                  //   return (value != null &&
+                                                                  //           value ==
+                                                                  //               "" &&
+                                                                  //           value.length <
+                                                                  //               10)
+                                                                  //       ? 'Enter valid pancard no.'
+                                                                  //       : null;
+                                                                  // },
                                                                 ),
                                                               ),
                                                             ],
@@ -1107,17 +1107,17 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                     // This optional block of code can be used to run
                                                                     // code when the user saves the form.
                                                                   },
-                                                                  validator:
-                                                                      (String?
-                                                                          value) {
-                                                                    return (value != null &&
-                                                                            value ==
-                                                                                "" &&
-                                                                            value.length <
-                                                                                12)
-                                                                        ? 'Bank Name'
-                                                                        : null;
-                                                                  },
+                                                                  // validator:
+                                                                  //     (String?
+                                                                  //         value) {
+                                                                  //   return (value != null &&
+                                                                  //           value ==
+                                                                  //               "" &&
+                                                                  //           value.length <
+                                                                  //               12)
+                                                                  //       ? 'Bank Name'
+                                                                  //       : null;
+                                                                  // },
                                                                 ),
                                                               ),
                                                               SizedBox(
@@ -1202,17 +1202,17 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                     // This optional block of code can be used to run
                                                                     // code when the user saves the form.
                                                                   },
-                                                                  validator:
-                                                                      (String?
-                                                                          value) {
-                                                                    return (value != null &&
-                                                                            value ==
-                                                                                "" &&
-                                                                            value.length <
-                                                                                10)
-                                                                        ? 'Enter Account Holder Name'
-                                                                        : null;
-                                                                  },
+                                                                  // validator:
+                                                                  //     (String?
+                                                                  //         value) {
+                                                                  //   return (value != null &&
+                                                                  //           value ==
+                                                                  //               "" &&
+                                                                  //           value.length <
+                                                                  //               10)
+                                                                  //       ? 'Enter Account Holder Name'
+                                                                  //       : null;
+                                                                  // },
                                                                 ),
                                                               ),
                                                             ],
@@ -1402,17 +1402,17 @@ class SignUpScreenState extends State<SignUpScreen> {
                                                                     // This optional block of code can be used to run
                                                                     // code when the user saves the form.
                                                                   },
-                                                                  validator:
-                                                                      (String?
-                                                                          value) {
-                                                                    return (value != null &&
-                                                                            value ==
-                                                                                "" &&
-                                                                            value.length <
-                                                                                10)
-                                                                        ? 'Enter IFSC code'
-                                                                        : null;
-                                                                  },
+                                                                  // validator:
+                                                                  //     (String?
+                                                                  //         value) {
+                                                                  //   return (value != null &&
+                                                                  //           value ==
+                                                                  //               "" &&
+                                                                  //           value.length <
+                                                                  //               10)
+                                                                  //       ? 'Enter IFSC code'
+                                                                  //       : null;
+                                                                  // },
                                                                 ),
                                                               ),
                                                             ],

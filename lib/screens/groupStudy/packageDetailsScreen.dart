@@ -159,6 +159,7 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                     ),
                                   ),
                                 ),*/
+                                requestController.tutorRequestModel!.data![0].session!.isNotEmpty?
                                 const Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 20.0),
@@ -169,7 +170,7 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700),
                                   ),
-                                ),
+                                ):SizedBox(),
 /*
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,6 +208,7 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                         ],
                                       ),
 */
+                                requestController.tutorRequestModel!.data![0].session!.isNotEmpty?
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 8.0, horizontal: 25),
@@ -373,9 +375,10 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                       );
                                     },
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 20,
+                                ):SizedBox(),
+                                 SizedBox(
+                                  height: requestController.tutorRequestModel!.data![0].session!.isNotEmpty?
+                                  20:0,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -506,12 +509,22 @@ class PackageDetailScreenState extends State<PackageDetailScreen>
                                             fontSize: 15,
                                             fontWeight: FontWeight.w700),
                                       ),
+                                      requestController.tutorRequestModel!.data![0].session!.isNotEmpty?
                                       Text(
                                         'Session Start Date : ${requestController.tutorRequestModel!.data![0].session![0].date!}' /*.toUpperCase()*/,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 15,
                                             fontWeight: FontWeight.w700),
+                                      ):Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 18.0),
+                                        child: Text(
+                                          'Session has not been created by student - ${requestController.tutorRequestModel!.data![0].studentName!}' /*.toUpperCase()*/,
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700),
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 15,

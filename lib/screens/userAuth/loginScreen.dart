@@ -182,7 +182,7 @@ class LoginScreenState extends State<LoginScreen> {
                                                           // This optional block of code can be used to run
                                                           // code when the user saves the form.
                                                         },
-                                                        validator: validateMobile
+                                                        // validator: validateMobile
                                                     ),
                                                     const SizedBox(
                                                       height: 20,
